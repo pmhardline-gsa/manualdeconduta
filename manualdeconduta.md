@@ -1,21 +1,16 @@
 # 📑 DOCUMENTO OFICIAL
 
-# Manual de Conduta
+# Introdução
 
-O Departamento de Polícia Militar do Hardline, através do presente manual, estipula normas, critérios e princípios que regerão a conduta básica do funcionamento desta polícia.
+📢 DIRETRIZES DO COMANDO EM EXERCÍCIO — GSA
 
-> ℹ️ **Nota Importante:**
-> Este manual define o limite em que o policial pode agir. O agente público não deve ser engessado, porém comportamentos que quebrem o estipulado pelo Manual **poderão ser penalizados**.
+"O Grupamento de Suporte Aéreo (GSA) constitui a força aerotática especializada do 1º BPM - Batalhão Hardline. Sua doutrina operacional é fundamentada na provisão de superioridade aérea, cobertura de fogo e vetorização estratégica em missões de alta complexidade, operando como elemento multiplicador de força no combate ao crime organizado e no suporte humanitário à população.
 
----
+Este manual consolida os Procedimentos Operacionais Padrão (POP), os protocolos de segurança de voo e o código de conduta tática da unidade. Suas diretrizes possuem caráter cogente e compulsório, devendo ser integralmente assimiladas e executadas por todos os operadores da linha de voo e equipes de apoio em solo."
 
-## 🏛️ Sobre este Manual
+🦅 'GSA – Sob a égide da Harpia, erguemo-nos soberanos além dos limites da terra para que a precisão de nossa garra alcance o refúgio dos ímpios, enquanto a infinitude de nosso olhar descortina o horizonte, blindando os justos e impondo a ordem com a força implacável daqueles que dominam os céus.'
 
-O presente manual de conduta busca a preservação dos **princípios éticos**, integridade e defesa dos policiais. Estarão descritos neste manual fatores cujos deverão ser cumpridos por todo e qualquer policial integrante da corporação.
-
-⚠️ **Cláusula de Permanência:**
-O tempo mínimo de permanência na polícia é de **30 dias**. A quebra desse contrato sem autorização prévia ou exoneração formal acarretará na inclusão do indivíduo na lista de **Blacklist** das corporações do Estado.
-
+Comando em Exercício 3 SGT.Nomad Gorbatchev
 ---
 
 ## 🛡️ Diretrizes Básicas de Conduta
