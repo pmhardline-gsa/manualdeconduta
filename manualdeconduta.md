@@ -27,7 +27,6 @@ Este manual consolida os Procedimentos Operacionais Padrão (POP), os protocolos
   
 * **Uso da Força:** O emprego da força por qualquer integrante do GSA deve seguir, de forma estrita, a matriz de escalonamento e proporcionalidade, iniciando-se pela simples presença ostensiva e dissuasória da aeronave e evoluindo conforme a resistência do perpetrador. O uso de força letal e o acionamento da linha de fogo — seja em terra ou por meio do tiro de precisão embarcado — constitui medida excepcional de última instância, autorizada exclusivamente em legítima defesa própria ou de terceiros, ou diante de uma agressão incipiente, atual e iminente que atente contra a vida através do emprego manifesto de arma de fogo.
 
-.
 
 ---
 
