@@ -17,11 +17,14 @@ Este manual consolida os Procedimentos Operacionais Padrão (POP), os protocolos
 
 ### 1. Postura e Comportamento
 * **Respeito Hierárquico:** É dever imperativo de todo operador do GSA acatar e executar com total presteza e de forma imediata as ordens emanadas de patentes superiores. O princípio da obediência hierárquica vigora em sua plenitude, cessando estritamente em caso de ordem manifestamente ilegal que infrinja as leis do Estado ou que viole de forma direta as regras gerais de Roleplay (RP).
+  
 * **Uso de Fardamento:** O policial deve apresentar-se para o serviço em perfeitas condições de higiene e com a postura corporal que reflita o profissionalismo da aviação. É obrigatório o uso do fardamento oficial e dos equipamentos de proteção individual (EPIs) correspondentes de forma exata ao cargo, nível e função que o operador ocupa na linha de voo atual.
+  
 * **Linguagem:** É intolerável o uso de palavras de baixo calão, termos pejorativos, gírias civis ou qualquer envolvimento em discussões e bate-bocas desnecessários na rede de rádio ou com cidadãos abordados. O silêncio de rádio deve ser respeitado rigorosamente para dar prioridade a códigos de emergência e alertas táticos, blindando a unidade contra qualquer desvio de conduta ou prática.
 
 ### 2. Conduta em Serviço
 * **Patrulhamento:** enhuma fração de força do GSA operará sem o efetivo mínimo regulamentar. Para o vetor aéreo (Airbus H125), fica terminantemente proibida a decolagem para patrulhamento com tripulação incompleta, assim como nenhuma viatura terrestre de apoio apoiará o perímetro com apenas 1 (um) operador isolado.
+  
 * **Uso da Força:** O emprego da força por qualquer integrante do GSA deve seguir, de forma estrita, a matriz de escalonamento e proporcionalidade, iniciando-se pela simples presença ostensiva e dissuasória da aeronave e evoluindo conforme a resistência do perpetrador. O uso de força letal e o acionamento da linha de fogo — seja em terra ou por meio do tiro de precisão embarcado — constitui medida excepcional de última instância, autorizada exclusivamente em legítima defesa própria ou de terceiros, ou diante de uma agressão incipiente, atual e iminente que atente contra a vida através do emprego manifesto de arma de fogo.
 
 .
