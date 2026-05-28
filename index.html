@@ -21,6 +21,23 @@
     body {
       background-color: #111417 !important; /* Fundo principal da página */
     }
+    
+    /* AJUSTE COMPLETO DA LOGO DA INTERNET */
+    .sidebar .app-name-link img {
+      max-width: 100px; /* Controla a largura máxima da logo na barra lateral */
+      height: auto;
+      display: block;
+      margin: 20px auto 10px auto; /* Centraliza a imagem e dá espaço para o texto */
+    }
+    .sidebar .app-name {
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      color: #ffffff;
+      display: block;
+      margin-bottom: 20px;
+    }
+
     /* Estilização para o bloco de notas/alerta azul (Callout) */
     blockquote {
       background-color: #16222f !important;
@@ -39,17 +56,12 @@
       name: 'PMHL',
       repo: '',
       
-      // Ativa a barra lateral pelo arquivo _sidebar.md
+      // COLE O LINK DA IMAGEM DA INTERNET ENTRE AS ASPAS ABAIXO:
+      logo: 'https://i.imgur.com/exemplo.png',
+      
       loadSidebar: true,
-      
-      // Nível máximo de sub-títulos no menu (h2, h3)
       subMaxLevel: 2,
-      
-      // CONFIGURAÇÃO DE ENTRADA: Puxa o manualdeconduta.md como página inicial
       homepage: 'manualdeconduta.md',
-      
-      // CORREÇÃO DE ROTAS PARA O GITHUB: 
-      // Garante que o Docsify não dê erro 404 ao buscar o sidebar e a home na raiz do GitHub
       alias: {
         '/.*/_sidebar.md': '_sidebar.md',
         '/_sidebar.md': '_sidebar.md',
