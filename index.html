@@ -7,18 +7,27 @@
   <meta name="description" content="Manual de Conduta da Polícia Militar Hardline.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   
+  <!-- Tema Escuro Oficial do Docsify -->
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/dark.css">
   
   <style>
-    /* Ajustes visuais finos para aproximar ao estilo do print */
+    /* Customização de cores para o padrão da PMHL (Preto e Dourado) */
     :root {
-      --theme-color: #f0a500; /* Cor de destaque em tom dourado/laranja */
+      --theme-color: #f0a500; /* Cor dos links e destaques em tom dourado */
     }
     .sidebar {
-      background-color: #1c1f24 !important;
+      background-color: #1c1f24 !important; /* Fundo do menu lateral esquerdo */
     }
     body {
-      background-color: #111417 !important;
+      background-color: #111417 !important; /* Fundo principal da página */
+    }
+    /* Estilização para o bloco de notas/alerta azul (Callout) */
+    blockquote {
+      background-color: #16222f !important;
+      border-left-color: #4a90e2 !important;
+      color: #b0c4de !important;
+      padding: 15px !important;
+      border-radius: 4px;
     }
   </style>
 </head>
@@ -30,24 +39,26 @@
       name: 'PMHL',
       repo: '',
       
-      // Ativa o menu lateral através do ficheiro _sidebar.md
+      // Ativa a barra lateral pelo arquivo _sidebar.md
       loadSidebar: true,
       
-      // Define o nível máximo de sub-títulos que aparecem automaticamente no menu
+      // Nível máximo de sub-títulos no menu (h2, h3)
       subMaxLevel: 2,
       
-      // Garante que o ficheiro inicial padrão será o README.md
-      homepage: 'README.md',
+      // CONFIGURAÇÃO DE ENTRADA: Puxa o manualdeconduta.md como página inicial
+      homepage: 'manualdeconduta.md',
       
-      // Evita o erro 404 redirecionando rotas vazias para o README.md
+      // CORREÇÃO DE ROTAS PARA O GITHUB: 
+      // Garante que o Docsify não dê erro 404 ao buscar o sidebar e a home na raiz do GitHub
       alias: {
-        '/.*/_sidebar.md': '/_sidebar.md',
-        '/_sidebar.md': '_sidebar.md'
+        '/.*/_sidebar.md': '_sidebar.md',
+        '/_sidebar.md': '_sidebar.md',
         '/': 'manualdeconduta.md'
       }
     }
   </script>
   
+  <!-- Scripts de funcionamento do Docsify -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
 </body>
 </html>
