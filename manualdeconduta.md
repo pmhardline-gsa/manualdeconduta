@@ -12,7 +12,6 @@ Este manual consolida os Procedimentos Operacionais Padrão (POP), os protocolos
 
 **Comando em Exercício 3 SGT.Nomad Gorbatchev** 
 ---
-
 > ## 🛡️ Diretrizes Básicas de Conduta
 
 ### 1. Postura e Comportamento
