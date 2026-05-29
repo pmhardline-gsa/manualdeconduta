@@ -1,8 +1,5 @@
 # 🚁 Ficha Técnica e Doutrina de Voo — Eurocopter EC135
 
-
-# 🦅 GRUPAMENTO DE SUPORTE AÉREO (GSA)
-
 ---
 
 ## 1. Visão Geral do Equipamento
