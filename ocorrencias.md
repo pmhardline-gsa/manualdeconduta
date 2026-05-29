@@ -3,6 +3,7 @@
 ---
 
 > ### 1. Fuga de Abordagem
+
 O GSA está autorizado a prestar apoio normalmente, **independente da classe do veículo** envolvido. Esta regra é válida tanto para ocorrências com Suspeito Armado quanto para casos confirmados de **Cód.5**.
 
 ---
@@ -13,8 +14,12 @@ O apoio em situações de Boosting segue critérios rígidos baseados na classe 
 * **Boosting Classes A e S:** Estamos autorizados a prestar apoio direto no **veículo principal**.
 * **Boosting Classes B ou Inferiores:** É **proibido** interferir, acompanhar ou modular qualquer informação sobre o veículo PRINCIPAL. O auxílio é restrito exclusivamente aos **veículos de APOIO**, e apenas se estes forem de classe **A** ou **S**.
 
-> ⚠️ **Regra de Contingente para Boosting:**
-> Sempre que o GSA for empenhado em um Boosting (seja no apoio ou no principal, classes A ou S), é **obrigatório** tripular o helicóptero com pelo menos **Piloto + 1 Operador**. Os meliantes podem abrir fogo contra a aeronave, transformando a ocorrência em uma situação de prioridade para todo o batalhão.
+<blockquote class="danger">
+
+⚠️ **Regra de Contingente para Boosting:**
+Sempre que o GSA for empenhado em um Boosting (seja no apoio ou no principal, classes A ou S), é **obrigatório** tripular o helicóptero com pelo menos **Piloto + 1 Operador**. Os meliantes podem abrir fogo contra a aeronave, transformando a ocorrência em uma situação de prioridade para todo o batalhão.
+
+</blockquote>
 
 ---
 
