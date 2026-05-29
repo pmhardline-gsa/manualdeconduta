@@ -23,7 +23,7 @@ O EC135 confere ao 1º BPM Hardline uma plataforma estável para missões de pat
 
 ---
 
-## 3. Sistemas Embarcados e Tecnologias de Elite
+> ## 3. Sistemas Embarcados e Tecnologias de Elite
 
 * 👁️‍🗨️ **Sistemas Optrônicos FLIR / Câmera Térmica:** Sensor giroestabilizado com visão noturna (NVG) e imageamento térmico de alta definição, permitindo a localização de suspeitos homiziados em matas, telhados ou áreas de penumbra absoluta.
 * 🔦 **Farol de Busca (Spectrolab NightSun):** Sistema de iluminação direcional escravizado à câmera ou controlado manualmente, utilizado para varredura de perímetros e dissipação de pontos cegos à noite.
@@ -31,7 +31,7 @@ O EC135 confere ao 1º BPM Hardline uma plataforma estável para missões de pat
 
 ---
 
-## 4. Doutrina de Emprego Operacional
+> ## 4. Doutrina de Emprego Operacional
 
 ### A) Patrulhamento Ostensivo e Dissuasão Aérea
 O EC135 deve ser empregado para cobrir grandes áreas comerciais e residenciais, atuando como um poderoso vetor de dissuasão psicológica contra a criminalidade devido à sua forte presença no espaço aéreo.
@@ -44,7 +44,7 @@ O uso da linha de fogo lateral descendente é uma medida de exceção de gravida
 
 ---
 
-## 5. Protocolos de Voo e Prontidão Disciplinar
+> ## 5. Protocolos de Voo e Prontidão Disciplinar
 
 * 📋 **Checklist de Pré-Voo (Pre-flight):** Antes de acionar as turbinas, o Comandante da Aeronave deve inspecionar pessoalmente as condições estruturais do vetor, níveis de fluidos, integridade das pás e fixação dos equipamentos táticos.
 * ⛽ **Gerenciamento de Combustível:** O retorno à base para reabastecimento é **OBRIGATÓRIO** quando o indicador atingir a reserva técnica de segurança de 20 minutos de voo. É intolerável colocar o vetor em situação de pane seca.
