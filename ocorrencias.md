@@ -69,6 +69,6 @@ O piloto não deve, em hipótese alguma, pousar ou descer a aeronave em áreas d
 
 ---
 
-> ### 8. Conduta do Tripulante / Operador
+> ### 8. Conduta do Tripulante
 * **Prioridade de Escala:** Os pilotos do GSA devem sempre priorizar voar com um operador oficial da própria unidade. A escalação de membros de outros grupamentos só deve ocorrer na **ausência total** de um membro do GSA em patrulha.
 * **Drop Terrestre Obrigatório:** Qualquer desembarque de operadores para atuação em solo durante o combate deve ser executado obrigatoriamente via **paraquedas**. Isso evita expor o piloto e o helicóptero a linhas de tiro terrestres que possam deixar o vetor inoperante.
