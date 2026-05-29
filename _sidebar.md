@@ -8,7 +8,7 @@
 
 * **OPERAÇÕES**
   * [Comunicação](comunicacao.md)
-  * [Códigos Q](codigos-q.md)
+  * [Aeronaves](aeronave.md)
   * [Acompanhamento](acompanhamento.md)
   * [Revista](revista.md)
   * [Abordagem](abordagem.md)
