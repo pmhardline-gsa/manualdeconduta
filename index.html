@@ -7,106 +7,49 @@
   <meta name="description" content="Manual de Conduta da Polícia Militar Hardline.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   
-  <!-- Importação da fonte oficial Inter (estilo GitBook) -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
-  
   <!-- Tema Escuro Oficial do Docsify -->
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/dark.css">
   
   <style>
-    /* Configuração de Cores Globais */
+    /* Customização de cores para o padrão da PMHL (Preto e Dourado) */
     :root {
-      --theme-color: #f0a500; /* Dourado para links e destaques */
+      --theme-color: #f0a500; /* Cor dos links e destaques em tom dourado */
     }
     .sidebar {
-      background-color: #1c1f24 !important; /* Fundo do menu lateral */
+      background-color: #1c1f24 !important; /* Fundo do menu lateral esquerdo */
     }
     body {
-      background-color: #111417 !important; /* Fundo principal */
+      background-color: #111417 !important; /* Fundo principal da página */
     }
     
-    /* ========================================================
-       CONFIGURAÇÃO EXATA DA FONTE E PARÁGRAFOS (IGUAL AO PRINT)
-       ======================================================== */
-    .markdown-section p, .markdown-section li {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif !important;
-      font-size: 16px !important;       /* Tamanho exato do parágrafo */
-      line-height: 1.625 !important;    /* Espaçamento perfeito entre linhas */
-      color: #9aa5b1 !important;        /* Tom de cinza azulado fosco */
-      font-weight: 400 !important;      /* Peso normal da fonte */
+    /* BLOQUEIO E AJUSTE DA LOGO FIXA (SEM LINK) */
+    .sidebar .app-name-link {
+      pointer-events: none; /* Desativa o clique */
+      cursor: default;      /* Remove o ponteiro de link */
+      text-decoration: none;
     }
-
-    /* Ajuste para o texto em Itálico (Lema da Harpia) */
-    .markdown-section em {
-      color: #cbd5e1 !important;        /* Deixa o itálico um pouco mais claro */
-    }
-
-    /* Título das Diretrizes (###) */
-    .markdown-section h4 {
-      font-family: 'Inter', sans-serif !important;
-      font-size: 16px !important;
-      font-weight: 600;
-      color: #ffffff !important;
-      margin-top: 25px;
-    }
-
-    /* Nome do Comando (####) */
-    .markdown-section h3 {
-      font-family: 'Inter', sans-serif !important;
-      font-size: 16px !important;       /* Tamanho menor e elegante para a assinatura */
-      font-weight: 600;
-      color: #e2e8f0 !important;
-      margin-top: 25px;
-    }
-    /* ======================================================== */
-
-    /* Customização da Logo na Barra Lateral */
     .sidebar .app-name-link img {
-      max-width: 100px;
+      max-width: 100px; /* Controla a largura máxima da logo */
       height: auto;
       display: block;
-      margin: 20px auto 10px auto;
-    }
-    /* Remove o fundo branco alternado das tabelas */
-    .markdown-section table tr:nth-child(2n) {
-      background-color: #171a1f !important; /* Cor escura idêntica para as linhas pares */
-    }
-
-    .markdown-section table tr {
-      background-color: #111417 !important; /* Cor de fundo padrão das outras linhas */
-      border-top: 1px solid #2d3139 !important;
-    }
-
-    /* Ajusta as bordas e a cor do texto das células para não sumir no fundo escuro */
-    .markdown-section table td, .markdown-section table th {
-      border: 1px solid #2d3139 !important;
-      color: #9aa5b1 !important; /* Texto cinza claro legível */
-      padding: 10px 15px !important;
-    }
-
-    /* Garante que o cabeçalho da tabela fique com um destaque escuro elegante */
-    .markdown-section table th {
-      background-color: #1c1f24 !important;
-      color: #ffffff !important;
-      font-weight: bold;
+      margin: 20px auto 10px auto; /* Centraliza a imagem e dá espaço para o texto */
     }
     .sidebar .app-name {
       text-align: center;
-      font-size: 16px;
+      font-size: 22px;
       font-weight: bold;
       color: #ffffff;
       display: block;
       margin-bottom: 20px;
     }
 
-    /* Caixa de Alerta Azul (Callout) */
+    /* Estilização para o bloco de notas/alerta azul (Callout) */
     blockquote {
       background-color: #16222f !important;
       border-left-color: #4a90e2 !important;
       color: #b0c4de !important;
       padding: 15px !important;
       border-radius: 4px;
-      margin: 20px 0;
     }
   </style>
 </head>
@@ -118,7 +61,7 @@
       name: 'PMHL',
       repo: '',
       
-      // Caminho da sua logo salva no repositório
+      // Puxa a logo salva no seu repositório do GitHub
       logo: 'logo.png', 
       
       loadSidebar: true,
@@ -127,13 +70,12 @@
       alias: {
         '/.*/_sidebar.md': '_sidebar.md',
         '/_sidebar.md': '_sidebar.md',
-        '/': 'manualdeconduta.md',
-        '/': 'hierarquia.md'
+        '/': 'manualdeconduta.md'
       }
     }
   </script>
   
-  <!-- Scripts do Docsify -->
+  <!-- Scripts de funcionamento do Docsify -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
 </body>
 </html>
