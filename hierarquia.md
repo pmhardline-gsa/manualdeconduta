@@ -1,4 +1,4 @@
-## 🪖 Estrutura Organizacional e Plano de Carreira — GSA
+## Estrutura Organizacional e Plano de Carreira — GSA
 
 > ### 1. Corpo de Comando e Alta Administração
 
