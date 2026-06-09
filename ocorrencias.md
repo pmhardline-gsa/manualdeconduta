@@ -48,18 +48,6 @@ Em casos de COD.5, o GSA assume o papel de coordenação tática aérea:
 
 ---
 
-> ### 6. Regras de Tripulação da Aeronave
-* **Apenas Membros da Unidade (GSA):** Não há limite de contingente interno (pode tripular a capacidade máxima do vetor).
-* **Tripulação Mista (com RPM ou outros grupamentos):** O limite máximo é de **4 membros no total** dentro da aeronave (contando obrigatoriamente com o piloto).
-
----
-
-> ### 7. Conduta e Responsabilidades do Piloto
-O Piloto em comando é a autoridade máxima sobre a segurança do vetor:
-* Responsável direto por pilotar, manter o reabastecimento em dia e zelar pelas condições mecânicas da aeronave.
-* Responde pela vida de toda a tripulação a bordo.
-* Responsável pela coordenação do atirador, posicionamento de ângulo de visão/disparo e definição do local exato para o drop de PQD (Paraquedistas).
-
 <blockquote class="danger">
 
 🚫 **Proibição Absoluta:**
@@ -67,8 +55,3 @@ O piloto não deve, em hipótese alguma, pousar ou descer a aeronave em áreas d
 
 </blockquote>
 
----
-
-> ### 8. Conduta do Tripulante
-* **Prioridade de Escala:** Os pilotos do GSA devem sempre priorizar voar com um operador oficial da própria unidade. A escalação de membros de outros grupamentos só deve ocorrer na **ausência total** de um membro do GSA em patrulha.
-* **Drop Terrestre Obrigatório:** Qualquer desembarque de operadores para atuação em solo durante o combate deve ser executado obrigatoriamente via **paraquedas**. Isso evita expor o piloto e o helicóptero a linhas de tiro terrestres que possam deixar o vetor inoperante.
