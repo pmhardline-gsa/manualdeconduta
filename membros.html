@@ -19,7 +19,7 @@
   <h1>Cadeia de Comando - PMHL-GSA</h1>
   
   <div style="text-align: center;">
-    <a href="https://script.google.com/macros/s/AKfycbwTBNEa6xuLrEDMrIcDcNnNmtJGK_rgfwNmrBsdz58kwhoqgCiBrxSBjkpxf4slHAO8/exec" target="_blank" class="btn-link">+ Novo Cadastro</a>
+    <a href="https://script.google.com/macros/s/AKfycbxYTcABsSdVR88Pk4D_t7TVdABWQBfI11zL_IUFAbMq0C1IBBPtcA9ACVp7Lo8nVes/exec" target="_blank" class="btn-link">+ Novo Cadastro</a>
   </div>
 
   <table id="tabela-efetivo">
@@ -52,7 +52,6 @@
           
           results.data.forEach(membro => {
             if (membro.Nome && membro.Nome.trim() !== "") {
-              // Pega as colunas de Advertências e Cursos exatamente como estão na planilha
               const advs = membro["Advertências"] || "";
               const cursos = membro["Cursos"] || "";
               
