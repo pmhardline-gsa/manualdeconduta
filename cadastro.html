@@ -17,7 +17,16 @@
     
     <div id="msg" style="text-align: center; margin-top: 10px; font-weight: bold;"></div>
   </form>
-
+<label style="color: #f0a500; font-size: 14px;">Selecione a Patente:</label>
+    <select name="Patente" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white; border-radius: 4px;">
+        <option value="" disabled selected>Selecione uma opção</option>
+        <option value="CMD.GERAL">CMD.GERAL</option>
+        <option value="CMD.SUBCOMANDO">CMD.SUBCOMANDO</option>
+        <option value="CAPITAO">CAPITAO</option>
+        <option value="TENENTE">TENENTE</option>
+        <option value="SUBTENENTE">SUBTENENTE</option>
+        <option value="SARGENTO">SARGENTO</option>
+    </select>
   <script>
     document.getElementById('meuForm').addEventListener('submit', async (e) => {
       e.preventDefault();
