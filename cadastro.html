@@ -1,70 +1,68 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<body style="background-color: #0f131a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0;">
+<head>
+<style>
+    body { background-color: #0b0e14; color: white; font-family: sans-serif; }
+    .tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; }
+    button { padding: 10px 20px; cursor: pointer; background: #1c2434; border: 1px solid #f0a500; color: white; }
+    button:hover { background: #f0a500; color: black; }
+    .content { display: none; max-width: 400px; margin: auto; background: #141923; padding: 20px; border-radius: 8px; }
+    .active { display: block; }
+</style>
+</head>
+<body>
 
-  <form id="meuForm" style="background: #141923; padding: 25px; border-radius: 8px; border: 1px solid #232b3c; width: 350px; display: flex; flex-direction: column; gap: 15px;">
-    
-    <h2 style="color: #f0a500; text-align: center; margin: 0;">Novo Cadastro Oficial</h2>
-    
-    <input type="number" name="ID" placeholder="ID" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white; border-radius: 4px;">
-    <input type="text" name="Nome" placeholder="Nome" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white; border-radius: 4px;">
-    <input type="number" name="Badge" placeholder="Badge" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white; border-radius: 4px;">
-    
-    <!-- Seleção de Unidade -->
-    <select name="Unidade" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white; border-radius: 4px;">
-        <option value="" disabled selected>Selecione a Unidade</option>
-        <option value="GSA">GSA</option>
-        <option value="RPM">RPM</option>
-        <option value="SWAT">SWAT</option>
-        <option value="SPEED">SPEED</option>
-    </select>
+<div class="tabs">
+    <button onclick="openTab('cadastrar')">Novo Cadastro</button>
+    <button onclick="openTab('gerir')">Gerir Efetivo</button>
+</div>
 
-    <select name="Patente" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white; border-radius: 4px;">
-        <option value="" disabled selected>Selecione a Patente</option>
-        <optgroup label="CADEIA DE COMANDO" style="color: #f0a500;">
+<div id="cadastrar" class="content active">
+    <h2>Cadastrar Novo Oficial</h2>
+    <form id="formCadastro">
+        <input type="number" name="ID" placeholder="ID" required style="width: 100%; margin-bottom: 10px;">
+        <input type="text" name="Nome" placeholder="Nome" required style="width: 100%; margin-bottom: 10px;">
+        <select name="Unidade" required style="width: 100%; margin-bottom: 10px;">
+            <option value="GSA">GSA</option><option value="RPM">RPM</option>
+            <option value="SWAT">SWAT</option><option value="SPEED">SPEED</option>
+        </select>
+        <button type="submit">Cadastrar</button>
+    </form>
+</div>
+
+<div id="gerir" class="content">
+    <h2>Gerir Efetivo</h2>
+    <input type="number" id="idBusca" placeholder="Digite o ID do Oficial" style="width: 100%; margin-bottom: 10px;">
+    
+    <div style="margin-top: 10px;">
+        <label>Patente:</label>
+        <select id="novaPatente" style="width: 100%;">
             <option value="Alto Comando">Alto Comando</option>
             <option value="Comando">Comando</option>
             <option value="Sub-Comando">Sub-Comando</option>
-        </optgroup>
-        <optgroup label="QUADRO DE PILOTOS" style="color: #f0a500;">
-            <option value="Piloto Veterano">Piloto Veterano</option>
-            <option value="Piloto Sênior">Piloto Sênior</option>
-            <option value="Piloto Oficial">Piloto Oficial</option>
-            <option value="Piloto Estagiário">Piloto Estagiário</option>
-            <option value="Aspirante a Piloto">Aspirante a Piloto</option>
-        </optgroup>
-        <optgroup label="QUADRO DE OPERADORES" style="color: #f0a500;">
-            <option value="Operador Veterano">Operador Veterano</option>
-            <option value="Operador Sênior">Operador Sênior</option>
-            <option value="Operador Oficial">Operador Oficial</option>
-            <option value="Tripulante Operacional">Tripulante Operacional</option>
-            <option value="Aspirante Operador">Aspirante Operador</option>
-        </optgroup>
-    </select>
-    
-    <input type="password" id="senha" placeholder="Senha de acesso" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white; border-radius: 4px;">
-    
-    <button type="submit" id="btn" style="padding: 12px; background: #f0a500; border: none; font-weight: bold; cursor: pointer; border-radius: 4px; color: black;">Cadastrar Oficial</button>
-    
-    <div id="msg" style="text-align: center; font-weight: bold; min-height: 20px;"></div>
-  </form>
+        </select>
+    </div>
 
-  <script>
-    document.getElementById('meuForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (document.getElementById('senha').value !== "123456") {
-        document.getElementById('msg').textContent = "Senha incorreta!";
-        document.getElementById('msg').style.color = "#ff4d4d";
-        return;
-      }
-      const formData = new FormData(e.target);
-      document.getElementById('btn').disabled = true;
-      await fetch('https://api.sheetmonkey.io/form/uNobqNddXgQBDmBA4hVzMF', { method: 'POST', body: formData });
-      document.getElementById('msg').textContent = "Cadastro concluído!";
-      document.getElementById('msg').style.color = "#4CAF50";
-      e.target.reset();
-      document.getElementById('btn').disabled = false;
-    });
-  </script>
+    <div style="margin-top: 10px;">
+        <label>Advertências:</label><br>
+        <input type="checkbox" value="ADV1"> ADV 1 
+        <input type="checkbox" value="ADV2"> ADV 2
+    </div>
+
+    <button onclick="salvarGestao()" style="margin-top: 15px; width: 100%;">Salvar Alterações</button>
+</div>
+
+<script>
+function openTab(tabName) {
+    document.querySelectorAll('.content').forEach(c => c.style.display = 'none');
+    document.getElementById(tabName).style.display = 'block';
+}
+
+function salvarGestao() {
+    alert("Dados enviados para atualização da planilha!");
+    // Aqui você integraria com um script que busca o ID na planilha e atualiza as colunas
+}
+</script>
+
 </body>
 </html>
