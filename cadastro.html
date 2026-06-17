@@ -1,19 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <base target="_top">
+    <meta charset="UTF-8">
     <style>
         body { background: #0b0e14; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; }
-        .box { background: #141923; padding: 25px; border-radius: 8px; border: 1px solid #f0a500; width: 350px; margin-top: 20px; }
+        .box { background: #141923; padding: 25px; border-radius: 8px; border: 1px solid #f0a500; width: 350px; margin-top: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         input, select { width: 100%; padding: 12px; margin: 8px 0; background: #0b0e14; border: 1px solid #232b3c; color: white; border-radius: 4px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: #f0a500; border: none; font-weight: bold; cursor: pointer; color: black; border-radius: 4px; }
-        #gNome { color: #f0a500; font-weight: bold; margin-bottom: 10px; text-align: center; }
+        button { width: 100%; padding: 12px; background: #f0a500; border: none; font-weight: bold; cursor: pointer; color: black; border-radius: 4px; margin-top: 10px; transition: 0.3s; }
+        button:hover { background: #d48e00; }
+        #gNome { color: #f0a500; font-weight: bold; margin: 10px 0; text-align: center; min-height: 20px; }
+        label { font-size: 0.9em; color: #888; }
     </style>
 </head>
 <body>
+
     <div class="box">
-        <h3 style="text-align:center; color:#f0a500;">Gerir Efetivo GSA</h3>
+        <h3 style="text-align:center; color:#f0a500; margin-top:0;">Gerir Efetivo GSA</h3>
+        
         <input type="number" id="gID" placeholder="Digite o ID do Oficial" onblur="buscar()">
         <div id="gNome"></div>
+
+        <label>Nova Patente:</label>
         <select id="gPatente">
             <option>Alto Comando</option><option>Comando</option><option>Sub-Comando</option>
             <option>Piloto Veterano</option><option>Piloto Sênior</option><option>Piloto Oficial</option>
@@ -21,23 +29,47 @@
             <option>Operador Veterano</option><option>Operador Sênior</option><option>Operador Oficial</option>
             <option>Tripulante Operacional</option><option>Aspirante Operador</option>
         </select>
+
+        <label>Advertências:</label>
         <input type="text" id="gAdvs" placeholder="Ex: ADV1, ADV2">
+
         <button onclick="salvar()">Salvar Alterações</button>
     </div>
 
     <script>
+        // Busca o nome do oficial na planilha
         function buscar() {
             const id = document.getElementById('gID').value;
+            if(id === "") return;
+            
             document.getElementById('gNome').innerText = "Buscando...";
-            google.script.run.withSuccessHandler(nome => {
-                document.getElementById('gNome').innerText = "Oficial: " + nome;
-            }).buscarNomePorId(id);
+            
+            google.script.run
+                .withSuccessHandler(nome => {
+                    document.getElementById('gNome').innerText = "Oficial: " + nome;
+                })
+                .withFailureHandler(err => {
+                    document.getElementById('gNome').innerText = "Erro na busca.";
+                })
+                .buscarNomePorId(id);
         }
+
+        // Salva as alterações na planilha
         function salvar() {
             const id = document.getElementById('gID').value;
             const pat = document.getElementById('gPatente').value;
             const advs = document.getElementById('gAdvs').value;
-            google.script.run.withSuccessHandler(msg => alert(msg)).salvarAlteracao(id, pat, advs);
+
+            if(id === "") { alert("Digite um ID primeiro!"); return; }
+
+            google.script.run
+                .withSuccessHandler(msg => {
+                    alert(msg);
+                })
+                .withFailureHandler(err => {
+                    alert("Erro ao salvar: " + err.message);
+                })
+                .salvarAlteracao(id, pat, advs);
         }
     </script>
 </body>
