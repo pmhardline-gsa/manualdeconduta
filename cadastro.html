@@ -79,7 +79,7 @@
     </div>
 
     <script>
-        var cacheOficiais = []; // Guarda os dados localmente para carregar instantaneamente
+        var cacheOficiais = [];
 
         function switchTab(tab) {
             if (tab === 'cad') {
@@ -92,11 +92,10 @@
                 document.getElementById('panel-gerir').style.display = 'block';
                 document.getElementById('btn-cad').classList.remove('active');
                 document.getElementById('btn-gerir').classList.add('active');
-                carregarOficiais(); // Busca a lista atualizada quando entra na aba
+                carregarOficiais();
             }
         }
 
-        // Carrega os nomes no menu Select
         function carregarOficiais() {
             var select = document.getElementById('gListaOficiais');
             select.innerHTML = '<option value="">Carregando lista...</option>';
@@ -104,6 +103,10 @@
             google.script.run
                 .withSuccessHandler(function(lista) {
                     cacheOficiais = lista;
+                    if (lista.length === 0) {
+                        select.innerHTML = '<option value="">Nenhum oficial encontrado</option>';
+                        return;
+                    }
                     select.innerHTML = '<option value="">-- Selecione um Oficial --</option>';
                     lista.forEach(function(oficial) {
                         var opt = document.createElement('option');
@@ -114,20 +117,18 @@
                 })
                 .withFailureHandler(function(err) {
                     select.innerHTML = '<option value="">Erro ao carregar</option>';
+                    alert("Erro crítico no Google Apps Script: " + err.message);
                 })
                 .obterListaOficiais();
         }
 
-        // Quando escolhe o nome, preenche automaticamente os campos na tela
         function selecionarOficial() {
             var idSelecionado = document.getElementById('gListaOficiais').value;
             if (!idSelecionado) {
                 document.getElementById('gMostraID').innerText = "Nenhum";
                 document.getElementById('gBadge').value = "";
-                document.getElementById('gAdvs').value = "";
                 return;
             }
-
             var oficial = cacheOficiais.find(function(item) { return item.id === idSelecionado; });
             if (oficial) {
                 document.getElementById('gMostraID').innerText = oficial.id;
@@ -142,9 +143,7 @@
             var nome = document.getElementById('cNome').value;
             var badge = document.getElementById('cBadge').value;
             var pat = document.getElementById('cPatente').value;
-
             if (!id || !nome || !badge) { alert("Preencha ID, Nome e Badge para cadastrar!"); return; }
-
             google.script.run
                 .withSuccessHandler(function(msg) {
                     alert(msg);
@@ -161,14 +160,9 @@
             var badge = document.getElementById('gBadge').value;
             var pat = document.getElementById('gPatente').value;
             var advs = document.getElementById('gAdvs').value;
-
             if (id === "Nenhum" || !id) { alert("Selecione um oficial na lista primeiro!"); return; }
-
             google.script.run
-                .withSuccessHandler(function(msg) { 
-                    alert(msg); 
-                    carregarOficiais(); // Atualiza a lista
-                })
+                .withSuccessHandler(function(msg) { alert(msg); carregarOficiais(); })
                 .withFailureHandler(function(err) { alert("Erro: " + err.message); })
                 .salvarAlteracao(id, badge, pat, advs);
         }
@@ -176,7 +170,6 @@
         function demitir() {
             var id = document.getElementById('gMostraID').innerText;
             if (id === "Nenhum" || !id) { alert("Selecione um oficial para demitir!"); return; }
-            
             if (confirm("Tem certeza que deseja DEMITIR este oficial?")) {
                 google.script.run
                     .withSuccessHandler(function(msg) {
@@ -184,7 +177,7 @@
                         document.getElementById('gMostraID').innerText = 'Nenhum';
                         document.getElementById('gBadge').value = '';
                         document.getElementById('gAdvs').value = '';
-                        carregarOficiais(); // Recarrega a lista sem o demitido
+                        carregarOficiais();
                     })
                     .withFailureHandler(function(err) { alert("Erro: " + err.message); })
                     .demitirOficial(id);
