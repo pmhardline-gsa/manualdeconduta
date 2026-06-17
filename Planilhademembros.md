@@ -32,6 +32,22 @@
     <tr style="background-color:#2a364f !important; font-weight:bold !important; color:#ffffff !important; text-align:center !important;">
       <td colspan="14" style="padding:6px !important; letter-spacing:1px !important; border:1px solid #232b3c !important; background-color:#2a364f !important;">ALTO COMANDO</td>
     </tr>
+        <tr style="text-align:center !important; background-color:#141923 !important;">
+      <td style="padding:8px !important; border:1px solid #232b3c !important; color:#718096 !important; background-color:#141923 !important;">281</td>
+      <td style="padding:8px !important; border:1px solid #232b3c !important; text-align:left !important; font-weight:bold !important; background-color:#141923 !important;">Nomad Gorbatchev</td>
+      <td style="padding:8px !important; border:1px solid #232b3c !important; color:#a0aec0 !important; background-color:#141923 !important;">400</td>
+      <td style="padding:8px !important; border:1px solid #232b3c !important; color:#f0a500 !important; font-weight:bold !important; background-color:#141923 !important;">CMD. GSA</td>
+      <td style="padding:8px !important; border:1px solid #232b3c !important; background-color:#1a4a75 !important; font-weight:bold !important; color:#ffffff !important;">RPM</td>
+      <td style="border:1px solid #232b3c !important; color:#4df14d !important; background-color:#141923 !important;">☑</td>
+      <td style="border:1px solid #232b3c !important; color:#4df14d !important; background-color:#141923 !important;">☑</td>
+      <td style="border:1px solid #232b3c !important; color:#4df14d !important; background-color:#141923 !important;">☑</td>
+      <td style="border:1px solid #232b3c !important; color:#4df14d !important; background-color:#141923 !important;">☑</td>
+      <td style="padding:8px !important; border:1px solid #232b3c !important; background-color:#141923 !important;">24/04/2026</td>
+      <td style="padding:8px !important; border:1px solid #232b3c !important; color:#cbd5e0 !important; background-color:#141923 !important;">54 DIAS</td>
+      <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
+      <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
+      <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
+    </tr>
     <tr style="text-align:center !important; background-color:#141923 !important;">
       <td style="padding:8px !important; border:1px solid #232b3c !important; color:#718096 !important; background-color:#141923 !important;">7</td>
       <td style="padding:8px !important; border:1px solid #232b3c !important; text-align:left !important; font-weight:bold !important; background-color:#141923 !important;">Patrick Alves Senna</td>
