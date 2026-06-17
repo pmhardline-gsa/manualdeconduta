@@ -2,192 +2,27 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro de Membros - GSA</title>
+  <title>Cadastro de Oficial - GSA</title>
   <style>
-    body {
-      background-color: #0f131a;
-      color: #ffffff;
-      font-family: sans-serif;
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      box-sizing: border-box;
-    }
-    .container {
-      background-color: #141923;
-      border: 1px solid #232b3c;
-      padding: 30px;
-      border-radius: 8px;
-      width: 100%;
-      max-width: 500px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-      display: none;
-    }
-    h2 {
-      color: #f0a500;
-      text-align: center;
-      margin-top: 0;
-      margin-bottom: 25px;
-      letter-spacing: 1px;
-    }
-    .form-group {
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: #a0aec0;
-      font-size: 14px;
-      font-weight: bold;
-    }
-    input, select {
-      width: 100%;
-      padding: 10px;
-      background-color: #1c2434;
-      border: 1px solid #232b3c;
-      color: #ffffff;
-      border-radius: 4px;
-      box-sizing: border-box;
-      font-size: 14px;
-    }
-    input:focus, select:focus {
-      outline: none;
-      border-color: #f0a500;
-    }
-    .btn-submit {
-      background-color: #f0a500;
-      color: #000000;
-      border: none;
-      padding: 12px;
-      width: 100%;
-      font-weight: bold;
-      font-size: 16px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .btn-submit:hover {
-      background-color: #b8860b;
-    }
-    .btn-back {
-      display: block;
-      text-align: center;
-      margin-top: 15px;
-      color: #718096;
-      text-decoration: none;
-      font-size: 14px;
-    }
-    .success-msg {
-      background-color: #236b43;
-      color: white;
-      padding: 10px;
-      border-radius: 4px;
-      text-align: center;
-      margin-bottom: 20px;
-      display: none;
-      font-weight: bold;
-    }
+    body { background-color: #0f131a; color: white; font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; }
+    form { background: #141923; padding: 25px; border-radius: 8px; width: 350px; border: 1px solid #232b3c; }
+    input { width: 100%; padding: 10px; margin: 8px 0; background: #1c2434; border: 1px solid #232b3c; color: white; box-sizing: border-box; }
+    button { width: 100%; padding: 12px; background: #f0a500; border: none; font-weight: bold; cursor: pointer; color: black; margin-top: 10px; }
   </style>
 </head>
 <body>
 
-  <div class="container" id="conteudo-cadastro">
-    <h2>Ficha de Cadastro - GSA</h2>
-    <div id="msg-sucesso" class="success-msg">Membro cadastrado com sucesso!</div>
+  <form action="https://api.sheetmonkey.io/form/hqT6Syjp5WNSc9MTtz5Uhj" method="POST">
+    <h2 style="color: #f0a500; text-align: center;">Novo Cadastro</h2>
+    
+    <input type="text" name="ID" placeholder="ID" required>
+    <input type="text" name="Nome" placeholder="Nome do Policial" required>
+    <input type="text" name="Badge" placeholder="Número da Badge" required>
+    <input type="text" name="Patente" placeholder="Patente" required>
+    <input type="text" name="Unidade" placeholder="Unidade" required>
+    
+    <button type="submit">Cadastrar Oficial</button>
+  </form>
 
-    <form id="form-cadastro">
-      <div class="form-group">
-        <label for="id-membro">ID do Policial</label>
-        <input type="number" id="id-membro" required placeholder="Ex: 88">
-      </div>
-      
-      <div class="form-group">
-        <label for="nome-membro">Nome Operacional</label>
-        <input type="text" id="nome-membro" required placeholder="Ex: Gabriel Rodrigues">
-      </div>
-      
-      <div class="form-group">
-        <label for="badge-membro">Número da Badge</label>
-        <input type="text" id="badge-membro" placeholder="Ex: 712">
-      </div>
-      
-      <div class="form-group">
-        <label for="patente-membro">Hierarquia / Cargo GSA</label>
-        <select id="patente-membro" required>
-          <option value="" disabled selected>Selecione...</option>
-          <optgroup label="Cadeia de Comando">
-            <option value="Alto Comando">Alto Comando</option>
-            <option value="Comando">Comando</option>
-            <option value="Sub Comando">Sub Comando</option>
-          </optgroup>
-          <optgroup label="Quadro de Pilotos">
-            <option value="Piloto Veterano">1. Piloto Veterano</option>
-            <option value="Piloto Sênior">2. Piloto Sênior</option>
-            <option value="Piloto Oficial">3. Piloto Oficial</option>
-            <option value="Piloto Estagiário">4. Piloto Estagiário</option>
-            <option value="Aspirante a Piloto *">5. Aspirante a Piloto *</option>
-          </optgroup>
-          <optgroup label="Quadro de Operadores">
-            <option value="Operador Veterano">1. Operador Veterano</option>
-            <option value="Operador Sênior">2. Operador Sênior</option>
-            <option value="Operador Oficial">3. Operador Oficial</option>
-            <option value="Tripulante Operacional">4. Tripulante Operacional</option>
-            <option value="Aspirante Operador *">5. Aspirante Operador *</option>
-          </optgroup>
-        </select>
-      </div>
-
-      <input type="hidden" id="unidade-membro" value="GSA">
-
-      <button type="submit" class="btn-submit">Inserir no Efetivo GSA</button>
-    </form>
-    <a href="membros.html" class="btn-back">⬅ Voltar para a Planilha</a>
-  </div>
-
-  <script>
-    const SENHA_CORRETA = "COMANDO1BPM"; 
-
-    document.addEventListener("DOMContentLoaded", function() {
-      const senhaDigitada = prompt("Digite a senha de Comando para acessar o cadastro:");
-      if (senhaDigitada === SENHA_CORRETA) {
-        document.getElementById("conteudo-cadastro").style.display = "block";
-      } else {
-        alert("Acesso negado!");
-        window.location.href = "membros.html";
-      }
-    });
-
-    document.getElementById("form-cadastro").addEventListener("submit", function(e) {
-      e.preventDefault();
-
-      const dataAtual = new Date();
-      const dataFormatada = dataAtual.toLocaleDateString('pt-BR') + ' às ' + dataAtual.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
-
-      const novoMembro = {
-        id: document.getElementById("id-membro").value,
-        nome: document.getElementById("nome-membro").value,
-        badge: document.getElementById("badge-membro").value || "-",
-        patente: document.getElementById("patente-membro").value,
-        unidade: document.getElementById("unidade-membro").value, // Sempre salvará como "GSA"
-        ultimaPromocao: dataFormatada,
-        ab: false, ac: false, co: false, tb: false,
-        adv1: false, adv2: false, adv3: false
-      };
-
-      let lista = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
-      lista.push(novoMembro);
-      localStorage.setItem("efetivoMembros", JSON.stringify(lista));
-
-      const msg = document.getElementById("msg-sucesso");
-      msg.style.display = "block";
-      document.getElementById("form-cadastro").reset();
-
-      setTimeout(() => { msg.style.display = "none"; }, 3000);
-    });
-  </script>
 </body>
 </html>
