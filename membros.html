@@ -135,14 +135,12 @@
 
         let listaOriginal = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
         
-        // Garante compatibilidade caso existam membros antigos salvos com termos antigos
         let listaMapeada = listaOriginal.map((membro, index) => {
           let uni = membro.unidade ? membro.unidade.toUpperCase() : "GSA";
           if (uni === "GRA" || uni === "") uni = "GSA";
           return { ...membro, unidade: uni, indexOriginal: index };
         });
         
-        // Ordenação por patente
         listaMapeada.sort((a, b) => {
           let pesoA = listaPatentes.indexOf(a.patente);
           let pesoB = listaPatentes.indexOf(b.patente);
@@ -173,7 +171,7 @@
               
               <td style="padding:4px !important; border:1px solid #232b3c !important;">
                 <div class="botoes-grupo">
-                  <button class="btn-acoes btn-gerenciar" onclick="gerenciarMembro(${membro.indexOriginal})" title="Alterar Cargo">⚙️ </button>
+                  <button class="btn-acoes btn-gerenciar" onclick="gerenciarMembro(${membro.indexOriginal})" title="Alterar Cargo ou Badge">⚙️ </button>
                   <button class="btn-acoes" onclick="removerMembro(${membro.indexOriginal})" title="Demitir">X</button>
                 </div>
               </td>
@@ -219,32 +217,59 @@
         }
       };
 
+      // FUNÇÃO ATUALIZADA: Agora gerencia tanto Patente quanto Número de Badge
       window.gerenciarMembro = function(index) {
         const senha = prompt("Digite a senha de Comando para gerenciar o efetivo:");
         if (senha === SENHA_COMANDO) {
           let lista = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
           const membroAtual = lista[index];
 
-          let mensagemMenu = `Alterando o Policial: ${membroAtual.nome}\nPatente Atual: ${membroAtual.patente}\n\nEscolha o número do NOVO POSTO:\n`;
-          listaPatentes.forEach((patente, i) => {
-            mensagemMenu += `${i + 1} - ${patente}\n`;
-          });
+          // Sub-menu para escolher o que quer fazer
+          const operacao = prompt(`Policial selecionado: ${membroAtual.nome}\nBadge Atual: ${membroAtual.badge}\nPatente Atual: ${membroAtual.patente}\n\nEscolha o que deseja alterar:\n1 - Alterar Patente / Cargo\n2 - Alterar Número da Badge`);
 
-          const escolha = prompt(mensagemMenu);
-          const numeroEscolhido = parseInt(escolha);
+          if (operacao === "1") {
+            // Lógica antiga de alterar patente
+            let mensagemMenu = `Alterando o Posto de: ${membroAtual.nome}\n\nEscolha o número do NOVO POSTO:\n`;
+            listaPatentes.forEach((patente, i) => {
+              mensagemMenu += `${i + 1} - ${patente}\n`;
+            });
 
-          if (numeroEscolhido >= 1 && numeroEscolhido <= listaPatentes.length) {
-            const novaPatente = listaPatentes[numeroEscolhido - 1];
-            const dataAtual = new Date();
-            const dataFormatada = dataAtual.toLocaleDateString('pt-BR') + ' às ' + dataAtual.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
+            const escolha = prompt(mensagemMenu);
+            const numeroEscolhido = parseInt(escolha);
 
-            lista[index].patente = novaPatente;
-            lista[index].ultimaPromocao = dataFormatada;
+            if (numeroEscolhido >= 1 && numeroEscolhido <= listaPatentes.length) {
+              const novaPatente = listaPatentes[numeroEscolhido - 1];
+              const dataAtual = new Date();
+              const dataFormatada = dataAtual.toLocaleDateString('pt-BR') + ' às ' + dataAtual.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
+
+              lista[index].patente = novaPatente;
+              lista[index].ultimaPromocao = dataFormatada;
+              
+              localStorage.setItem("efetivoMembros", JSON.stringify(lista));
+              carregarTabela();
+              alert(`Oficial ${membroAtual.nome} modificado para ${novaPatente}!`);
+            } else if (escolha !== null) {
+              alert("Opção inválida!");
+            }
+
+          } else if (operacao === "2") {
+            // NOVA LÓGICA: Altera o número da badge
+            const novaBadge = prompt(`Digite a nova BADGE para o oficial ${membroAtual.nome}:`);
             
-            localStorage.setItem("efetivoMembros", JSON.stringify(lista));
-            carregarTabela();
-            alert(`Oficial ${membroAtual.nome} modificado para ${novaPatente}!`);
-          } else if (escolha !== null) {
+            if (novaBadge !== null && novaBadge.trim() !== "") {
+              const dataAtual = new Date();
+              const dataFormatada = dataAtual.toLocaleDateString('pt-BR') + ' às ' + dataAtual.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
+
+              lista[index].badge = novaBadge.trim();
+              lista[index].ultimaPromocao = dataFormatada; // Atualiza a hora para registrar a mudança
+              
+              localStorage.setItem("efetivoMembros", JSON.stringify(lista));
+              carregarTabela();
+              alert(`Badge do oficial ${membroAtual.nome} alterada para [ ${novaBadge} ] com sucesso!`);
+            } else if (novaBadge !== null) {
+              alert("Badge inválida!");
+            }
+          } else if (operacao !== null) {
             alert("Opção inválida!");
           }
         } else if (senha !== null) {
