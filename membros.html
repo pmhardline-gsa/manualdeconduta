@@ -2,24 +2,20 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Efetivo PMHL-GSA - Centralizado</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   <style>
     body { background-color: #0f131a; color: #ffffff; font-family: sans-serif; padding: 20px; }
     h1 { color: #f0a500; text-align: center; border-bottom: 2px solid #232b3c; padding-bottom: 10px; }
-    
     table { width: 100%; border-collapse: collapse; background-color: #141923; margin-top: 20px; }
-    th { background-color: #1c2434; color: #f0a500; padding: 15px; border: 1px solid #232b3c; font-size: 14px; }
-    td { border: 1px solid #232b3c; padding: 12px; text-align: center; color: #e2e8f0; font-size: 13px; }
-    
-    .status-online { color: #48bb78; font-weight: bold; font-size: 11px; margin-top: 5px; }
+    th { background-color: #1c2434; color: #f0a500; padding: 15px; border: 1px solid #232b3c; }
+    td { border: 1px solid #232b3c; padding: 12px; text-align: center; color: #e2e8f0; }
   </style>
 </head>
 <body>
 
-  <h1>Cadeia de Comando e Hierarquia - PMHL-GSA</h1>
-  <div style="text-align: center;" class="status-online">● Sincronizado com a Planilha Oficial</div>
+  <h1>Cadeia de Comando - PMHL-GSA</h1>
+  <div style="text-align: center;"><a href="cadastro.html" style="color: #f0a500;">+ Novo Cadastro</a></div>
 
   <table id="tabela-efetivo">
     <thead>
@@ -32,12 +28,11 @@
       </tr>
     </thead>
     <tbody id="corpo-tabela">
-      <tr><td colspan="5">Carregando dados da central...</td></tr>
+      <tr><td colspan="5">Carregando dados...</td></tr>
     </tbody>
   </table>
 
   <script>
-    // Link da sua planilha publicado como CSV
     const URL_PLANILHA = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
 
     function carregarDados() {
@@ -46,33 +41,16 @@
         header: true,
         complete: function(results) {
           const corpo = document.getElementById("corpo-tabela");
-          corpo.innerHTML = ""; // Limpa a tabela antes de atualizar
-          
+          corpo.innerHTML = "";
           results.data.forEach(membro => {
-            // Verifica se a linha tem conteúdo para não exibir linhas vazias
             if (membro.Nome && membro.Nome.trim() !== "") {
-              corpo.innerHTML += `
-                <tr>
-                  <td>${membro.ID || '-'}</td>
-                  <td style="text-align: left; font-weight: bold;">${membro.Nome}</td>
-                  <td>${membro.Badge || '-'}</td>
-                  <td>${membro.Patente || '-'}</td>
-                  <td>${membro.Unidade || 'GSA'}</td>
-                </tr>
-              `;
+              corpo.innerHTML += `<tr><td>${membro.ID}</td><td>${membro.Nome}</td><td>${membro.Badge}</td><td>${membro.Patente}</td><td>${membro.Unidade}</td></tr>`;
             }
           });
-        },
-        error: function(err) {
-          document.getElementById("corpo-tabela").innerHTML = "<tr><td colspan='5'>Erro ao carregar dados. Verifique o link.</td></tr>";
         }
       });
     }
-
-    // Carrega os dados ao abrir a página
     carregarDados();
-    
-    // Atualiza a tabela a cada 60 segundos automaticamente
     setInterval(carregarDados, 60000); 
   </script>
 </body>
