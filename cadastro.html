@@ -6,21 +6,36 @@
   <style>
     body { background-color: #0f131a; color: white; font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; }
     form { background: #141923; padding: 25px; border-radius: 8px; width: 350px; border: 1px solid #232b3c; }
-    input { width: 100%; padding: 10px; margin: 8px 0; background: #1c2434; border: 1px solid #232b3c; color: white; box-sizing: border-box; }
-    button { width: 100%; padding: 12px; background: #f0a500; border: none; font-weight: bold; cursor: pointer; color: black; margin-top: 10px; }
+    input, select { width: 100%; padding: 10px; margin: 8px 0; background: #1c2434; border: 1px solid #232b3c; color: white; box-sizing: border-box; border-radius: 4px; }
+    button { width: 100%; padding: 12px; background: #f0a500; border: none; font-weight: bold; cursor: pointer; color: black; margin-top: 10px; border-radius: 4px; }
+    button:hover { background: #d49000; }
   </style>
 </head>
 <body>
 
-  <form action="https://pmhardline-gsa.github.io/manualdeconduta/cadastro.html" method="POST">
+  <form action="https://api.sheetmonkey.io/form/uNobqNddXgQBDmBA4hVzMF" method="POST">
     <h2 style="color: #f0a500; text-align: center;">Novo Cadastro</h2>
     
-    <!-- Os nomes (name) abaixo precisam ser idênticos aos cabeçalhos da sua planilha -->
-    <input type="text" name="ID" placeholder="ID" required>
+    <input type="number" name="ID" placeholder="ID (Apenas números)" required>
+    
     <input type="text" name="Nome" placeholder="Nome do Policial" required>
-    <input type="text" name="Badge" placeholder="Número da Badge" required>
-    <input type="text" name="Patente" placeholder="Patente" required>
+    
+    <input type="number" name="Badge" placeholder="Número da Badge (Apenas números)" required>
+    
+    <select name="Patente" required>
+        <option value="" disabled selected>Selecione a Patente</option>
+        <option value="CMD.GERAL">CMD.GERAL</option>
+        <option value="CMD.SUBCOMANDO">CMD.SUBCOMANDO</option>
+        <option value="CAPITAO">CAPITAO</option>
+        <option value="TENENTE">TENENTE</option>
+        <option value="SARGENTO">SARGENTO</option>
+        <option value="CABO">CABO</option>
+        <option value="SOLDADO">SOLDADO</option>
+    </select>
+    
     <input type="text" name="Unidade" placeholder="Unidade" value="GSA" required>
+    
+    <input type="hidden" name="x-redirect" value="https://seu-usuario.github.io/seu-repositorio/membros.html">
     
     <button type="submit">Cadastrar Oficial</button>
   </form>
