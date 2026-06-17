@@ -51,6 +51,17 @@
       gap: 5px;
       justify-content: center;
     }
+    .chk-tabela {
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+      accent-color: #f0a500;
+      margin: 0 auto;
+      display: block;
+    }
+    .chk-adv {
+      accent-color: #ff4d4d;
+    }
   </style>
 </head>
 <body>
@@ -87,7 +98,6 @@
     </thead>
     
     <tbody id="tabela-linhas">
-      <!-- Seções estruturadas conforme a imagem de referência -->
       <tr id="secao-alta-lideranca" style="background-color:#222b3d !important; font-weight:bold !important; color:#f0a500 !important; text-align:center !important; letter-spacing: 1px;">
         <td colspan="15" style="padding:8px !important; border:1px solid #232b3c !important;">DIREÇÃO / CADEIA DE COMANDO</td>
       </tr>
@@ -104,7 +114,6 @@
     document.addEventListener("DOMContentLoaded", function () {
       const SENHA_COMANDO = "COMANDO1BPM"; 
 
-      // Lista hierárquica baseada 100% no arquivo image_b1f18c.jpg
       const listaPatentes = [
         "Alto Comando",
         "Comando",
@@ -124,19 +133,36 @@
       function carregarTabela() {
         document.querySelectorAll(".linha-dinamica").forEach(el => el.remove());
 
-        const lista = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
+        let listaOriginal = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
+        let listaMapeada = listaOriginal.map((membro, index) => ({ ...membro, indexOriginal: index }));
         
+        listaMapeada.sort((a, b) => {
+          let pesoA = listaPatentes.indexOf(a.patente);
+          let pesoB = listaPatentes.indexOf(b.patente);
+          if (pesoA === -1) pesoA = 99;
+          if (pesoB === -1) pesoB = 99;
+          return pesoB - pesoA;
+        });
+
         const cores = {
           'RPM': '#1a4a75', 'SPEED': '#236b43', 'GTM': '#4a354f', 'GSA': '#5c3a21', 'SWAT': '#2d3748'
         };
 
-        lista.forEach((membro, index) => {
+        listaMapeada.forEach((membro) => {
           let unidadeExibida = membro.unidade.toUpperCase();
           if (unidadeExibida === 'GRA') unidadeExibida = 'GSA';
 
           const corUnidade = cores[unidadeExibida] || '#4a5568';
           const dataPromo = membro.ultimaPromocao || "Recém Cadastrado";
           
+          const ab = membro.ab ? 'checked' : '';
+          const ac = membro.ac ? 'checked' : '';
+          const co = membro.co ? 'checked' : '';
+          const tb = membro.tb ? 'checked' : '';
+          const adv1 = membro.adv1 ? 'checked' : '';
+          const adv2 = membro.adv2 ? 'checked' : '';
+          const adv3 = membro.adv3 ? 'checked' : '';
+
           const htmlLinha = `
             <tr class="linha-dinamica" style="text-align:center !important; background-color:#141923 !important;">
               <td style="padding:8px !important; border:1px solid #232b3c !important; color:#718096 !important;">${membro.id}</td>
@@ -148,90 +174,10 @@
               
               <td style="padding:4px !important; border:1px solid #232b3c !important;">
                 <div class="botoes-grupo">
-                  <button class="btn-acoes btn-gerenciar" onclick="gerenciarMembro(${index})" title="Alterar Cargo">⚙️ Alterar</button>
-                  <button class="btn-acoes" onclick="removerMembro(${index})" title="Demitir">X</button>
+                  <button class="btn-acoes btn-gerenciar" onclick="gerenciarMembro(${membro.indexOriginal})" title="Alterar Cargo">⚙️ </button>
+                  <button class="btn-acoes" onclick="removerMembro(${membro.indexOriginal})" title="Demitir">X</button>
                 </div>
               </td>
 
-              <td style="border:1px solid #232b3c !important; color:#4a5568 !important;">☐</td>
-              <td style="border:1px solid #232b3c !important; color:#4a5568 !important;">☐</td>
-              <td style="border:1px solid #232b3c !important; color:#4a5568 !important;">☐</td>
-              <td style="border:1px solid #232b3c !important; color:#4a5568 !important;">☐</td>
-              <td style="border:1px solid #232b3c !important; color:#4a5568 !important;">☐</td>
-              <td style="border:1px solid #232b3c !important; color:#4a5568 !important;">☐</td>
-              <td style="border:1px solid #232b3c !important; color:#4a5568 !important;">☐</td>
-            </tr>
-          `;
-
-          const p = membro.patente.toLowerCase();
-          let alvo = document.getElementById("secao-operadores"); // Padrão joga para operadores se não achar
-
-          // Validação inteligente para encaixar cada um na sua respectiva ala
-          if (p.includes("alto comando") || p === "comando" || p.includes("sub comando")) {
-            alvo = document.getElementById("secao-alta-lideranca");
-          } else if (p.includes("piloto")) {
-            alvo = document.getElementById("secao-pilotos");
-          }
-
-          if (alvo) {
-            alvo.insertAdjacentHTML('afterend', htmlLinha);
-          }
-        });
-      }
-
-      window.gerenciarMembro = function(index) {
-        const senha = prompt("Digite a senha de Comando para gerenciar o efetivo:");
-        
-        if (senha === SENHA_COMANDO) {
-          let lista = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
-          const membroAtual = lista[index];
-
-          let mensagemMenu = `Alterando o Policial: ${membroAtual.nome}\nPatente Atual: ${membroAtual.patente}\n\nEscolha o número do NOVO POSTO:\n`;
-          listaPatentes.forEach((patente, i) => {
-            mensagemMenu += `${i + 1} - ${patente}\n`;
-          });
-
-          const escolha = prompt(mensagemMenu);
-          const numeroEscolhido = parseInt(escolha);
-
-          if (numeroEscolhido >= 1 && numeroEscolhido <= listaPatentes.length) {
-            const novaPatente = listaPatentes[numeroEscolhido - 1];
-            
-            const dataAtual = new Date();
-            const dataFormatada = dataAtual.toLocaleDateString('pt-BR') + ' às ' + dataAtual.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
-
-            lista[index].patente = novaPatente;
-            lista[index].ultimaPromocao = dataFormatada;
-            
-            localStorage.setItem("efetivoMembros", JSON.stringify(lista));
-            
-            carregarTabela();
-            alert(`Oficial ${membroAtual.nome} modificado para ${novaPatente} com sucesso!`);
-          } else if (escolha !== null) {
-            alert("Opção inválida!");
-          }
-        } else if (senha !== null) {
-          alert("Senha incorreta!");
-        }
-      };
-
-      window.removerMembro = function(index) {
-        const senha = prompt("Digite a senha de Comando para demitir:");
-        if (senha === SENHA_COMANDO) {
-          if (confirm("Deseja mesmo demitir este policial?")) {
-            let lista = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
-            lista.splice(index, 1);
-            localStorage.setItem("efetivoMembros", JSON.stringify(lista));
-            carregarTabela();
-            alert("Removido!");
-          }
-        } else if (senha !== null) {
-          alert("Senha incorreta!");
-        }
-      };
-
-      carregarTabela();
-    });
-  </script>
-</body>
-</html>
+              <td style="border:1px solid #232b3c !important;"><input type="checkbox" class="chk-tabela" ${ab} onclick="verificarSenhaCheck(event, ${membro.indexOriginal}, 'ab')"></td>
+              <td style="border:1px
