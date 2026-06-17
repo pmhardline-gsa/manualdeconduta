@@ -8,39 +8,40 @@
     <input type="number" name="ID" placeholder="ID" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white;">
     <input type="text" name="Nome" placeholder="Nome" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white;">
     <input type="number" name="Badge" placeholder="Badge" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white;">
-    <input type="text" name="Unidade" value="GSA" readonly style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: #888;">
     
-    <select name="Patente" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white;">
-        <option value="" disabled selected>Selecione a Patente</option>
-        <option value="CMD.GERAL">CMD.GERAL</option>
-        <option value="CAPITAO">CAPITAO</option>
-    </select>
+    <input type="password" id="senha" placeholder="Digite a senha de acesso" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white;">
     
     <button type="submit" id="btn" style="padding: 12px; background: #f0a500; border: none; font-weight: bold; cursor: pointer;">Cadastrar Oficial</button>
-    <div id="msg" style="text-align: center; margin-top: 15px; font-weight: bold;"></div>
+    
+    <a href="LINK_DA_SUA_PLANILHA_AQUI" target="_blank" style="text-align: center; color: #555; text-decoration: none; font-size: 14px; margin-top: 10px;">Voltar para a Planilha</a>
+    
+    <div id="msg" style="text-align: center; margin-top: 10px; font-weight: bold;"></div>
   </form>
 
   <script>
     document.getElementById('meuForm').addEventListener('submit', async (e) => {
       e.preventDefault();
+      const senhaCorreta = "123456"; // <--- ALTERE A SENHA AQUI
+      const senhaDigitada = document.getElementById('senha').value;
       const msg = document.getElementById('msg');
-      const btn = document.getElementById('btn');
-      
-      msg.textContent = "Enviando e verificando...";
-      btn.disabled = true;
 
+      if (senhaDigitada !== senhaCorreta) {
+        msg.textContent = "Senha incorreta!";
+        msg.style.color = "#ff4d4d";
+        return;
+      }
+
+      msg.textContent = "Cadastrando...";
       const formData = new FormData(e.target);
-      await fetch('https://api.sheetmonkey.io/form/uNobqNddXgQBDmBA4hVzMF', { method: 'POST', body: formData });
+      
+      await fetch('https://api.sheetmonkey.io/form/uNobqNddXgQBDmBA4hVzMF', {
+        method: 'POST',
+        body: formData
+      });
 
-      // Aguarda 4 segundos para o script da planilha rodar e atualizar o status
-      setTimeout(() => {
-        // NOTA: Para ler o status, você precisaria publicar a aba "Log" como JSON, 
-        // mas por segurança e simplicidade, vamos apenas confirmar o envio:
-        msg.textContent = "Cadastro enviado! Se os dados forem válidos, serão salvos.";
-        msg.style.color = "#f0a500";
-        btn.disabled = false;
-        e.target.reset();
-      }, 4000);
+      msg.textContent = "Cadastro concluído com sucesso!";
+      msg.style.color = "#4CAF50";
+      e.target.reset();
     });
   </script>
 </body>
