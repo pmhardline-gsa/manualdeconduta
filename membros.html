@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Efetivo - 1º BPM HARDLINE</title>
+  <title>Efetivo - PMHL-GSA</title>
   <style>
     body {
       background-color: #0f131a;
@@ -61,17 +61,17 @@
     <thead>
       <tr style="background-color:#1c2434 !important;">
         <th colspan="15" style="padding:15px !important; text-align:center !important; color:#f0a500 !important; font-size:22px !important; font-weight:bold !important; letter-spacing:2px !important; border-bottom:2px solid #232b3c !important;">
-          1º BPM - HARDLINE
+          CADEIA DE COMANDO E HIERARQUIA OPERACIONAL - PMHL-GSA
         </th>
       </tr>
       <tr style="background-color:#1a2232 !important; text-align:center !important; font-weight:bold !important; color:#f0a500 !important; border-bottom:1px solid #232b3c !important;">
         <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:5% !important;">ID</th>
         <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:20% !important; text-align:left !important;">NOME</th>
         <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:6% !important;">BADGE</th>
-        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:14% !important;">PATENTE</th>
+        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:16% !important;">PATENTE / CARGO</th>
         <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:10% !important;">UNIDADE</th>
-        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:10% !important; color:#ffffff !important;">PROMOÇÃO / ATUALIZADO EM</th>
-        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:12% !important; color:#ffffff !important;">AÇÕES</th>
+        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:12% !important; color:#ffffff !important;">ATUALIZADO EM</th>
+        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:11% !important; color:#ffffff !important;">AÇÕES</th>
         <th colspan="4" style="padding:5px !important; border:1px solid #232b3c !important; background-color:#b8860b !important; color:#000000 !important;">CURSOS</th>
         <th colspan="3" style="padding:5px !important; border:1px solid #232b3c !important; color:#ff4d4d !important;">ADVERTÊNCIAS</th>
       </tr>
@@ -87,14 +87,15 @@
     </thead>
     
     <tbody id="tabela-linhas">
-      <tr id="secao-alto-comando" style="background-color:#2a364f !important; font-weight:bold !important; color:#ffffff !important; text-align:center !important;">
-        <td colspan="15" style="padding:6px !important; border:1px solid #232b3c !important;">ALTO COMANDO</td>
+      <!-- Seções estruturadas conforme a imagem de referência -->
+      <tr id="secao-alta-lideranca" style="background-color:#222b3d !important; font-weight:bold !important; color:#f0a500 !important; text-align:center !important; letter-spacing: 1px;">
+        <td colspan="15" style="padding:8px !important; border:1px solid #232b3c !important;">DIREÇÃO / CADEIA DE COMANDO</td>
       </tr>
-      <tr id="secao-comandos-unidade" style="background-color:#2a364f !important; font-weight:bold !important; color:#ffffff !important; text-align:center !important;">
-        <td colspan="15" style="padding:6px !important; border:1px solid #232b3c !important;">COMANDOS DE UNIDADE</td>
+      <tr id="secao-pilotos" style="background-color:#1a365d !important; font-weight:bold !important; color:#63b3ed !important; text-align:center !important; letter-spacing: 1px;">
+        <td colspan="15" style="padding:8px !important; border:1px solid #232b3c !important;">QUADRO DE PILOTOS (Linha de Voo / Manche)</td>
       </tr>
-      <tr id="secao-sargentos" style="background-color:#2a364f !important; font-weight:bold !important; color:#ffffff !important; text-align:center !important;">
-        <td colspan="15" style="padding:6px !important; border:1px solid #232b3c !important;">SARGENTOS / PRAÇAS</td>
+      <tr id="secao-operadores" style="background-color:#234e52 !important; font-weight:bold !important; color:#68d391 !important; text-align:center !important; letter-spacing: 1px;">
+        <td colspan="15" style="padding:8px !important; border:1px solid #232b3c !important;">QUADRO DE OPERADORES (Atiradores / Tripulação)</td>
       </tr>
     </tbody>
   </table>
@@ -103,20 +104,21 @@
     document.addEventListener("DOMContentLoaded", function () {
       const SENHA_COMANDO = "COMANDO1BPM"; 
 
-      // Nova lista hierárquica atualizada de patentes
+      // Lista hierárquica baseada 100% no arquivo image_b1f18c.jpg
       const listaPatentes = [
-        "Comando Geral",
+        "Alto Comando",
+        "Comando",
         "Sub Comando",
-        "Comando RPM",
-        "Comando SPEED",
-        "Comando GTM",
-        "Comando GSA",
-        "Comando SWAT",
-        "1º Sargento",
-        "2º Sargento",
-        "3º Sargento",
-        "Cabo",
-        "Soldado"
+        "Piloto Veterano",
+        "Piloto Sênior",
+        "Piloto Oficial",
+        "Piloto Estagiário",
+        "Aspirante a Piloto *",
+        "Operador Veterano",
+        "Operador Sênior",
+        "Operador Oficial",
+        "Tripulante Operacional",
+        "Aspirante Operador *"
       ];
 
       function carregarTabela() {
@@ -140,14 +142,14 @@
               <td style="padding:8px !important; border:1px solid #232b3c !important; color:#718096 !important;">${membro.id}</td>
               <td style="padding:8px !important; border:1px solid #232b3c !important; text-align:left !important; font-weight:bold !important;">${membro.nome}</td>
               <td style="padding:8px !important; border:1px solid #232b3c !important; color:#a0aec0 !important;">${membro.badge}</td>
-              <td style="padding:8px !important; border:1px solid #232b3c !important; color:#f0a500 !important; font-weight:bold !important;">${membro.patente}</td>
+              <td style="padding:8px !important; border:1px solid #232b3c !important; color:#ffffff !important; font-weight:bold !important;">${membro.patente}</td>
               <td style="padding:8px !important; border:1px solid #232b3c !important; background-color:${corUnidade} !important; color:#ffffff !important; font-weight:bold !important;">${unidadeExibida}</td>
               <td style="padding:8px !important; border:1px solid #232b3c !important; color:#cbd5e0 !important; font-size:12px !important;">${dataPromo}</td>
               
               <td style="padding:4px !important; border:1px solid #232b3c !important;">
                 <div class="botoes-grupo">
-                  <button class="btn-acoes btn-gerenciar" onclick="gerenciarMembro(${index})" title="Alterar Patente / Cargo">⚙️ Alterar</button>
-                  <button class="btn-acoes" onclick="removerMembro(${index})" title="Demitir do Efetivo">X</button>
+                  <button class="btn-acoes btn-gerenciar" onclick="gerenciarMembro(${index})" title="Alterar Cargo">⚙️ Alterar</button>
+                  <button class="btn-acoes" onclick="removerMembro(${index})" title="Demitir">X</button>
                 </div>
               </td>
 
@@ -162,13 +164,13 @@
           `;
 
           const p = membro.patente.toLowerCase();
-          let alvo = document.getElementById("secao-sargentos"); // Praças vai para o fim da tabela
+          let alvo = document.getElementById("secao-operadores"); // Padrão joga para operadores se não achar
 
-          // Regra de separação das seções automáticas:
-          if (p === "comando geral" || p === "sub comando") {
-            alvo = document.getElementById("secao-alto-comando");
-          } else if (p.includes("comando ")) {
-            alvo = document.getElementById("secao-comandos-unidade");
+          // Validação inteligente para encaixar cada um na sua respectiva ala
+          if (p.includes("alto comando") || p === "comando" || p.includes("sub comando")) {
+            alvo = document.getElementById("secao-alta-lideranca");
+          } else if (p.includes("piloto")) {
+            alvo = document.getElementById("secao-pilotos");
           }
 
           if (alvo) {
@@ -184,7 +186,7 @@
           let lista = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
           const membroAtual = lista[index];
 
-          let mensagemMenu = `Alterando o Policial: ${membroAtual.nome}\nPatente Atual: ${membroAtual.patente}\n\nEscolha o número do NOVO CARGO:\n`;
+          let mensagemMenu = `Alterando o Policial: ${membroAtual.nome}\nPatente Atual: ${membroAtual.patente}\n\nEscolha o número do NOVO POSTO:\n`;
           listaPatentes.forEach((patente, i) => {
             mensagemMenu += `${i + 1} - ${patente}\n`;
           });
@@ -197,10 +199,6 @@
             
             const dataAtual = new Date();
             const dataFormatada = dataAtual.toLocaleDateString('pt-BR') + ' às ' + dataAtual.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
-
-            if(lista[index].unidade.toUpperCase() === 'GRA') {
-              lista[index].unidade = 'GSA';
-            }
 
             lista[index].patente = novaPatente;
             lista[index].ultimaPromocao = dataFormatada;
