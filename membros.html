@@ -34,10 +34,6 @@
       font-size: 11px;
       font-weight: bold;
       margin-left: 10px;
-      transition: background 0.2s;
-    }
-    .btn-excluir:hover {
-      background: #cc3333;
     }
     .nome-container {
       display: flex;
@@ -54,41 +50,39 @@
   <table style="width:100% !important; border-collapse:collapse !important; background-color:#141923 !important; color:#ffffff !important; font-size:13px !important; border: 1px solid #232b3c !important;">
     <thead>
       <tr style="background-color:#1c2434 !important;">
-        <th colspan="12" style="padding:15px !important; text-align:center !important; color:#f0a500 !important; font-size:22px !important; font-weight:bold !important; letter-spacing:2px !important; border-bottom:2px solid #232b3c !important; background-color:#1c2434 !important;">
+        <th colspan="12" style="padding:15px !important; text-align:center !important; color:#f0a500 !important; font-size:22px !important; font-weight:bold !important; letter-spacing:2px !important; border-bottom:2px solid #232b3c !important;">
           1º BPM - HARDLINE
         </th>
       </tr>
       <tr style="background-color:#1a2232 !important; text-align:center !important; font-weight:bold !important; color:#f0a500 !important; border-bottom:1px solid #232b3c !important;">
-        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:5% !important; background-color:#1a2232 !important;">ID</th>
-        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:25% !important; text-align:left !important; background-color:#1a2232 !important;">NOME</th>
-        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:8% !important; background-color:#1a2232 !important;">BADGE</th>
-        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:18% !important; background-color:#1a2232 !important;">PATENTE</th>
-        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:14% !important; background-color:#1a2232 !important;">UNIDADE</th>
+        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:5% !important;">ID</th>
+        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:25% !important; text-align:left !important;">NOME</th>
+        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:8% !important;">BADGE</th>
+        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:18% !important;">PATENTE</th>
+        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:14% !important;">UNIDADE</th>
         <th colspan="4" style="padding:5px !important; border:1px solid #232b3c !important; background-color:#b8860b !important; color:#000000 !important;">CURSOS</th>
-        <th colspan="3" style="padding:5px !important; border:1px solid #232b3c !important; color:#ff4d4d !important; background-color:#1a2232 !important;">ADVERTÊNCIAS</th>
+        <th colspan="3" style="padding:5px !important; border:1px solid #232b3c !important; color:#ff4d4d !important;">ADVERTÊNCIAS</th>
       </tr>
       <tr style="background-color:#242f44 !important; text-align:center !important; font-size:11px !important; color:#ffffff !important;">
-        <th style="padding:5px !important; border:1px solid #232b3c !important; background-color:#d4af37 !important; color:#000000 !important; width:4% !important;">AB</th>
-        <th style="padding:5px !important; border:1px solid #232b3c !important; background-color:#d4af37 !important; color:#000000 !important; width:4% !important;">AC</th>
-        <th style="padding:5px !important; border:1px solid #232b3c !important; background-color:#d4af37 !important; color:#000000 !important; width:4% !important;">CO</th>
-        <th style="padding:5px !important; border:1px solid #232b3c !important; background-color:#d4af37 !important; color:#000000 !important; width:4% !important;">TB</th>
-        <th style="padding:5px !important; border:1px solid #232b3c !important; color:#ff4d4d !important; background-color:#242f44 !important; width:4% !important;">ADV 1</th>
-        <th style="padding:5px !important; border:1px solid #232b3c !important; color:#ff4d4d !important; background-color:#242f44 !important; width:4% !important;">ADV 2</th>
-        <th style="padding:5px !important; border:1px solid #232b3c !important; color:#ff4d4d !important; background-color:#242f44 !important; width:4% !important;">ADV 3</th>
+        <th style="padding:5px !important; border:1px solid #232b3c !important; background-color:#d4af37 !important; color:#000000 !important;">AB</th>
+        <th style="padding:5px !important; border:1px solid #232b3c !important; background-color:#d4af37 !important; color:#000000 !important;">AC</th>
+        <th style="padding:5px !important; border:1px solid #232b3c !important; background-color:#d4af37 !important; color:#000000 !important;">CO</th>
+        <th style="padding:5px !important; border:1px solid #232b3c !important; background-color:#d4af37 !important; color:#000000 !important;">TB</th>
+        <th style="padding:5px !important; border:1px solid #232b3c !important; color:#ff4d4d !important;">ADV 1</th>
+        <th style="padding:5px !important; border:1px solid #232b3c !important; color:#ff4d4d !important;">ADV 2</th>
+        <th style="padding:5px !important; border:1px solid #232b3c !important; color:#ff4d4d !important;">ADV 3</th>
       </tr>
     </thead>
     
-    <tbody id="corpo-da-tabela">
+    <tbody id="tabela-linhas">
       <tr id="secao-alto-comando" style="background-color:#2a364f !important; font-weight:bold !important; color:#ffffff !important; text-align:center !important;">
-        <td colspan="12" style="padding:6px !important; letter-spacing:1px !important; border:1px solid #232b3c !important;">ALTO COMANDO</td>
+        <td colspan="12" style="padding:6px !important; border:1px solid #232b3c !important;">ALTO COMANDO</td>
       </tr>
-
       <tr id="secao-comandos-unidade" style="background-color:#2a364f !important; font-weight:bold !important; color:#ffffff !important; text-align:center !important;">
-        <td colspan="12" style="padding:6px !important; letter-spacing:1px !important; border:1px solid #232b3c !important;">COMANDOS DE UNIDADE</td>
+        <td colspan="12" style="padding:6px !important; border:1px solid #232b3c !important;">COMANDOS DE UNIDADE</td>
       </tr>
-
       <tr id="secao-sargentos" style="background-color:#2a364f !important; font-weight:bold !important; color:#ffffff !important; text-align:center !important;">
-        <td colspan="12" style="padding:6px !important; letter-spacing:1px !important; border:1px solid #232b3c !important;">SARGENTO / PRAÇAS</td>
+        <td colspan="12" style="padding:6px !important; border:1px solid #232b3c !important;">SARGENTOS / PRAÇAS</td>
       </tr>
     </tbody>
   </table>
@@ -97,71 +91,74 @@
     document.addEventListener("DOMContentLoaded", function () {
       const SENHA_COMANDO = "COMANDO1BPM"; 
 
-      function renderizarMembros() {
-        // Limpa as linhas geradas anteriormente para não duplicar
-        const linhasAntigas = document.querySelectorAll(".linha-dinamica");
-        linhasAntigas.forEach(linha => linha.remove());
+      function carregarTabela() {
+        // Limpa linhas dinâmicas antigas
+        document.querySelectorAll(".linha-dinamica").forEach(el => el.remove());
 
-        const membrosSalvos = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
-        // Inverte a ordem para listar os mais recentes primeiro de forma correta
-        const membrosInvertidos = [...membrosSalvos].reverse();
-
-        const coresUnidades = {
-          'RPM': '#1a4a75', 'SPEED': '#236b43', 'GTM': '#4a354f', 
-          'GRA': '#5c3a21', 'SWAT': '#2d3748', 'CMD SPEED': '#1b4d3e', 
-          'CMD GTM': '#4a354f', 'CMD GRA': '#5c3a21', 'CMD SWAT': '#2d3748'
+        const lista = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
+        
+        const cores = {
+          'RPM': '#1a4a75', 'SPEED': '#236b43', 'GTM': '#4a354f', 'GRA': '#5c3a21', 'SWAT': '#2d3748'
         };
 
-        membrosInvertidos.forEach((membro, index) => {
-          const realIndex = membrosSalvos.length - 1 - index;
-          const corUnidade = coresUnidades[membro.unidade.toUpperCase()] || '#4a5568';
-
-          const novaLinhaHTML = `
+        // Adiciona um por um
+        lista.forEach((membro, index) => {
+          const corUnidade = cores[membro.unidade.toUpperCase()] || '#4a5568';
+          
+          const htmlLinha = `
             <tr class="linha-dinamica" style="text-align:center !important; background-color:#141923 !important;">
-              <td style="padding:8px !important; border:1px solid #232b3c !important; color:#718096 !important; background-color:#141923 !important;">${membro.id}</td>
-              <td style="padding:8px !important; border:1px solid #232b3c !important; text-align:left !important; font-weight:bold !important; background-color:#141923 !important;">
+              <td style="padding:8px !important; border:1px solid #232b3c !important; color:#718096 !important;">${membro.id}</td>
+              <td style="padding:8px !important; border:1px solid #232b3c !important; text-align:left !important; font-weight:bold !important;">
                 <div class="nome-container">
                   <span>${membro.nome}</span>
-                  <button class="btn-excluir" onclick="excluirMembro(${realIndex})">X</button>
+                  <button class="btn-excluir" onclick="removerMembro(${index})">X</button>
                 </div>
               </td>
-              <td style="padding:8px !important; border:1px solid #232b3c !important; color:#a0aec0 !important; background-color:#141923 !important;">${membro.badge || '-'}</td>
-              <td style="padding:8px !important; border:1px solid #232b3c !important; background-color:#141923 !important;">${membro.patente}</td>
-              <td style="padding:8px !important; border:1px solid #232b3c !important; background-color:${corUnidade} !important; color:#ffffff !important; font-weight:bold !important;">${membro.unidade.toUpperCase()}</td>
-              <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
-              <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
-              <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
-              <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
-              <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
-              <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
-              <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
+              <td style="padding:8px !important; border:1px solid #232b3c !important; color:#a0aec0 !important;">${membro.badge}</td>
+              <td style="padding:8px !important; border:1px solid #232b3c !important;">${membro.patente}</td>
+              <td style="padding:8px !important; border:1px solid #232b3c !important; background-color:${corUnidade} !important; color:#ffffff !important; font-weight:bold !important;">${membro.unidade}</td>
+              <td style="border:1px solid #232b3c !important; color:#4a5568 !important;">☐</td>
+              <td style="border:1px solid #232b3c !important; color:#4a5568 !important;">☐</td>
+              <td style="border:1px solid #232b3c !important; color:#4a5568 !important;">☐</td>
+              <td style="border:1px solid #232b3c !important; color:#4a5568 !important;">☐</td>
+              <td style="border:1px solid #232b3c !important; color:#4a5568 !important;">☐</td>
+              <td style="border:1px solid #232b3c !important; color:#4a5568 !important;">☐</td>
+              <td style="border:1px solid #232b3c !important; color:#4a5568 !important;">☐</td>
             </tr>
           `;
 
-          let secaoAlvo;
-          const patenteLimpa = membro.patente.toLowerCase();
+          const p = membro.patente.toLowerCase();
+          let alvo = document.getElementById("secao-sargentos"); // Padrão: vai para praças
 
-          if (patenteLimpa.includes("geral") || patenteLimpa.includes("tenente") || patenteLimpa.includes("sub-tenente")) {
-            secaoAlvo = document.getElementById("secao-alto-comando");
-          } else if (patenteLimpa.includes("cmd") || patenteLimpa.includes("comando")) {
-            secaoAlvo = document.getElementById("secao-comandos-unidade");
-          } else {
-            secaoAlvo = document.getElementById("secao-sargentos");
+          if (p.includes("geral") || p.includes("tenente") || p.includes("sub-tenente")) {
+            alvo = document.getElementById("secao-alto-comando");
+          } else if (p.includes("cmd") || p.includes("comando")) {
+            alvo = document.getElementById("secao-comandos-unidade");
           }
 
-          // Segurança extra: se encontrar a seção ele coloca embaixo dela, se não encontrar, joga no fim da tabela
-          if (secaoAlvo) {
-            secaoAlvo.insertAdjacentHTML('afterend', novaLinhaHTML);
-          } else {
-            document.getElementById("corpo-da-tabela").insertAdjacentHTML('beforeend', novaLinhaHTML);
+          if (alvo) {
+            alvo.insertAdjacentHTML('afterend', htmlLinha);
           }
         });
       }
 
-      window.excluirMembro = function(index) {
-        const senhaDigitada = prompt("Digite a senha de Comando para confirmar a demissão:");
+      window.removerMembro = function(index) {
+        const senha = prompt("Digite a senha de Comando para demitir:");
+        if (senha === SENHA_COMANDO) {
+          if (confirm("Deseja mesmo demitir este policial?")) {
+            let lista = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
+            lista.splice(index, 1);
+            localStorage.setItem("efetivoMembros", JSON.stringify(lista));
+            carregarTabela();
+            alert("Removido!");
+          }
+        } else {
+          alert("Senha incorreta!");
+        }
+      };
 
-        if (senhaDigitada === SENHA_COMANDO) {
-          if (confirm("Tem certeza absoluta que deseja remover este policial do efetivo?")) {
-            let membrosExistentes = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
-            membrosExistentes.splice(index, 1);
+      carregarTabela();
+    });
+  </script>
+</body>
+</html>
