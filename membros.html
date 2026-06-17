@@ -43,6 +43,7 @@
       transform: translateY(-2px);
     }
     
+    /* Caixa que envolve a tabela criando as pontas arredondadas */
     .table-wrapper {
       background-color: #141923;
       border: 1px solid #232b3c;
@@ -71,7 +72,7 @@
       border-right: none;
     }
     
-    /* Cabeçalhos Especiais */
+    /* Cores personalizadas para os cabeçalhos de Cursos e Advertências */
     .th-cursos-header {
       background-color: #f0a500;
       color: #000000;
@@ -98,6 +99,8 @@
     tr:hover td {
       background-color: #1a202c;
     }
+    
+    /* Linha escura divisora de categorias */
     .categoria-divisora {
       background-color: #1c2434 !important;
       color: #ffffff !important;
@@ -114,7 +117,7 @@
       color: #f0a500;
     }
     
-    /* Estilo das caixas de marcação (Checkboxes textuais) */
+    /* Estilo visual dos quadradinhos (Checkboxes de texto) */
     .chk-box {
       font-size: 1.2em;
       font-weight: bold;
@@ -123,10 +126,10 @@
       color: #f0a500;
     }
     .adv-marcado {
-      color: #ff4d4d; /* Cor vermelha para destacar as punições */
+      color: #ff4d4d;
     }
     .vazio {
-      color: #4a5568; /* Cinza apagado para caixas sem marcação */
+      color: #4a5568;
     }
   </style>
 </head>
@@ -136,13 +139,12 @@
     <h1>1º BPM - HARDLINE</h1>
     
     <div class="action-container">
-      <a href="https://script.google.com/macros/s/AKfycbwtJEC35f80OO07rPrQ8fuWDcHbqnEQIQyUh8iVRwP-WB-KfIVM_IICr-rweX2eX864/exec" target="_blank" class="btn-link">+ Cadastrar Novo Membro</a>
+      <a href="https://script.google.com/macros/s/AKfycbxYTcABsSdVR88Pk4D_t7TVdABWQBfI11zL_IUFAbMq0C1IBBPtcA9ACVp7Lo8nVes/exec" class="btn-link">+ Cadastrar Novo Membro</a>
     </div>
 
     <div class="table-wrapper">
       <table id="tabela-efetivo">
         <thead>
-          <!-- Primeira linha do cabeçalho agrupado -->
           <tr>
             <th rowspan="2">ID</th>
             <th rowspan="2">NOME</th>
@@ -152,7 +154,6 @@
             <th colspan="3" class="th-advs-header">ADVERTÊNCIAS</th>
             <th colspan="2" class="th-cursos-header">CURSOS</th>
           </tr>
-          <!-- Segunda linha detalhando as subcolunas -->
           <tr>
             <th style="background-color: #1c2434; font-size: 0.8em; color: #ff4d4d;">ADV 1</th>
             <th style="background-color: #1c2434; font-size: 0.8em; color: #ff4d4d;">ADV 2</th>
@@ -208,7 +209,7 @@
             else if (patenteUpper === "ALTO COMANDO") patenteFormatada = "Alto Comando";
             else if (patenteUpper === "COMANDO") patenteFormatada = "Comando";
 
-            // Divisores de Categoria
+            // Geração Inteligente das Linhas Separadoras de Categoria
             if ((patenteUpper === "ALTO COMANDO" || patenteUpper === "COMANDO" || patenteUpper === "SUB-COMANDO") && !exibiuComando) {
               corpo.innerHTML += `<tr><td colspan="10" class="categoria-divisora">Alto Comando / Comando</td></tr>`;
               exibiuComando = true;
@@ -222,7 +223,7 @@
               exibiuOperadores = true;
             }
 
-            // Lógica das Caixas de Advertências (Acumulativas)
+            // Gerenciamento Visual de Advertências Acumulativas (☑)
             let boxAdv1 = '<span class="chk-box vazio">☐</span>';
             let boxAdv2 = '<span class="chk-box vazio">☐</span>';
             let boxAdv3 = '<span class="chk-box vazio">☐</span>';
@@ -238,7 +239,7 @@
               boxAdv3 = '<span class="chk-box adv-marcado">☑</span>';
             }
 
-            // Lógica das Caixas de Cursos
+            // Gerenciamento Visual de Cursos Realizados
             let arrayCursos = cursosString.split(' / ').map(c => c.trim().toUpperCase());
             let temCFA = arrayCursos.includes("C.F.A") ? '<span class="chk-box marcado">☑</span>' : '<span class="chk-box vazio">☐</span>';
             let temPOE = arrayCursos.includes("P.O.E") ? '<span class="chk-box marcado">☑</span>' : '<span class="chk-box vazio">☐</span>';
