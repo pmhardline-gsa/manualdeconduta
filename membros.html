@@ -13,7 +13,7 @@
       margin: 0;
     }
     .container {
-      max-width: 1200px;
+      max-width: 1300px;
       margin: 0 auto;
     }
     h1 { 
@@ -34,19 +34,18 @@
       text-decoration: none; 
       font-weight: bold; 
       padding: 10px 24px;
-      border-radius: 50px;
+      border-radius: 4px; /* Formato retangular arredondado parecido com o botão da imagem */
       box-shadow: 0 4px 10px rgba(240, 165, 0, 0.2);
       transition: all 0.3s ease; 
     }
     .btn-link:hover { 
       background-color: #d48e00; 
       transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(240, 165, 0, 0.3);
     }
     .table-wrapper {
       background-color: #141923;
       border: 1px solid #232b3c;
-      border-radius: 8px;
+      border-radius: 4px;
       overflow: hidden;
       box-shadow: 0 4px 15px rgba(0,0,0,0.4);
     }
@@ -58,56 +57,85 @@
     th { 
       background-color: #1c2434; 
       color: #f0a500; 
-      padding: 16px; 
-      font-size: 0.95em;
-      font-weight: 600;
-      border-bottom: 2px solid #232b3c;
+      padding: 12px; 
+      font-size: 0.9em;
+      font-weight: bold;
+      border: 1px solid #232b3c;
       text-align: center;
     }
+    /* Estilo para a coluna dupla de Cursos no topo */
+    .th-cursos-header {
+      background-color: #f0a500;
+      color: #000000;
+    }
     td { 
-      padding: 14px 16px; 
-      border-bottom: 1px solid #232b3c; 
+      padding: 12px; 
+      border: 1px solid #232b3c; 
       text-align: center; 
       color: #e2e8f0;
       font-size: 0.95em;
     }
-    tr:last-child td {
-      border-bottom: none;
-    }
     tr:hover td {
       background-color: #1a202c;
-      color: #ffffff;
+    }
+    /* Linha de divisão de categorias baseada na imagem */
+    .categoria-divisora {
+      background-color: #1c2434 !important;
+      color: #ffffff !important;
+      font-weight: bold;
+      font-size: 0.9em;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 8px !important;
+      text-align: center;
     }
     .badge-id {
       font-weight: bold;
       color: #f0a500;
+    }
+    /* Estilo das caixas de cursos baseadas nos quadradinhos da imagem */
+    .chk-box {
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+    .marcado {
+      color: #f0a500; /* Destaque dourado para curso concluído */
+    }
+    .vazio {
+      color: #4a5568; /* Cor cinza discreta para curso não feito */
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <h1>Cadeia de Comando - PMHL-GSA</h1>
+    <h1>1º BPM - HARDLINE</h1>
     
     <div class="action-container">
-      <a href="https://script.google.com/macros/s/AKfycbxYTcABsSdVR88Pk4D_t7TVdABWQBfI11zL_IUFAbMq0C1IBBPtcA9ACVp7Lo8nVes/exec" target="_blank" class="btn-link">+ Novo Cadastro</a>
+      <a href="https://script.google.com/macros/s/AKfycbxYTcABsSdVR88Pk4D_t7TVdABWQBfI11zL_IUFAbMq0C1IBBPtcA9ACVp7Lo8nVes/exec" target="_blank" class="btn-link">+ Cadastrar Novo Membro</a>
     </div>
 
     <div class="table-wrapper">
       <table id="tabela-efetivo">
         <thead>
+          <!-- Linha superior do cabeçalho de Cursos -->
           <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Badge</th>
-            <th>Patente</th>
-            <th>Unidade</th>
-            <th>Advertências</th>
-            <th>Cursos</th>
+            <th rowspan="2">ID</th>
+            <th rowspan="2">NOME</th>
+            <th rowspan="2">BADGE</th>
+            <th rowspan="2">PATENTE</th>
+            <th rowspan="2">UNIDADE</th>
+            <th rowspan="2">ADVERTÊNCIAS</th>
+            <th colspan="2" class="th-cursos-header">CURSOS</th>
+          </tr>
+          <!-- Linha inferior contendo as siglas dos cursos individuais -->
+          <tr>
+            <th style="background-color: #1c2434; font-size: 0.85em;">C.F.A</th>
+            <th style="background-color: #1c2434; font-size: 0.85em;">P.O.E</th>
           </tr>
         </thead>
         <tbody id="corpo-tabela">
-          <tr><td colspan="7">Carregando dados do efetivo...</td></tr>
+          <tr><td colspan="8">Carregando dados do efetivo...</td></tr>
         </tbody>
       </table>
     </div>
@@ -116,21 +144,11 @@
   <script>
     const URL_PLANILHA = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
 
-    // Definição da hierarquia de patentes com seus respectivos pesos (quanto menor o número, maior a patente)
+    // Mapeamento estrito da hierarquia com pesos para ordenação interna
     const hierarquiaPatentes = {
-      "ALTO COMANDO": 1,
-      "COMANDO": 2,
-      "SUB-COMANDO": 3,
-      "PILOTO VETERANO": 4,
-      "PILOTO SÊNIOR": 5,
-      "PILOTO OFICIAL": 6,
-      "PILOTO ESTAGIÁRIO": 7,
-      "ASPIRANTE A PILOTO": 8,
-      "OPERADOR VETERANO": 9,
-      "OPERADOR SÊNIOR": 10,
-      "OPERADOR OFICIAL": 11,
-      "TRIPULANTE OPERACIONAL": 12,
-      "ASPIRANTE OPERADOR": 13
+      "ALTO COMANDO": 1, "COMANDO": 2, "SUB-COMANDO": 3,
+      "PILOTO VETERANO": 4, "PILOTO SÊNIOR": 5, "PILOTO OFICIAL": 6, "PILOTO ESTAGIÁRIO": 7, "ASPIRANTE A PILOTO": 8,
+      "OPERADOR VETERANO": 9, "OPERADOR SÊNIOR": 10, "OPERADOR OFICIAL": 11, "TRIPULANTE OPERACIONAL": 12, "ASPIRANTE OPERADOR": 13
     };
 
     function carregarDados() {
@@ -141,49 +159,69 @@
           const corpo = document.getElementById("corpo-tabela");
           corpo.innerHTML = "";
           
-          // Filtra linhas válidas e limpa strings vazias
           let membrosValidos = results.data.filter(membro => membro.Nome && membro.Nome.trim() !== "");
 
-          // Ordena os membros com base no peso da patente definido na hierarquia
+          // Ordena os oficiais por peso hierárquico
           membrosValidos.sort((a, b) => {
-            let patenteA = (a.Patente || "").toUpperCase().trim();
-            let patenteB = (b.Patente || "").toUpperCase().trim();
-            
-            let pesoA = hierarquiaPatentes[patenteA] || 99;
-            let pesoB = hierarquiaPatentes[patenteB] || 99;
-            
-            return pesoA - pesoB;
+            let patA = (a.Patente || "").toUpperCase().trim();
+            let patB = (b.Patente || "").toUpperCase().trim();
+            return (hierarquiaPatentes[patA] || 99) - (hierarquiaPatentes[patB] || 99);
           });
           
+          // Categorias de controle para renderizar os títulos separadores uma única vez
+          let exibiuComando = false;
+          let exibiuPilotos = false;
+          let exibiuOperadores = false;
+
           membrosValidos.forEach(membro => {
             const advs = membro["Advertências"] || "";
-            const cursos = membro["Cursos"] || "";
+            const cursosString = membro["Cursos"] || "";
             
-            // Padroniza visualmente a exibição da patente para evitar tudo em maiúsculo textualmente, exceto abreviações
             let patenteFormatada = membro.Patente || "";
             let patenteUpper = patenteFormatada.toUpperCase().trim();
             
-            if (patenteUpper === "COMANDO" || patenteUpper === "SUB-COMANDO" || patenteUpper === "ALTO COMANDO") {
-              // Mantém o padrão capitalizado correto
-              if (patenteUpper === "SUB-COMANDO") patenteFormatada = "Sub-Comando";
-              else if (patenteUpper === "ALTO COMANDO") patenteFormatada = "Alto Comando";
-              else patenteFormatada = "Comando";
+            // Corrige e padroniza a escrita das patentes principais de Comando
+            if (patenteUpper === "SUB-COMANDO") patenteFormatada = "Sub-Comando";
+            else if (patenteUpper === "ALTO COMANDO") patenteFormatada = "Alto Comando";
+            else if (patenteUpper === "COMANDO") patenteFormatada = "Comando";
+
+            // Verifica e insere a Linha Separadora de ALTO COMANDO / COMANDO
+            if ((patenteUpper === "ALTO COMANDO" || patenteUpper === "COMANDO" || patenteUpper === "SUB-COMANDO") && !exibiuComando) {
+              corpo.innerHTML += `<tr><td colspan="8" class="categoria-divisora">Alto Comando / Comando</td></tr>`;
+              exibiuComando = true;
             }
+            // Verifica e insere a Linha Separadora dos PILOTOS
+            else if (patenteUpper.includes("PILOTO") && !exibiuPilotos) {
+              corpo.innerHTML += `<tr><td colspan="8" class="categoria-divisora">Corpo de Pilotos da Unidade</td></tr>`;
+              exibiuPilotos = true;
+            }
+            // Verifica e insere a Linha Separadora dos OPERADORES
+            else if ((patenteUpper.includes("OPERADOR") || patenteUpper.includes("TRIPULANTE")) && !exibiuOperadores) {
+              corpo.innerHTML += `<tr><td colspan="8" class="categoria-divisora">Corpo de Operadores da Unidade</td></tr>`;
+              exibiuOperadores = true;
+            }
+
+            // Tratamento lógico dos Cursos para renderizar os ícones visuais quadradinhos (☑ ou ☐)
+            let arrayCursos = cursosString.split(' / ').map(c => c.trim().toUpperCase());
+            
+            let temCFA = arrayCursos.includes("C.F.A") ? '<span class="chk-box marcado">☑</span>' : '<span class="chk-box vazio">☐</span>';
+            let temPOE = arrayCursos.includes("P.O.E") ? '<span class="chk-box marcado">☑</span>' : '<span class="chk-box vazio">☐</span>';
 
             corpo.innerHTML += `
               <tr>
                 <td class="badge-id">${membro.ID}</td>
-                <td style="text-align: left; padding-left: 25px; font-weight: 500;">${membro.Nome}</td>
+                <td style="text-align: left; padding-left: 20px; font-weight: 500;">${membro.Nome}</td>
                 <td>${membro.Badge || "-"}</td>
                 <td style="font-weight: 500;">${patenteFormatada}</td>
                 <td>${membro.Unidade || "-"}</td>
                 <td>${advs || "-"}</td>
-                <td>${cursos || "-"}</td>
+                <td>${temCFA}</td>
+                <td>${temPOE}</td>
               </tr>`;
           });
           
           if(membrosValidos.length === 0) {
-            corpo.innerHTML = `<tr><td colspan="7">Nenhum registro encontrado no efetivo.</td></tr>`;
+            corpo.innerHTML = `<tr><td colspan="8">Nenhum registro encontrado no efetivo.</td></tr>`;
           }
         }
       });
