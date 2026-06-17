@@ -12,8 +12,8 @@
         input, select { width: 100%; padding: 12px; margin: 8px 0; background: #0b0e14; border: 1px solid #232b3c; color: white; border-radius: 4px; box-sizing: border-box; }
         button.action-btn { width: 100%; padding: 12px; background: #f0a500; border: none; font-weight: bold; cursor: pointer; color: black; border-radius: 4px; margin-top: 10px; transition: 0.3s; }
         button.action-btn:hover { background: #d48e00; }
-        #gNome { color: #f0a500; font-weight: bold; margin: 10px 0; text-align: center; min-height: 20px; }
-        label { font-size: 0.9em; color: #888; }
+        label { font-size: 0.9em; color: #888; display: block; margin-top: 10px; }
+        .info-id { color: #f0a500; font-weight: bold; font-size: 1.1em; margin: 5px 0; }
     </style>
 </head>
 <body>
@@ -49,9 +49,18 @@
     <div id="panel-gerir" class="box" style="display: none;">
         <h3 style="text-align:center; color:#f0a500; margin-top:0;">Gerir Efetivo GSA</h3>
         
-        <label>Buscar por ID:</label>
-        <input type="number" id="gID" placeholder="Digite o ID do Oficial" onchange="buscar()">
-        <div id="gNome"></div>
+        <label>Selecione o Oficial:</label>
+        <select id="gListaOficiais" onchange="selecionarOficial()">
+            <option value="">Carregando oficiais...</option>
+        </select>
+
+        <div style="margin-top: 15px; border-top: 1px solid #232b3c; padding-top: 10px;">
+            <span style="font-size: 0.9em; color: #888;">ID do Selecionado:</span>
+            <div id="gMostraID" class="info-id">Nenhum</div>
+        </div>
+
+        <label>Alterar Badge:</label>
+        <input type="number" id="gBadge" placeholder="Badge atual">
 
         <label>Alterar Patente:</label>
         <select id="gPatente">
@@ -70,22 +79,61 @@
     </div>
 
     <script>
-        function switchTab(tab) {
-            var pCad = document.getElementById('panel-cad');
-            var pGerir = document.getElementById('panel-gerir');
-            var bCad = document.getElementById('btn-cad');
-            var bGerir = document.getElementById('btn-gerir');
+        var cacheOficiais = []; // Guarda os dados localmente para carregar instantaneamente
 
+        function switchTab(tab) {
             if (tab === 'cad') {
-                pCad.style.display = 'block';
-                pGerir.style.display = 'none';
-                bCad.classList.add('active');
-                bGerir.classList.remove('active');
+                document.getElementById('panel-cad').style.display = 'block';
+                document.getElementById('panel-gerir').style.display = 'none';
+                document.getElementById('btn-cad').classList.add('active');
+                document.getElementById('btn-gerir').classList.remove('active');
             } else {
-                pCad.style.display = 'none';
-                pGerir.style.display = 'block';
-                bCad.classList.remove('active');
-                bGerir.classList.add('active');
+                document.getElementById('panel-cad').style.display = 'none';
+                document.getElementById('panel-gerir').style.display = 'block';
+                document.getElementById('btn-cad').classList.remove('active');
+                document.getElementById('btn-gerir').classList.add('active');
+                carregarOficiais(); // Busca a lista atualizada quando entra na aba
+            }
+        }
+
+        // Carrega os nomes no menu Select
+        function carregarOficiais() {
+            var select = document.getElementById('gListaOficiais');
+            select.innerHTML = '<option value="">Carregando lista...</option>';
+            
+            google.script.run
+                .withSuccessHandler(function(lista) {
+                    cacheOficiais = lista;
+                    select.innerHTML = '<option value="">-- Selecione um Oficial --</option>';
+                    lista.forEach(function(oficial) {
+                        var opt = document.createElement('option');
+                        opt.value = oficial.id;
+                        opt.innerText = oficial.nome;
+                        select.appendChild(opt);
+                    });
+                })
+                .withFailureHandler(function(err) {
+                    select.innerHTML = '<option value="">Erro ao carregar</option>';
+                })
+                .obterListaOficiais();
+        }
+
+        // Quando escolhe o nome, preenche automaticamente os campos na tela
+        function selecionarOficial() {
+            var idSelecionado = document.getElementById('gListaOficiais').value;
+            if (!idSelecionado) {
+                document.getElementById('gMostraID').innerText = "Nenhum";
+                document.getElementById('gBadge').value = "";
+                document.getElementById('gAdvs').value = "";
+                return;
+            }
+
+            var oficial = cacheOficiais.find(function(item) { return item.id === idSelecionado; });
+            if (oficial) {
+                document.getElementById('gMostraID').innerText = oficial.id;
+                document.getElementById('gBadge').value = oficial.badge;
+                document.getElementById('gPatente').value = oficial.patente;
+                document.getElementById('gAdvs').value = oficial.advs;
             }
         }
 
@@ -104,55 +152,41 @@
                     document.getElementById('cNome').value = '';
                     document.getElementById('cBadge').value = '';
                 })
-                .withFailureHandler(function(err) { alert("Erro ao cadastrar: " + err.message); })
+                .withFailureHandler(function(err) { alert("Erro: " + err.message); })
                 .inserirNovoOficial(id, nome, badge, pat);
         }
 
-        function buscar() {
-            var id = document.getElementById('gID').value;
-            if (!id || id.trim() === "") {
-                document.getElementById('gNome').innerText = "";
-                return;
-            }
-            
-            document.getElementById('gNome').innerText = "Buscando...";
-            
-            google.script.run
-                .withSuccessHandler(function(nome) {
-                    document.getElementById('gNome').innerText = "Oficial: " + nome;
-                })
-                .withFailureHandler(function(err) {
-                    document.getElementById('gNome').innerText = "Erro ao buscar.";
-                    alert("Erro de comunicação: " + err.message);
-                })
-                .buscarNomePorId(id);
-        }
-
         function salvar() {
-            var id = document.getElementById('gID').value;
+            var id = document.getElementById('gMostraID').innerText;
+            var badge = document.getElementById('gBadge').value;
             var pat = document.getElementById('gPatente').value;
             var advs = document.getElementById('gAdvs').value;
 
-            if (!id) { alert("Digite um ID primeiro!"); return; }
+            if (id === "Nenhum" || !id) { alert("Selecione um oficial na lista primeiro!"); return; }
 
             google.script.run
-                .withSuccessHandler(function(msg) { alert(msg); })
-                .withFailureHandler(function(err) { alert("Erro ao salvar: " + err.message); })
-                .salvarAlteracao(id, pat, advs);
+                .withSuccessHandler(function(msg) { 
+                    alert(msg); 
+                    carregarOficiais(); // Atualiza a lista
+                })
+                .withFailureHandler(function(err) { alert("Erro: " + err.message); })
+                .salvarAlteracao(id, badge, pat, advs);
         }
 
         function demitir() {
-            var id = document.getElementById('gID').value;
-            if (!id) { alert("Digite o ID do oficial a ser demitido!"); return; }
+            var id = document.getElementById('gMostraID').innerText;
+            if (id === "Nenhum" || !id) { alert("Selecione um oficial para demitir!"); return; }
             
             if (confirm("Tem certeza que deseja DEMITIR este oficial?")) {
                 google.script.run
                     .withSuccessHandler(function(msg) {
                         alert(msg);
-                        document.getElementById('gID').value = '';
-                        document.getElementById('gNome').innerText = '';
+                        document.getElementById('gMostraID').innerText = 'Nenhum';
+                        document.getElementById('gBadge').value = '';
+                        document.getElementById('gAdvs').value = '';
+                        carregarOficiais(); // Recarrega a lista sem o demitido
                     })
-                    .withFailureHandler(function(err) { alert("Erro ao demitir: " + err.message); })
+                    .withFailureHandler(function(err) { alert("Erro: " + err.message); })
                     .demitirOficial(id);
             }
         }
