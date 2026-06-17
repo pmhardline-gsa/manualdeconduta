@@ -12,10 +12,8 @@
       <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:20% !important; text-align:left !important; background-color:#1a2232 !important;">NOME</th>
       <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:8% !important; background-color:#1a2232 !important;">BADGE</th>
       <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:15% !important; background-color:#1a2232 !important;">PATENTE</th>
-      <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:12% !important; background-color:#1a2232 !important;">UNIDADE</th>
       <th colspan="4" style="padding:5px !important; border:1px solid #232b3c !important; background-color:#b8860b !important; color:#000000 !important;">CURSOS</th>
       <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:10% !important; background-color:#1a2232 !important;">ÚLT. PROMO</th>
-      <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:10% !important; background-color:#1a2232 !important;">TEMPO PTT</th>
       <th colspan="3" style="padding:5px !important; border:1px solid #232b3c !important; color:#ff4d4d !important; background-color:#1a2232 !important;">ADVERTÊNCIAS</th>
     </tr>
     <tr style="background-color:#242f44 !important; text-align:center !important; font-size:11px !important; color:#ffffff !important;">
@@ -52,14 +50,13 @@
       <td style="padding:8px !important; border:1px solid #232b3c !important; color:#718096 !important; background-color:#141923 !important;">281</td>
       <td style="padding:8px !important; border:1px solid #232b3c !important; text-align:left !important; font-weight:bold !important; background-color:#141923 !important;">Nomad Gorbatchev</td>
       <td style="padding:8px !important; border:1px solid #232b3c !important; color:#a0aec0 !important; background-color:#141923 !important;">400</td>
-      <td style="padding:8px !important; border:1px solid #232b3c !important; color:#f0a500 !important; font-weight:bold !important; background-color:#141923 !important;">CMD. GSA</td>
+      <td style="padding:8px !important; border:1px solid #232b3c !important; color:#f0a500 !important; font-weight:bold !important; background-color:#141923 !important;">CMD.GSA</td>
       <td style="padding:8px !important; border:1px solid #232b3c !important; background-color:#1a4a75 !important; font-weight:bold !important; color:#ffffff !important;">RPM</td>
       <td style="border:1px solid #232b3c !important; color:#4df14d !important; background-color:#141923 !important;">☑</td>
       <td style="border:1px solid #232b3c !important; color:#4df14d !important; background-color:#141923 !important;">☑</td>
       <td style="border:1px solid #232b3c !important; color:#4df14d !important; background-color:#141923 !important;">☑</td>
       <td style="border:1px solid #232b3c !important; color:#4df14d !important; background-color:#141923 !important;">☑</td>
       <td style="padding:8px !important; border:1px solid #232b3c !important; background-color:#141923 !important;">24/04/2026</td>
-      <td style="padding:8px !important; border:1px solid #232b3c !important; color:#cbd5e0 !important; background-color:#141923 !important;">54 DIAS</td>
       <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
       <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
       <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
