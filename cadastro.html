@@ -34,3 +34,126 @@
         
         <label>Patente Inicial:</label>
         <select id="cPatente">
+            <option>Aspirante Operador</option><option>Tripulante Operacional</option><option>Operador Oficial</option>
+            <option>Operador Sênior</option><option>Operador Veterano</option><option>Aspirante a Piloto</option>
+            <option>Piloto Estagiário</option><option>Piloto Oficial</option><option>Piloto Sênior</option>
+            <option>Piloto Veterano</option><option>Sub-Comando</option><option>Comando</option><option>Alto Comando</option>
+        </select>
+
+        <button class="action-btn" onclick="cadastrarNovo()">Cadastrar Oficial</button>
+    </div>
+
+    <div id="panel-gerir" class="box" style="display: none;">
+        <h3 style="text-align:center; color:#f0a500; margin-top:0;">Gerir Efetivo GSA</h3>
+        
+        <label>Buscar por ID:</label>
+        <input type="number" id="gID" placeholder="Digite o ID do Oficial" onchange="buscar()">
+        <div id="gNome"></div>
+
+        <label>Alterar Patente:</label>
+        <select id="gPatente">
+            <option>Alto Comando</option><option>Comando</option><option>Sub-Comando</option>
+            <option>Piloto Veterano</option><option>Piloto Sênior</option><option>Piloto Oficial</option>
+            <option>Piloto Estagiário</option><option>Aspirante a Piloto</option>
+            <option>Operador Veterano</option><option>Operador Sênior</option><option>Operador Oficial</option>
+            <option>Tripulante Operacional</option><option>Aspirante Operador</option>
+        </select>
+
+        <label>Advertências:</label>
+        <input type="text" id="gAdvs" placeholder="Ex: ADV1, ADV2">
+
+        <button class="action-btn" onclick="salvar()">Salvar Alterações</button>
+        <button class="action-btn" style="background: #ff4d4d; color: white; margin-top: 5px;" onclick="demitir()">Demitir Oficial</button>
+    </div>
+
+    <script>
+        // Função para alternar as abas (Simplificada e direta para evitar erros)
+        function switchTab(tab) {
+            var pCad = document.getElementById('panel-cad');
+            var pGerir = document.getElementById('panel-gerir');
+            var bCad = document.getElementById('btn-cad');
+            var bGerir = document.getElementById('btn-gerir');
+
+            if (tab === 'cad') {
+                pCad.style.display = 'block';
+                pGerir.style.display = 'none';
+                bCad.classList.add('active');
+                bGerir.classList.remove('active');
+            } else {
+                pCad.style.display = 'none';
+                pGerir.style.display = 'block';
+                bCad.classList.remove('active');
+                bGerir.classList.add('active');
+            }
+        }
+
+        function cadastrarNovo() {
+            var id = document.getElementById('cID').value;
+            var nome = document.getElementById('cNome').value;
+            var pat = document.getElementById('cPatente').value;
+
+            if (!id || !nome) { alert("Preencha ID e Nome para cadastrar!"); return; }
+
+            google.script.run
+                .withSuccessHandler(function(msg) {
+                    alert(msg);
+                    document.getElementById('cID').value = '';
+                    document.getElementById('cNome').value = '';
+                })
+                .withFailureHandler(function(err) { 
+                    alert("Erro ao cadastrar: " + err.message); 
+                })
+                .inserirNovoOficial(id, nome, pat);
+        }
+
+        function buscar() {
+            var id = document.getElementById('gID').value;
+            if (!id || id.trim() === "") {
+                document.getElementById('gNome').innerText = "";
+                return;
+            }
+            
+            document.getElementById('gNome').innerText = "Buscando...";
+            
+            google.script.run
+                .withSuccessHandler(function(nome) {
+                    document.getElementById('gNome').innerText = "Oficial: " + nome;
+                })
+                .withFailureHandler(function(err) {
+                    document.getElementById('gNome').innerText = "Erro ao buscar.";
+                    alert("Erro de comunicação: " + err.message);
+                })
+                .buscarNomePorId(id);
+        }
+
+        function salvar() {
+            var id = document.getElementById('gID').value;
+            var pat = document.getElementById('gPatente').value;
+            var advs = document.getElementById('gAdvs').value;
+
+            if (!id) { alert("Digite um ID primeiro!"); return; }
+
+            google.script.run
+                .withSuccessHandler(function(msg) { alert(msg); })
+                .withFailureHandler(function(err) { alert("Erro ao salvar: " + err.message); })
+                .salvarAlteracao(id, pat, advs);
+        }
+
+        function demitir() {
+            var id = document.getElementById('gID').value;
+            if (!id) { alert("Digite o ID do oficial a ser demitido!"); return; }
+            
+            if (confirm("Tem certeza que deseja DEMITIR este oficial?")) {
+                google.script.run
+                    .withSuccessHandler(function(msg) {
+                        alert(msg);
+                        document.getElementById('gID').value = '';
+                        document.getElementById('gNome').innerText = '';
+                    })
+                    .withFailureHandler(function(err) { alert("Erro ao demitir: " + err.message); })
+                    .demitirOficial(id);
+            }
+        }
+    </script>
+</body>
+</html>
