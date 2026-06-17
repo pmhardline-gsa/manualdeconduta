@@ -138,14 +138,10 @@
         </select>
       </div>
       <div class="form-group">
-        <label for="unidade-membro">Unidade / Grupamento</label>
+        <label for="unidade-membro">Unidade Principal</label>
         <select id="unidade-membro" required>
-          <option value="" disabled selected>Selecione...</option>
-          <option value="GSA">GSA</option>
+          <option value="GSA" selected>GSA</option>
           <option value="RPM">RPM</option>
-          <option value="SPEED">SPEED</option>
-          <option value="GTM">GTM</option>
-          <option value="SWAT">SWAT</option>
         </select>
       </div>
       <button type="submit" class="btn-submit">Inserir no Efetivo</button>
@@ -178,7 +174,10 @@
         badge: document.getElementById("badge-membro").value || "-",
         patente: document.getElementById("patente-membro").value,
         unidade: document.getElementById("unidade-membro").value,
-        ultimaPromocao: dataFormatada
+        ultimaPromocao: dataFormatada,
+        // Inicializa as caixas vazias para não quebrar a sincronia de marcação
+        ab: false, ac: false, co: false, tb: false,
+        adv1: false, adv2: false, adv3: false
       };
 
       let lista = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
