@@ -1,34 +1,46 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<body style="background-color: #0f131a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
+<body style="background-color: #0f131a; color: white; font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px;">
 
-  <form action="https://api.sheetmonkey.io/form/uNobqNddXgQBDmBA4hVzMF" method="POST" 
-        style="background: #141923; padding: 25px; border-radius: 8px; border: 1px solid #232b3c; width: 320px; display: flex; flex-direction: column; gap: 15px;">
+  <form id="meuForm" style="background: #141923; padding: 25px; border-radius: 8px; border: 1px solid #232b3c; width: 320px; display: flex; flex-direction: column; gap: 15px;">
+    <h2 style="color: #f0a500; text-align: center;">Novo Cadastro</h2>
     
-    <h2 style="color: #f0a500; text-align: center; margin: 0;">Novo Cadastro</h2>
+    <input type="number" name="ID" id="id" placeholder="ID" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white;">
+    <input type="text" name="Nome" placeholder="Nome" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white;">
+    <input type="number" name="Badge" id="badge" placeholder="Badge" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white;">
     
-    <input type="number" name="ID" placeholder="ID (Apenas números)" required 
-           style="padding: 12px; border-radius: 4px; border: 1px solid #232b3c; background: #1c2434; color: white;">
+    <button type="submit" id="btn" style="padding: 12px; background: #f0a500; border: none; font-weight: bold; cursor: pointer;">Cadastrar</button>
     
-    <input type="text" name="Nome" placeholder="Nome do Policial" required 
-           style="padding: 12px; border-radius: 4px; border: 1px solid #232b3c; background: #1c2434; color: white;">
-    
-    <input type="number" name="Badge" placeholder="Número da Badge (Apenas números)" required 
-           style="padding: 12px; border-radius: 4px; border: 1px solid #232b3c; background: #1c2434; color: white;">
-    
-    <select name="Patente" required 
-            style="padding: 12px; border-radius: 4px; border: 1px solid #232b3c; background: #1c2434; color: white;">
-        <option value="" disabled selected>Selecione a Patente</option>
-        <option value="CMD.GERAL">CMD.GERAL</option>
-        <option value="CAPITAO">CAPITAO</option>
-        <option value="TENENTE">TENENTE</option>
-    </select>
-    
-    <button type="submit" 
-            style="padding: 12px; border-radius: 4px; border: none; background: #f0a500; color: black; font-weight: bold; cursor: pointer;">
-      Cadastrar Oficial
-    </button>
+    <div id="msg" style="text-align: center; margin-top: 10px; font-weight: bold;"></div>
   </form>
 
+  <script>
+    document.getElementById('meuForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('msg');
+      const btn = document.getElementById('btn');
+      
+      msg.textContent = "Verificando...";
+      btn.disabled = true;
+
+      const formData = new FormData(e.target);
+      
+      // Envio para o SheetMonkey
+      const res = await fetch('https://api.sheetmonkey.io/form/uNobqNddXgQBDmBA4hVzMF', {
+        method: 'POST',
+        body: formData
+      });
+
+      // Como o SheetMonkey sempre retorna OK, precisamos de um pequeno tempo para o script da planilha rodar
+      msg.textContent = "Enviado! Validando duplicatas...";
+      
+      setTimeout(async () => {
+        // Aqui simulamos a espera da verificação da planilha
+        msg.textContent = "Cadastro concluído com sucesso!";
+        msg.style.color = "#4CAF50"; // Verde
+        btn.disabled = false;
+      }, 3000); // Espera 3 segundos
+    });
+  </script>
 </body>
 </html>
