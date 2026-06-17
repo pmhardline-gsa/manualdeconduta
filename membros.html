@@ -24,22 +24,37 @@
     .btn-cadastro:hover {
       background-color: #b8860b;
     }
-    .btn-excluir {
+    .btn-acoes {
       background: #ff4d4d;
       color: white;
       border: none;
-      padding: 3px 7px;
+      padding: 4px 8px;
       border-radius: 4px;
       cursor: pointer;
       font-size: 11px;
       font-weight: bold;
-      margin-left: 10px;
+      margin-left: 5px;
+      transition: background 0.2s;
+    }
+    .btn-acoes:hover {
+      background: #cc3333;
+    }
+    .btn-promover {
+      background: #f0a500;
+      color: #000000;
+    }
+    .btn-promover:hover {
+      background: #b8860b;
     }
     .nome-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 100%;
+    }
+    .botoes-grupo {
+      display: flex;
+      gap: 5px;
     }
   </style>
 </head>
@@ -50,16 +65,17 @@
   <table style="width:100% !important; border-collapse:collapse !important; background-color:#141923 !important; color:#ffffff !important; font-size:13px !important; border: 1px solid #232b3c !important;">
     <thead>
       <tr style="background-color:#1c2434 !important;">
-        <th colspan="12" style="padding:15px !important; text-align:center !important; color:#f0a500 !important; font-size:22px !important; font-weight:bold !important; letter-spacing:2px !important; border-bottom:2px solid #232b3c !important;">
+        <th colspan="13" style="padding:15px !important; text-align:center !important; color:#f0a500 !important; font-size:22px !important; font-weight:bold !important; letter-spacing:2px !important; border-bottom:2px solid #232b3c !important;">
           1º BPM - HARDLINE
         </th>
       </tr>
       <tr style="background-color:#1a2232 !important; text-align:center !important; font-weight:bold !important; color:#f0a500 !important; border-bottom:1px solid #232b3c !important;">
         <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:5% !important;">ID</th>
-        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:25% !important; text-align:left !important;">NOME</th>
+        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:22% !important; text-align:left !important;">NOME</th>
         <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:8% !important;">BADGE</th>
-        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:18% !important;">PATENTE</th>
-        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:14% !important;">UNIDADE</th>
+        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:15% !important;">PATENTE</th>
+        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:12% !important;">UNIDADE</th>
+        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:10% !important; color:#ffffff !important;">AÇÕES</th>
         <th colspan="4" style="padding:5px !important; border:1px solid #232b3c !important; background-color:#b8860b !important; color:#000000 !important;">CURSOS</th>
         <th colspan="3" style="padding:5px !important; border:1px solid #232b3c !important; color:#ff4d4d !important;">ADVERTÊNCIAS</th>
       </tr>
@@ -76,13 +92,13 @@
     
     <tbody id="tabela-linhas">
       <tr id="secao-alto-comando" style="background-color:#2a364f !important; font-weight:bold !important; color:#ffffff !important; text-align:center !important;">
-        <td colspan="12" style="padding:6px !important; border:1px solid #232b3c !important;">ALTO COMANDO</td>
+        <td colspan="13" style="padding:6px !important; border:1px solid #232b3c !important;">ALTO COMANDO</td>
       </tr>
       <tr id="secao-comandos-unidade" style="background-color:#2a364f !important; font-weight:bold !important; color:#ffffff !important; text-align:center !important;">
-        <td colspan="12" style="padding:6px !important; border:1px solid #232b3c !important;">COMANDOS DE UNIDADE</td>
+        <td colspan="13" style="padding:6px !important; border:1px solid #232b3c !important;">COMANDOS DE UNIDADE</td>
       </tr>
       <tr id="secao-sargentos" style="background-color:#2a364f !important; font-weight:bold !important; color:#ffffff !important; text-align:center !important;">
-        <td colspan="12" style="padding:6px !important; border:1px solid #232b3c !important;">SARGENTOS / PRAÇAS</td>
+        <td colspan="13" style="padding:6px !important; border:1px solid #232b3c !important;">SARGENTOS / PRAÇAS</td>
       </tr>
     </tbody>
   </table>
@@ -91,8 +107,19 @@
     document.addEventListener("DOMContentLoaded", function () {
       const SENHA_COMANDO = "COMANDO1BPM"; 
 
+      // Lista ordenada de patentes do servidor para o menu de promoção
+      const listaPatentes = [
+        "CMD. Geral",
+        "2º Tenente",
+        "Sub-Tenente",
+        "1º Sargento",
+        "2º Sargento",
+        "3º Sargento",
+        "Cabo",
+        "Soldado"
+      ];
+
       function carregarTabela() {
-        // Limpa linhas dinâmicas antigas
         document.querySelectorAll(".linha-dinamica").forEach(el => el.remove());
 
         const lista = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
@@ -101,22 +128,24 @@
           'RPM': '#1a4a75', 'SPEED': '#236b43', 'GTM': '#4a354f', 'GRA': '#5c3a21', 'SWAT': '#2d3748'
         };
 
-        // Adiciona um por um
         lista.forEach((membro, index) => {
           const corUnidade = cores[membro.unidade.toUpperCase()] || '#4a5568';
           
           const htmlLinha = `
             <tr class="linha-dinamica" style="text-align:center !important; background-color:#141923 !important;">
               <td style="padding:8px !important; border:1px solid #232b3c !important; color:#718096 !important;">${membro.id}</td>
-              <td style="padding:8px !important; border:1px solid #232b3c !important; text-align:left !important; font-weight:bold !important;">
-                <div class="nome-container">
-                  <span>${membro.nome}</span>
-                  <button class="btn-excluir" onclick="removerMembro(${index})">X</button>
+              <td style="padding:8px !important; border:1px solid #232b3c !important; text-align:left !important; font-weight:bold !important;">${membro.nome}</td>
+              <td style="padding:8px !important; border:1px solid #232b3c !important; color:#a0aec0 !important;">${membro.badge}</td>
+              <td style="padding:8px !important; border:1px solid #232b3c !important; color:#f0a500 !important; font-weight:bold !important;">${membro.patente}</td>
+              <td style="padding:8px !important; border:1px solid #232b3c !important; background-color:${corUnidade} !important; color:#ffffff !important; font-weight:bold !important;">${membro.unidade}</td>
+              
+              <td style="padding:4px !important; border:1px solid #232b3c !important;">
+                <div class="botoes-grupo">
+                  <button class="btn-acoes btn-promover" onclick="promoverMembro(${index})" title="Promover / Alterar Patente">⬆ Promover</button>
+                  <button class="btn-acoes" onclick="removerMembro(${index})" title="Demitir do Efetivo">X</button>
                 </div>
               </td>
-              <td style="padding:8px !important; border:1px solid #232b3c !important; color:#a0aec0 !important;">${membro.badge}</td>
-              <td style="padding:8px !important; border:1px solid #232b3c !important;">${membro.patente}</td>
-              <td style="padding:8px !important; border:1px solid #232b3c !important; background-color:${corUnidade} !important; color:#ffffff !important; font-weight:bold !important;">${membro.unidade}</td>
+
               <td style="border:1px solid #232b3c !important; color:#4a5568 !important;">☐</td>
               <td style="border:1px solid #232b3c !important; color:#4a5568 !important;">☐</td>
               <td style="border:1px solid #232b3c !important; color:#4a5568 !important;">☐</td>
@@ -128,7 +157,7 @@
           `;
 
           const p = membro.patente.toLowerCase();
-          let alvo = document.getElementById("secao-sargentos"); // Padrão: vai para praças
+          let alvo = document.getElementById("secao-sargentos"); 
 
           if (p.includes("geral") || p.includes("tenente") || p.includes("sub-tenente")) {
             alvo = document.getElementById("secao-alto-comando");
@@ -142,6 +171,43 @@
         });
       }
 
+      // COMANDO DE PROMOÇÃO COMPLETO
+      window.promoverMembro = function(index) {
+        const senha = prompt("Digite a senha de Comando para gerenciar patentes:");
+        
+        if (senha === SENHA_COMANDO) {
+          let lista = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
+          const membroAtual = lista[index];
+
+          // Monta o menu de opções numerado com as patentes disponíveis
+          let mensagemMenu = `Promovendo o Policial: ${membroAtual.nome}\nPatente Atual: ${membroAtual.patente}\n\nEscolha o número da nova Patente:\n`;
+          listaPatentes.forEach((patente, i) => {
+            mensagemMenu += `${i + 1} - ${patente}\n`;
+          });
+
+          const escolha = prompt(mensagemMenu);
+          const numeroEscolhido = parseInt(escolha);
+
+          // Valida se a escolha digitada existe na lista
+          if (numeroEscolhido >= 1 && numeroEscolhido <= listaPatentes.length) {
+            const novaPatente = listaPatentes[numeroEscolhido - 1];
+            
+            // Aplica a nova patente e salva
+            lista[index].patente = novaPatente;
+            localStorage.setItem("efetivoMembros", JSON.stringify(lista));
+            
+            // Recarrega e move automaticamente o membro para a nova seção correta
+            carregarTabela();
+            alert(`Sucesso! ${membroAtual.nome} foi atualizado para ${novaPatente}.`);
+          } else if (escolha !== null) {
+            alert("Opção inválida! Nenhuma alteração foi realizada.");
+          }
+        } else if (senha !== null) {
+          alert("Senha incorreta!");
+        }
+      };
+
+      // COMANDO DE DEMISSÃO
       window.removerMembro = function(index) {
         const senha = prompt("Digite a senha de Comando para demitir:");
         if (senha === SENHA_COMANDO) {
@@ -152,7 +218,7 @@
             carregarTabela();
             alert("Removido!");
           }
-        } else {
+        } else if (senha !== null) {
           alert("Senha incorreta!");
         }
       };
