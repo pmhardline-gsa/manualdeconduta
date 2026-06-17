@@ -51,7 +51,7 @@
       <td style="padding:8px !important; border:1px solid #232b3c !important; text-align:left !important; font-weight:bold !important; background-color:#141923 !important;">Nomad Gorbatchev</td>
       <td style="padding:8px !important; border:1px solid #232b3c !important; color:#a0aec0 !important; background-color:#141923 !important;">400</td>
       <td style="padding:8px !important; border:1px solid #232b3c !important; color:#f0a500 !important; font-weight:bold !important; background-color:#141923 !important;">CMD.GSA</td>
-      <td style="padding:8px !important; border:1px solid #232b3c !important; background-color:#1a4a75 !important; font-weight:bold !important; color:#ffffff !important;">RPM</td>
+      <td style="padding:8px !important; border:1px solid #232b3c !important; background-color:#1a4a75 !important; font-weight:bold !important; color:#ffffff !important;">GSA</td>
       <td style="border:1px solid #232b3c !important; color:#4df14d !important; background-color:#141923 !important;">☑</td>
       <td style="border:1px solid #232b3c !important; color:#4df14d !important; background-color:#141923 !important;">☑</td>
       <td style="border:1px solid #232b3c !important; color:#4df14d !important; background-color:#141923 !important;">☑</td>
