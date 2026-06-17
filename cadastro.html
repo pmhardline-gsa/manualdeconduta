@@ -13,33 +13,32 @@
     <select name="Patente" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white; border-radius: 4px;">
         <option value="" disabled selected>Selecione a Patente</option>
         
-        <optgroup label="--- CADEIA DE COMANDO ---" style="color: #f0a500;">
-            <option value="COMANDO">COMANDO</option>
-            <option value="SUB-COMANDO">SUB-COMANDO</option>
+        <optgroup label="CADEIA DE COMANDO" style="color: #f0a500;">
+            <option value="Alto Comando">Alto Comando</option>
+            <option value="Comando">Comando</option>
+            <option value="Sub-Comando">Sub-Comando</option>
         </optgroup>
 
-        <optgroup label="--- QUADRO DE PILOTOS ---" style="color: #f0a500;">
-            <option value="Piloto Veterano">1. Piloto Veterano</option>
-            <option value="Piloto Sênior">2. Piloto Sênior</option>
-            <option value="Piloto Oficial">3. Piloto Oficial</option>
-            <option value="Piloto Estagiário">4. Piloto Estagiário</option>
-            <option value="Aspirante a Piloto">5. Aspirante a Piloto</option>
+        <optgroup label="QUADRO DE PILOTOS" style="color: #f0a500;">
+            <option value="Piloto Veterano">Piloto Veterano</option>
+            <option value="Piloto Sênior">Piloto Sênior</option>
+            <option value="Piloto Oficial">Piloto Oficial</option>
+            <option value="Piloto Estagiário">Piloto Estagiário</option>
+            <option value="Aspirante a Piloto">Aspirante a Piloto</option>
         </optgroup>
         
-        <optgroup label="--- QUADRO DE OPERADORES ---" style="color: #f0a500;">
-            <option value="Operador Veterano">1. Operador Veterano</option>
-            <option value="Operador Sênior">2. Operador Sênior</option>
-            <option value="Operador Oficial">3. Operador Oficial</option>
-            <option value="Tripulante Operacional">4. Tripulante Operacional</option>
-            <option value="Aspirante Operador">5. Aspirante Operador</option>
+        <optgroup label="QUADRO DE OPERADORES" style="color: #f0a500;">
+            <option value="Operador Veterano">Operador Veterano</option>
+            <option value="Operador Sênior">Operador Sênior</option>
+            <option value="Operador Oficial">Operador Oficial</option>
+            <option value="Tripulante Operacional">Tripulante Operacional</option>
+            <option value="Aspirante Operador">Aspirante Operador</option>
         </optgroup>
     </select>
     
     <input type="password" id="senha" placeholder="Senha de acesso" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white; border-radius: 4px;">
     
     <button type="submit" id="btn" style="padding: 12px; background: #f0a500; border: none; font-weight: bold; cursor: pointer; border-radius: 4px; color: black;">Cadastrar Oficial</button>
-    
-    <a href="LINK_DA_SUA_PLANILHA" target="_blank" style="text-align: center; color: #777; text-decoration: none; font-size: 13px;">Voltar para a Planilha</a>
     
     <div id="msg" style="text-align: center; font-weight: bold; min-height: 20px;"></div>
   </form>
@@ -48,7 +47,7 @@
     document.getElementById('meuForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      const senhaCorreta = "123456"; // Altere para sua senha
+      const senhaCorreta = "123456"; // Altere para a sua senha
       const senhaDigitada = document.getElementById('senha').value;
       const msg = document.getElementById('msg');
       const btn = document.getElementById('btn');
@@ -64,15 +63,22 @@
       msg.style.color = "#f0a500";
       
       const formData = new FormData(e.target);
-      await fetch('https://api.sheetmonkey.io/form/uNobqNddXgQBDmBA4hVzMF', {
-        method: 'POST',
-        body: formData
-      });
+      
+      try {
+        await fetch('https://api.sheetmonkey.io/form/uNobqNddXgQBDmBA4hVzMF', {
+          method: 'POST',
+          body: formData
+        });
 
-      msg.textContent = "Cadastro concluído com sucesso!";
-      msg.style.color = "#4CAF50";
+        msg.textContent = "Cadastro concluído com sucesso!";
+        msg.style.color = "#4CAF50";
+        e.target.reset();
+      } catch (error) {
+        msg.textContent = "Erro ao conectar.";
+        msg.style.color = "#ff4d4d";
+      }
+      
       btn.disabled = false;
-      e.target.reset();
     });
   </script>
 </body>
