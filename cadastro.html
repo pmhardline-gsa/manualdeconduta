@@ -152,7 +152,45 @@
 
     <a href="membros.html" class="btn-back">⬅ Voltar para a Planilha</a>
   </div>
+<script>
+  // COLOQUE A SUA SENHA DO COMANDO AQUI (Entre as aspas)
+  const SENHA_CORRETA = "COMANDO1BPM"; 
 
+  // Executa assim que a página carrega
+  document.addEventListener("DOMContentLoaded", function() {
+    const senhaDigitada = prompt("Digite a senha de Comando para acessar o cadastro:");
+
+    if (senhaDigitada !== SENHA_CORRETA) {
+      alert("Acesso negado! Apenas o Comando pode cadastrar membros.");
+      window.location.href = "membros.html"; // Joga o invasor de volta para a lista
+    }
+  });
+
+  // Mantém a função de salvar os dados caso a senha esteja certa
+  document.getElementById("form-cadastro").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const novoMembro = {
+      id: document.getElementById("id-membro").value,
+      nome: document.getElementById("nome-membro").value,
+      badge: document.getElementById("badge-membro").value || "-",
+      patente: document.getElementById("patente-membro").value,
+      unidade: document.getElementById("unidade-membro").value
+    };
+
+    let membrosExistentes = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
+    membrosExistentes.push(novoMembro);
+    localStorage.setItem("efetivoMembros", JSON.stringify(membrosExistentes));
+
+    const msg = document.getElementById("msg-sucesso");
+    msg.style.display = "block";
+    document.getElementById("form-cadastro").reset();
+
+    setTimeout(() => {
+      msg.style.display = "none";
+    }, 3000);
+  });
+</script>
   <!-- SCRIPT QUE FAZ A GRAVAÇÃO DOS DADOS -->
   <script>
     document.getElementById("form-cadastro").addEventListener("submit", function(e) {
