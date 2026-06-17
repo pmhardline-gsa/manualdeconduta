@@ -26,7 +26,7 @@
       width: 100%;
       max-width: 500px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-      display: none; /* Esconde o formulário até a senha ser validada */
+      display: none;
     }
     h2 {
       color: #f0a500;
@@ -69,7 +69,6 @@
       font-size: 16px;
       border-radius: 4px;
       cursor: pointer;
-      transition: background 0.2s;
     }
     .btn-submit:hover {
       background-color: #b8860b;
@@ -81,9 +80,6 @@
       color: #718096;
       text-decoration: none;
       font-size: 14px;
-    }
-    .btn-back:hover {
-      color: #ffffff;
     }
     .success-msg {
       background-color: #236b43;
@@ -101,7 +97,6 @@
 
   <div class="container" id="conteudo-cadastro">
     <h2>Ficha de Cadastro Operacional</h2>
-    
     <div id="msg-sucesso" class="success-msg">Membro cadastrado com sucesso!</div>
 
     <form id="form-cadastro">
@@ -109,21 +104,18 @@
         <label for="id-membro">ID do Policial</label>
         <input type="number" id="id-membro" required placeholder="Ex: 88">
       </div>
-
       <div class="form-group">
         <label for="nome-membro">Nome Operacional</label>
         <input type="text" id="nome-membro" required placeholder="Ex: Gabriel Rodrigues">
       </div>
-
       <div class="form-group">
         <label for="badge-membro">Número da Badge</label>
-        <input type="number" id="badge-membro" placeholder="Ex: 712 (Deixe vazio se não tiver)">
+        <input type="text" id="badge-membro" placeholder="Ex: 712">
       </div>
-
       <div class="form-group">
         <label for="patente-membro">Patente</label>
         <select id="patente-membro" required>
-          <option value="" disabled selected>Selecione a patente...</option>
+          <option value="" disabled selected>Selecione...</option>
           <option value="CMD. Geral">CMD. Geral</option>
           <option value="2º Tenente">2º Tenente</option>
           <option value="Sub-Tenente">Sub-Tenente</option>
@@ -134,53 +126,38 @@
           <option value="Soldado">Soldado</option>
         </select>
       </div>
-
       <div class="form-group">
         <label for="unidade-membro">Unidade / Grupamento</label>
         <select id="unidade-membro" required>
-          <option value="" disabled selected>Selecione o grupamento...</option>
+          <option value="" disabled selected>Selecione...</option>
           <option value="RPM">RPM</option>
           <option value="SPEED">SPEED</option>
           <option value="GTM">GTM</option>
           <option value="GRA">GRA</option>
           <option value="SWAT">SWAT</option>
-          <option value="CMD SPEED">CMD SPEED</option>
-          <option value="CMD GTM">CMD GTM</option>
-          <option value="CMD GRA">CMD GRA</option>
-          <option value="CMD SWAT">CMD SWAT</option>
         </select>
       </div>
-
       <button type="submit" class="btn-submit">Inserir no Efetivo</button>
     </form>
-
     <a href="membros.html" class="btn-back">⬅ Voltar para a Planilha</a>
   </div>
 
-  <!-- SCRIPT DE VALIDAÇÃO E SALVAMENTO -->
   <script>
-    // DEFINE A SENHA DO COMANDO AQUI (Altere o texto dentro das aspas como quiser)
     const SENHA_CORRETA = "COMANDO1BPM"; 
 
-    // Sistema de trava por senha antes de carregar a tela
     document.addEventListener("DOMContentLoaded", function() {
       const senhaDigitada = prompt("Digite a senha de Comando para acessar o cadastro:");
-
       if (senhaDigitada === SENHA_CORRETA) {
-        // Se a senha estiver certa, mostra o formulário na tela
         document.getElementById("conteudo-cadastro").style.display = "block";
       } else {
-        // Se a senha estiver errada, avisa e expulsa da página
-        alert("Acesso negado! Apenas o Comando da unidade pode cadastrar novos membros.");
+        alert("Acesso negado!");
         window.location.href = "membros.html";
       }
     });
 
-    // Processamento do envio do formulário
     document.getElementById("form-cadastro").addEventListener("submit", function(e) {
-      e.preventDefault(); // Evita o recarregamento padrão da página
+      e.preventDefault();
 
-      // Monta o objeto com os dados inseridos
       const novoMembro = {
         id: document.getElementById("id-membro").value,
         nome: document.getElementById("nome-membro").value,
@@ -189,26 +166,15 @@
         unidade: document.getElementById("unidade-membro").value
       };
 
-      // Carrega a memória atual ou cria uma nova estrutura vazia
-      let membrosExistentes = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
-      
-      // Adiciona o novo policial à lista
-      membrosExistentes.push(novoMembro);
-      
-      // Salva de volta no LocalStorage do navegador
-      localStorage.setItem("efetivoMembros", JSON.stringify(membrosExistentes));
+      let lista = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
+      lista.push(novoMembro);
+      localStorage.setItem("efetivoMembros", JSON.stringify(lista));
 
-      // Exibe a barra verde de confirmação
       const msg = document.getElementById("msg-sucesso");
       msg.style.display = "block";
-      
-      // Reseta os campos para o próximo cadastro
       document.getElementById("form-cadastro").reset();
 
-      // Oculta o aviso de sucesso após 3 segundos
-      setTimeout(() => {
-        msg.style.display = "none";
-      }, 3000);
+      setTimeout(() => { msg.style.display = "none"; }, 3000);
     });
   </script>
 </body>
