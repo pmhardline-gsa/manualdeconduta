@@ -1,61 +1,71 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
     <style>
-        body { background: #0b0e14; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; }
-        .tab-btn { background: #1c2434; border: 1px solid #f0a500; color: white; padding: 10px 20px; cursor: pointer; }
+        body { background: #0b0e14; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; }
+        .tab-btn { background: #1c2434; border: 1px solid #f0a500; color: #f0a500; padding: 10px 20px; cursor: pointer; border-radius: 4px; }
+        .tab-btn:hover { background: #f0a500; color: #000; }
         .box { background: #141923; padding: 25px; border-radius: 8px; border: 1px solid #232b3c; width: 350px; margin-top: 20px; }
-        input, select { width: 100%; padding: 10px; margin: 8px 0; background: #0b0e14; border: 1px solid #232b3c; color: white; }
-        button { width: 100%; padding: 10px; background: #f0a500; border: none; font-weight: bold; cursor: pointer; }
+        input, select { width: 100%; padding: 12px; margin: 8px 0; background: #0b0e14; border: 1px solid #232b3c; color: white; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #f0a500; border: none; font-weight: bold; cursor: pointer; color: black; border-radius: 4px; }
+        .checkbox-group { display: flex; justify-content: space-between; padding: 10px; background: #0b0e14; border-radius: 4px; margin: 10px 0; font-size: 14px; }
     </style>
 </head>
 <body>
 
-<div style="margin-top:20px;">
-    <button class="tab-btn" onclick="show('cad')">Novo Cadastro</button>
-    <button class="tab-btn" onclick="show('gerir')">Gerir Efetivo</button>
-</div>
-
-<div id="cad" class="box">
-    <h3>Cadastrar Oficial</h3>
-    <input type="number" placeholder="ID" id="cID">
-    <input type="text" placeholder="Nome" id="cNome">
-    <input type="number" placeholder="Badge" id="cBadge">
-    <select id="cUnidade"><option>GSA</option><option>RPM</option><option>SWAT</option><option>SPEED</option></select>
-    <select id="cPatente">
-        <option>Alto Comando</option><option>Comando</option><option>Sub-Comando</option>
-        <option>1º Sargento</option><option>2º Sargento</option><option>3º Sargento</option>
-    </select>
-    <button onclick="cadastrar()">Registrar</button>
-</div>
-
-<div id="gerir" class="box" style="display:none;">
-    <h3>Gerir Efetivo</h3>
-    <input type="number" id="gID" placeholder="Digite o ID" onblur="buscarNome()">
-    <div id="gNome" style="color:#f0a500; font-weight:bold; margin-bottom:10px;"></div>
-    
-    <select id="gPatente">
-        <option>Alto Comando</option><option>Comando</option><option>Sub-Comando</option>
-        <option>1º Sargento</option><option>2º Sargento</option><option>3º Sargento</option>
-    </select>
-    
-    <div style="font-size: 12px; margin: 10px 0;">
-        <input type="checkbox" id="adv1"> ADV 1 | <input type="checkbox" id="adv2"> ADV 2 | <input type="checkbox" id="adv3"> ADV 3
+    <div style="margin-top:20px;">
+        <button class="tab-btn" onclick="show('cad')">Novo Cadastro</button>
+        <button class="tab-btn" onclick="show('gerir')">Gerir Efetivo</button>
     </div>
-    <button onclick="salvarAlteracao()">Salvar Alterações</button>
-</div>
 
-<script>
-function show(id) {
-    document.getElementById('cad').style.display = id == 'cad' ? 'block' : 'none';
-    document.getElementById('gerir').style.display = id == 'gerir' ? 'block' : 'none';
-}
+    <div id="cad" class="box">
+        <h3 style="color:#f0a500; text-align:center;">Cadastrar Oficial</h3>
+        <input type="number" id="cID" placeholder="ID">
+        <input type="text" id="cNome" placeholder="Nome">
+        <button onclick="alert('Use seu link SheetMonkey no formulário HTML')">Cadastrar</button>
+    </div>
 
-function buscarNome() {
-    const id = document.getElementById('gID').value;
-    // Aqui você chamaria o google.script.run para buscar o nome na planilha pelo ID
-    document.getElementById('gNome').innerText = "Nome encontrado: Exemplo"; 
-}
-</script>
+    <div id="gerir" class="box" style="display:none;">
+        <h3 style="color:#f0a500; text-align:center;">Gerir Efetivo</h3>
+        <input type="number" id="gID" placeholder="Digite o ID do Oficial" onblur="buscar()">
+        <div id="gNome" style="color:#f0a500; font-weight:bold; margin-bottom:10px; text-align:center;"></div>
+        
+        <label>Nova Patente:</label>
+        <select id="gPatente">
+            <option>Alto Comando</option><option>Comando</option><option>Sub-Comando</option>
+            <option>Piloto Veterano</option><option>Piloto Sênior</option><option>Piloto Oficial</option>
+            <option>Piloto Estagiário</option><option>Aspirante a Piloto</option>
+            <option>Operador Veterano</option><option>Operador Sênior</option><option>Operador Oficial</option>
+            <option>Tripulante Operacional</option><option>Aspirante Operador</option>
+        </select>
+        
+        <div class="checkbox-group">
+            <label><input type="checkbox" id="adv1"> ADV 1</label>
+            <label><input type="checkbox" id="adv2"> ADV 2</label>
+            <label><input type="checkbox" id="adv3"> ADV 3</label>
+        </div>
+        <button onclick="salvar()">Salvar Alterações</button>
+    </div>
+
+    <script>
+        function show(id) {
+            document.getElementById('cad').style.display = id == 'cad' ? 'block' : 'none';
+            document.getElementById('gerir').style.display = id == 'gerir' ? 'block' : 'none';
+        }
+        function buscar() {
+            const id = document.getElementById('gID').value;
+            google.script.run.withSuccessHandler(nome => {
+                document.getElementById('gNome').innerText = "Oficial: " + nome;
+            }).buscarNomePorId(id);
+        }
+        function salvar() {
+            const id = document.getElementById('gID').value;
+            const pat = document.getElementById('gPatente').value;
+            const a1 = document.getElementById('adv1').checked;
+            const a2 = document.getElementById('adv2').checked;
+            const a3 = document.getElementById('adv3').checked;
+            google.script.run.withSuccessHandler(msg => alert(msg)).salvarAlteracao(id, pat, a1, a2, a3);
+        }
+    </script>
 </body>
 </html>
