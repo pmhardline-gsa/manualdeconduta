@@ -3,297 +3,77 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Efetivo - PMHL-GSA</title>
+  <title>Efetivo PMHL-GSA - Centralizado</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   <style>
-    body {
-      background-color: #0f131a;
-      color: #ffffff;
-      font-family: sans-serif;
-      margin: 20px;
-    }
-    .btn-cadastro {
-      background-color: #f0a500;
-      color: #000000;
-      padding: 10px 20px;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 4px;
-      display: inline-block;
-      margin-bottom: 20px;
-    }
-    .btn-cadastro:hover {
-      background-color: #b8860b;
-    }
-    .btn-acoes {
-      background: #ff4d4d;
-      color: white;
-      border: none;
-      padding: 4px 8px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 11px;
-      font-weight: bold;
-      margin-left: 5px;
-      transition: background 0.2s;
-    }
-    .btn-acoes:hover {
-      background: #cc3333;
-    }
-    .btn-gerenciar {
-      background: #2b6cb0;
-      color: #ffffff;
-    }
-    .btn-gerenciar:hover {
-      background: #2b5296;
-    }
-    .botoes-grupo {
-      display: flex;
-      gap: 5px;
-      justify-content: center;
-    }
-    .chk-tabela {
-      cursor: pointer;
-      width: 16px;
-      height: 16px;
-      accent-color: #f0a500;
-      margin: 0 auto;
-      display: block;
-    }
-    .chk-adv {
-      accent-color: #ff4d4d;
-    }
+    body { background-color: #0f131a; color: #ffffff; font-family: sans-serif; padding: 20px; }
+    h1 { color: #f0a500; text-align: center; border-bottom: 2px solid #232b3c; padding-bottom: 10px; }
+    
+    table { width: 100%; border-collapse: collapse; background-color: #141923; margin-top: 20px; }
+    th { background-color: #1c2434; color: #f0a500; padding: 15px; border: 1px solid #232b3c; font-size: 14px; }
+    td { border: 1px solid #232b3c; padding: 12px; text-align: center; color: #e2e8f0; font-size: 13px; }
+    
+    .status-online { color: #48bb78; font-weight: bold; font-size: 11px; margin-top: 5px; }
   </style>
 </head>
 <body>
 
-  <a href="cadastro.html" class="btn-cadastro">+ Cadastrar Novo Membro</a>
+  <h1>Cadeia de Comando e Hierarquia - PMHL-GSA</h1>
+  <div style="text-align: center;" class="status-online">● Sincronizado com a Planilha Oficial</div>
 
-  <table style="width:100% !important; border-collapse:collapse !important; background-color:#141923 !important; color:#ffffff !important; font-size:13px !important; border: 1px solid #232b3c !important;">
+  <table id="tabela-efetivo">
     <thead>
-      <tr style="background-color:#1c2434 !important;">
-        <th colspan="15" style="padding:15px !important; text-align:center !important; color:#f0a500 !important; font-size:22px !important; font-weight:bold !important; letter-spacing:2px !important; border-bottom:2px solid #232b3c !important;">
-          CADEIA DE COMANDO E HIERARQUIA OPERACIONAL - PMHL-GSA
-        </th>
-      </tr>
-      <tr style="background-color:#1a2232 !important; text-align:center !important; font-weight:bold !important; color:#f0a500 !important; border-bottom:1px solid #232b3c !important;">
-        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:5% !important;">ID</th>
-        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:20% !important; text-align:left !important;">NOME</th>
-        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:6% !important;">BADGE</th>
-        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:16% !important;">PATENTE / CARGO</th>
-        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:10% !important;">UNIDADE</th>
-        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:12% !important; color:#ffffff !important;">ATUALIZADO EM</th>
-        <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:11% !important; color:#ffffff !important;">AÇÕES</th>
-        <th colspan="4" style="padding:5px !important; border:1px solid #232b3c !important; background-color:#b8860b !important; color:#000000 !important;">CURSOS</th>
-        <th colspan="3" style="padding:5px !important; border:1px solid #232b3c !important; color:#ff4d4d !important;">ADVERTÊNCIAS</th>
-      </tr>
-      <tr style="background-color:#242f44 !important; text-align:center !important; font-size:11px !important; color:#ffffff !important;">
-        <th style="padding:5px !important; border:1px solid #232b3c !important; background-color:#d4af37 !important; color:#000000 !important;">AB</th>
-        <th style="padding:5px !important; border:1px solid #232b3c !important; background-color:#d4af37 !important; color:#000000 !important;">AC</th>
-        <th style="padding:5px !important; border:1px solid #232b3c !important; background-color:#d4af37 !important; color:#000000 !important;">CO</th>
-        <th style="padding:5px !important; border:1px solid #232b3c !important; background-color:#d4af37 !important; color:#000000 !important;">TB</th>
-        <th style="padding:5px !important; border:1px solid #232b3c !important; color:#ff4d4d !important;">ADV 1</th>
-        <th style="padding:5px !important; border:1px solid #232b3c !important; color:#ff4d4d !important;">ADV 2</th>
-        <th style="padding:5px !important; border:1px solid #232b3c !important; color:#ff4d4d !important;">ADV 3</th>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Badge</th>
+        <th>Patente</th>
+        <th>Unidade</th>
       </tr>
     </thead>
-    
-    <tbody id="tabela-linhas">
-      <tr id="secao-alta-lideranca" style="background-color:#222b3d !important; font-weight:bold !important; color:#f0a500 !important; text-align:center !important; letter-spacing: 1px;">
-        <td colspan="15" style="padding:8px !important; border:1px solid #232b3c !important;">DIREÇÃO / CADEIA DE COMANDO</td>
-      </tr>
-      <tr id="secao-pilotos" style="background-color:#1a365d !important; font-weight:bold !important; color:#63b3ed !important; text-align:center !important; letter-spacing: 1px;">
-        <td colspan="15" style="padding:8px !important; border:1px solid #232b3c !important;">QUADRO DE PILOTOS (Linha de Voo / Manche)</td>
-      </tr>
-      <tr id="secao-operadores" style="background-color:#234e52 !important; font-weight:bold !important; color:#68d391 !important; text-align:center !important; letter-spacing: 1px;">
-        <td colspan="15" style="padding:8px !important; border:1px solid #232b3c !important;">QUADRO DE OPERADORES (Atiradores / Tripulação)</td>
-      </tr>
+    <tbody id="corpo-tabela">
+      <tr><td colspan="5">Carregando dados da central...</td></tr>
     </tbody>
   </table>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const SENHA_COMANDO = "COMANDO1BPM"; 
+    // Link da sua planilha publicado como CSV
+    const URL_PLANILHA = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
 
-      const listaPatentes = [
-        "Alto Comando",
-        "Comando",
-        "Sub Comando",
-        "Piloto Veterano",
-        "Piloto Sênior",
-        "Piloto Oficial",
-        "Piloto Estagiário",
-        "Aspirante a Piloto *",
-        "Operador Veterano",
-        "Operador Sênior",
-        "Operador Oficial",
-        "Tripulante Operacional",
-        "Aspirante Operador *"
-      ];
-
-      function carregarTabela() {
-        document.querySelectorAll(".linha-dinamica").forEach(el => el.remove());
-
-        let listaOriginal = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
-        
-        let listaMapeada = listaOriginal.map((membro, index) => {
-          let uni = membro.unidade ? membro.unidade.toUpperCase() : "GSA";
-          if (uni === "GRA" || uni === "") uni = "GSA";
-          return { ...membro, unidade: uni, indexOriginal: index };
-        });
-        
-        listaMapeada.sort((a, b) => {
-          let pesoA = listaPatentes.indexOf(a.patente);
-          let pesoB = listaPatentes.indexOf(b.patente);
-          if (pesoA === -1) pesoA = 99;
-          if (pesoB === -1) pesoB = 99;
-          return pesoB - pesoA; 
-        });
-
-        listaMapeada.forEach((membro) => {
-          const dataPromo = membro.ultimaPromocao || "Recém Cadastrado";
+    function carregarDados() {
+      Papa.parse(URL_PLANILHA, {
+        download: true,
+        header: true,
+        complete: function(results) {
+          const corpo = document.getElementById("corpo-tabela");
+          corpo.innerHTML = ""; // Limpa a tabela antes de atualizar
           
-          const ab = membro.ab ? 'checked' : '';
-          const ac = membro.ac ? 'checked' : '';
-          const co = membro.co ? 'checked' : '';
-          const tb = membro.tb ? 'checked' : '';
-          const adv1 = membro.adv1 ? 'checked' : '';
-          const adv2 = membro.adv2 ? 'checked' : '';
-          const adv3 = membro.adv3 ? 'checked' : '';
-
-          const htmlLinha = `
-            <tr class="linha-dinamica" style="text-align:center !important; background-color:#141923 !important;">
-              <td style="padding:8px !important; border:1px solid #232b3c !important; color:#718096 !important;">${membro.id}</td>
-              <td style="padding:8px !important; border:1px solid #232b3c !important; text-align:left !important; font-weight:bold !important;">${membro.nome}</td>
-              <td style="padding:8px !important; border:1px solid #232b3c !important; color:#a0aec0 !important;">${membro.badge}</td>
-              <td style="padding:8px !important; border:1px solid #232b3c !important; color:#ffffff !important; font-weight:bold !important;">${membro.patente}</td>
-              <td style="padding:8px !important; border:1px solid #232b3c !important; background-color:#5c3a21 !important; color:#ffffff !important; font-weight:bold !important;">GSA</td>
-              <td style="padding:8px !important; border:1px solid #232b3c !important; color:#cbd5e0 !important; font-size:12px !important;">${dataPromo}</td>
-              
-              <td style="padding:4px !important; border:1px solid #232b3c !important;">
-                <div class="botoes-grupo">
-                  <button class="btn-acoes btn-gerenciar" onclick="gerenciarMembro(${membro.indexOriginal})" title="Alterar Cargo ou Badge">⚙️ </button>
-                  <button class="btn-acoes" onclick="removerMembro(${membro.indexOriginal})" title="Demitir">X</button>
-                </div>
-              </td>
-
-              <td style="border:1px solid #232b3c !important;"><input type="checkbox" class="chk-tabela" ${ab} onclick="verificarSenhaCheck(event, ${membro.indexOriginal}, 'ab')"></td>
-              <td style="border:1px solid #232b3c !important;"><input type="checkbox" class="chk-tabela" ${ac} onclick="verificarSenhaCheck(event, ${membro.indexOriginal}, 'ac')"></td>
-              <td style="border:1px solid #232b3c !important;"><input type="checkbox" class="chk-tabela" ${co} onclick="verificarSenhaCheck(event, ${membro.indexOriginal}, 'co')"></td>
-              <td style="border:1px solid #232b3c !important;"><input type="checkbox" class="chk-tabela" ${tb} onclick="verificarSenhaCheck(event, ${membro.indexOriginal}, 'tb')"></td>
-              
-              <td style="border:1px solid #232b3c !important;"><input type="checkbox" class="chk-tabela chk-adv" ${adv1} onclick="verificarSenhaCheck(event, ${membro.indexOriginal}, 'adv1')"></td>
-              <td style="border:1px solid #232b3c !important;"><input type="checkbox" class="chk-tabela chk-adv" ${adv2} onclick="verificarSenhaCheck(event, ${membro.indexOriginal}, 'adv2')"></td>
-              <td style="border:1px solid #232b3c !important;"><input type="checkbox" class="chk-tabela chk-adv" ${adv3} onclick="verificarSenhaCheck(event, ${membro.indexOriginal}, 'adv3')"></td>
-            </tr>
-          `;
-
-          const p = membro.patente.toLowerCase();
-          let alvo = document.getElementById("secao-operadores"); 
-
-          if (p === "alto comando" || p === "comando" || p === "sub comando") {
-            alvo = document.getElementById("secao-alta-lideranca");
-          } else if (p.includes("piloto")) {
-            alvo = document.getElementById("secao-pilotos");
-          }
-
-          if (alvo) {
-            alvo.insertAdjacentHTML('afterend', htmlLinha);
-          }
-        });
-      }
-
-      window.verificarSenhaCheck = function(event, index, campo) {
-        event.preventDefault(); 
-        const senha = prompt("Digite a senha de Comando para alterar cursos / advertências:");
-        if (senha === SENHA_COMANDO) {
-          let lista = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
-          if (lista[index]) {
-            lista[index][campo] = !lista[index][campo];
-            localStorage.setItem("efetivoMembros", JSON.stringify(lista));
-            carregarTabela();
-          }
-        } else if (senha !== null) {
-          alert("Senha incorreta!");
-        }
-      };
-
-      // FUNÇÃO ATUALIZADA: Agora gerencia tanto Patente quanto Número de Badge
-      window.gerenciarMembro = function(index) {
-        const senha = prompt("Digite a senha de Comando para gerenciar o efetivo:");
-        if (senha === SENHA_COMANDO) {
-          let lista = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
-          const membroAtual = lista[index];
-
-          // Sub-menu para escolher o que quer fazer
-          const operacao = prompt(`Policial selecionado: ${membroAtual.nome}\nBadge Atual: ${membroAtual.badge}\nPatente Atual: ${membroAtual.patente}\n\nEscolha o que deseja alterar:\n1 - Alterar Patente / Cargo\n2 - Alterar Número da Badge`);
-
-          if (operacao === "1") {
-            // Lógica antiga de alterar patente
-            let mensagemMenu = `Alterando o Posto de: ${membroAtual.nome}\n\nEscolha o número do NOVO POSTO:\n`;
-            listaPatentes.forEach((patente, i) => {
-              mensagemMenu += `${i + 1} - ${patente}\n`;
-            });
-
-            const escolha = prompt(mensagemMenu);
-            const numeroEscolhido = parseInt(escolha);
-
-            if (numeroEscolhido >= 1 && numeroEscolhido <= listaPatentes.length) {
-              const novaPatente = listaPatentes[numeroEscolhido - 1];
-              const dataAtual = new Date();
-              const dataFormatada = dataAtual.toLocaleDateString('pt-BR') + ' às ' + dataAtual.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
-
-              lista[index].patente = novaPatente;
-              lista[index].ultimaPromocao = dataFormatada;
-              
-              localStorage.setItem("efetivoMembros", JSON.stringify(lista));
-              carregarTabela();
-              alert(`Oficial ${membroAtual.nome} modificado para ${novaPatente}!`);
-            } else if (escolha !== null) {
-              alert("Opção inválida!");
+          results.data.forEach(membro => {
+            // Verifica se a linha tem conteúdo para não exibir linhas vazias
+            if (membro.Nome && membro.Nome.trim() !== "") {
+              corpo.innerHTML += `
+                <tr>
+                  <td>${membro.ID || '-'}</td>
+                  <td style="text-align: left; font-weight: bold;">${membro.Nome}</td>
+                  <td>${membro.Badge || '-'}</td>
+                  <td>${membro.Patente || '-'}</td>
+                  <td>${membro.Unidade || 'GSA'}</td>
+                </tr>
+              `;
             }
-
-          } else if (operacao === "2") {
-            // NOVA LÓGICA: Altera o número da badge
-            const novaBadge = prompt(`Digite a nova BADGE para o oficial ${membroAtual.nome}:`);
-            
-            if (novaBadge !== null && novaBadge.trim() !== "") {
-              const dataAtual = new Date();
-              const dataFormatada = dataAtual.toLocaleDateString('pt-BR') + ' às ' + dataAtual.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
-
-              lista[index].badge = novaBadge.trim();
-              lista[index].ultimaPromocao = dataFormatada; // Atualiza a hora para registrar a mudança
-              
-              localStorage.setItem("efetivoMembros", JSON.stringify(lista));
-              carregarTabela();
-              alert(`Badge do oficial ${membroAtual.nome} alterada para [ ${novaBadge} ] com sucesso!`);
-            } else if (novaBadge !== null) {
-              alert("Badge inválida!");
-            }
-          } else if (operacao !== null) {
-            alert("Opção inválida!");
-          }
-        } else if (senha !== null) {
-          alert("Senha incorreta!");
+          });
+        },
+        error: function(err) {
+          document.getElementById("corpo-tabela").innerHTML = "<tr><td colspan='5'>Erro ao carregar dados. Verifique o link.</td></tr>";
         }
-      };
+      });
+    }
 
-      window.removerMembro = function(index) {
-        const senha = prompt("Digite a senha de Comando para demitir:");
-        if (senha === SENHA_COMANDO) {
-          if (confirm("Deseja mesmo demitir este policial?")) {
-            let lista = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
-            lista.splice(index, 1);
-            localStorage.setItem("efetivoMembros", JSON.stringify(lista));
-            carregarTabela();
-            alert("Removido!");
-          }
-        } else if (senha !== null) {
-          alert("Senha incorreta!");
-        }
-      };
-
-      carregarTabela();
-    });
+    // Carrega os dados ao abrir a página
+    carregarDados();
+    
+    // Atualiza a tabela a cada 60 segundos automaticamente
+    setInterval(carregarDados, 60000); 
   </script>
 </body>
 </html>
