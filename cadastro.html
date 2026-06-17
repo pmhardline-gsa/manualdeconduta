@@ -16,12 +16,16 @@
   <form action="https://api.sheetmonkey.io/form/uNobqNddXgQBDmBA4hVzMF" method="POST">
     <h2 style="color: #f0a500; text-align: center;">Novo Cadastro</h2>
     
+    <!-- ID: Somente números -->
     <input type="number" name="ID" placeholder="ID (Apenas números)" required>
     
+    <!-- Nome -->
     <input type="text" name="Nome" placeholder="Nome do Policial" required>
     
+    <!-- Badge: Somente números -->
     <input type="number" name="Badge" placeholder="Número da Badge (Apenas números)" required>
     
+    <!-- Patente: Menu com opções -->
     <select name="Patente" required>
         <option value="" disabled selected>Selecione a Patente</option>
         <option value="CMD.GERAL">CMD.GERAL</option>
@@ -33,9 +37,11 @@
         <option value="SOLDADO">SOLDADO</option>
     </select>
     
+    <!-- Unidade -->
     <input type="text" name="Unidade" placeholder="Unidade" value="GSA" required>
     
-    <input type="hidden" name="x-redirect" value="https://pmhardline-gsa.github.io/manualdeconduta/membros.html">
+    <!-- Redirecionamento (Substitua o link abaixo pela sua página de membros) -->
+    <input type="hidden" name="x-redirect" value="https://seu-usuario.github.io/seu-repositorio/membros.html">
     
     <button type="submit">Cadastrar Oficial</button>
   </form>
