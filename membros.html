@@ -5,42 +5,133 @@
   <title>Efetivo PMHL-GSA - Centralizado</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   <style>
-    body { background-color: #0f131a; color: #ffffff; font-family: sans-serif; padding: 20px; }
-    h1 { color: #f0a500; text-align: center; border-bottom: 2px solid #232b3c; padding-bottom: 10px; }
-    table { width: 100%; border-collapse: collapse; background-color: #141923; margin-top: 20px; }
-    th { background-color: #1c2434; color: #f0a500; padding: 15px; border: 1px solid #232b3c; }
-    td { border: 1px solid #232b3c; padding: 12px; text-align: center; color: #e2e8f0; }
-    .btn-link { color: #f0a500; text-decoration: none; font-weight: bold; transition: 0.3s; }
-    .btn-link:hover { color: #d48e00; text-decoration: underline; }
+    body { 
+      background-color: #0b0e14; 
+      color: #ffffff; 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      padding: 30px 20px; 
+      margin: 0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1 { 
+      color: #f0a500; 
+      text-align: center; 
+      margin-bottom: 25px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .action-container {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .btn-link { 
+      display: inline-block;
+      color: #000000; 
+      background-color: #f0a500;
+      text-decoration: none; 
+      font-weight: bold; 
+      padding: 10px 24px;
+      border-radius: 50px;
+      box-shadow: 0 4px 10px rgba(240, 165, 0, 0.2);
+      transition: all 0.3s ease; 
+    }
+    .btn-link:hover { 
+      background-color: #d48e00; 
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(240, 165, 0, 0.3);
+    }
+    .table-wrapper {
+      background-color: #141923;
+      border: 1px solid #232b3c;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      text-align: left;
+    }
+    th { 
+      background-color: #1c2434; 
+      color: #f0a500; 
+      padding: 16px; 
+      font-size: 0.95em;
+      font-weight: 600;
+      border-bottom: 2px solid #232b3c;
+      text-align: center;
+    }
+    td { 
+      padding: 14px 16px; 
+      border-bottom: 1px solid #232b3c; 
+      text-align: center; 
+      color: #e2e8f0;
+      font-size: 0.95em;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    tr:hover td {
+      background-color: #1a202c;
+      color: #ffffff;
+    }
+    .badge-id {
+      font-weight: bold;
+      color: #f0a500;
+    }
   </style>
 </head>
 <body>
 
-  <h1>Cadeia de Comando - PMHL-GSA</h1>
-  
-  <div style="text-align: center;">
-    <a href="https://script.google.com/macros/s/AKfycbxYTcABsSdVR88Pk4D_t7TVdABWQBfI11zL_IUFAbMq0C1IBBPtcA9ACVp7Lo8nVes/exec" target="_blank" class="btn-link">+ Novo Cadastro</a>
-  </div>
+  <div class="container">
+    <h1>Cadeia de Comando - PMHL-GSA</h1>
+    
+    <div class="action-container">
+      <a href="https://script.google.com/macros/s/AKfycbxYTcABsSdVR88Pk4D_t7TVdABWQBfI11zL_IUFAbMq0C1IBBPtcA9ACVp7Lo8nVes/exec" target="_blank" class="btn-link">+ Novo Cadastro</a>
+    </div>
 
-  <table id="tabela-efetivo">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nome</th>
-        <th>Badge</th>
-        <th>Patente</th>
-        <th>Unidade</th>
-        <th>Advertências</th>
-        <th>Cursos</th>
-      </tr>
-    </thead>
-    <tbody id="corpo-tabela">
-      <tr><td colspan="7">Carregando dados...</td></tr>
-    </tbody>
-  </table>
+    <div class="table-wrapper">
+      <table id="tabela-efetivo">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Badge</th>
+            <th>Patente</th>
+            <th>Unidade</th>
+            <th>Advertências</th>
+            <th>Cursos</th>
+          </tr>
+        </thead>
+        <tbody id="corpo-tabela">
+          <tr><td colspan="7">Carregando dados do efetivo...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
   <script>
     const URL_PLANILHA = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
+
+    // Definição da hierarquia de patentes com seus respectivos pesos (quanto menor o número, maior a patente)
+    const hierarquiaPatentes = {
+      "ALTO COMANDO": 1,
+      "COMANDO": 2,
+      "SUB-COMANDO": 3,
+      "PILOTO VETERANO": 4,
+      "PILOTO SÊNIOR": 5,
+      "PILOTO OFICIAL": 6,
+      "PILOTO ESTAGIÁRIO": 7,
+      "ASPIRANTE A PILOTO": 8,
+      "OPERADOR VETERANO": 9,
+      "OPERADOR SÊNIOR": 10,
+      "OPERADOR OFICIAL": 11,
+      "TRIPULANTE OPERACIONAL": 12,
+      "ASPIRANTE OPERADOR": 13
+    };
 
     function carregarDados() {
       Papa.parse(URL_PLANILHA, {
@@ -50,30 +141,54 @@
           const corpo = document.getElementById("corpo-tabela");
           corpo.innerHTML = "";
           
-          results.data.forEach(membro => {
-            if (membro.Nome && membro.Nome.trim() !== "") {
-              const advs = membro["Advertências"] || "";
-              const cursos = membro["Cursos"] || "";
-              
-              corpo.innerHTML += `
-                <tr>
-                  <td>${membro.ID}</td>
-                  <td>${membro.Nome}</td>
-                  <td>${membro.Badge}</td>
-                  <td>${membro.Patente}</td>
-                  <td>${membro.Unidade}</td>
-                  <td>${advs}</td>
-                  <td>${cursos}</td>
-                </tr>`;
-            }
+          // Filtra linhas válidas e limpa strings vazias
+          let membrosValidos = results.data.filter(membro => membro.Nome && membro.Nome.trim() !== "");
+
+          // Ordena os membros com base no peso da patente definido na hierarquia
+          membrosValidos.sort((a, b) => {
+            let patenteA = (a.Patente || "").toUpperCase().trim();
+            let patenteB = (b.Patente || "").toUpperCase().trim();
+            
+            let pesoA = hierarquiaPatentes[patenteA] || 99;
+            let pesoB = hierarquiaPatentes[patenteB] || 99;
+            
+            return pesoA - pesoB;
           });
           
-          if(corpo.innerHTML === "") {
-            corpo.innerHTML = `<tr><td colspan="7">Nenhum registro encontrado.</td></tr>`;
+          membrosValidos.forEach(membro => {
+            const advs = membro["Advertências"] || "";
+            const cursos = membro["Cursos"] || "";
+            
+            // Padroniza visualmente a exibição da patente para evitar tudo em maiúsculo textualmente, exceto abreviações
+            let patenteFormatada = membro.Patente || "";
+            let patenteUpper = patenteFormatada.toUpperCase().trim();
+            
+            if (patenteUpper === "COMANDO" || patenteUpper === "SUB-COMANDO" || patenteUpper === "ALTO COMANDO") {
+              // Mantém o padrão capitalizado correto
+              if (patenteUpper === "SUB-COMANDO") patenteFormatada = "Sub-Comando";
+              else if (patenteUpper === "ALTO COMANDO") patenteFormatada = "Alto Comando";
+              else patenteFormatada = "Comando";
+            }
+
+            corpo.innerHTML += `
+              <tr>
+                <td class="badge-id">${membro.ID}</td>
+                <td style="text-align: left; padding-left: 25px; font-weight: 500;">${membro.Nome}</td>
+                <td>${membro.Badge || "-"}</td>
+                <td style="font-weight: 500;">${patenteFormatada}</td>
+                <td>${membro.Unidade || "-"}</td>
+                <td>${advs || "-"}</td>
+                <td>${cursos || "-"}</td>
+              </tr>`;
+          });
+          
+          if(membrosValidos.length === 0) {
+            corpo.innerHTML = `<tr><td colspan="7">Nenhum registro encontrado no efetivo.</td></tr>`;
           }
         }
       });
     }
+    
     carregarDados();
     setInterval(carregarDados, 60000); 
   </script>
