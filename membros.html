@@ -103,10 +103,15 @@
     document.addEventListener("DOMContentLoaded", function () {
       const SENHA_COMANDO = "COMANDO1BPM"; 
 
+      // Nova lista hierárquica atualizada de patentes
       const listaPatentes = [
-        "CMD. Geral",
-        "2º Tenente",
-        "Sub-Tenente",
+        "Comando Geral",
+        "Sub Comando",
+        "Comando RPM",
+        "Comando SPEED",
+        "Comando GTM",
+        "Comando GSA",
+        "Comando SWAT",
         "1º Sargento",
         "2º Sargento",
         "3º Sargento",
@@ -119,13 +124,11 @@
 
         const lista = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
         
-        // Atualizado com GSA mantendo a cor marrom original
         const cores = {
           'RPM': '#1a4a75', 'SPEED': '#236b43', 'GTM': '#4a354f', 'GSA': '#5c3a21', 'SWAT': '#2d3748'
         };
 
         lista.forEach((membro, index) => {
-          // Correção automática de segurança: se o membro antigo ainda tiver salvo como GRA, mostra como GSA
           let unidadeExibida = membro.unidade.toUpperCase();
           if (unidadeExibida === 'GRA') unidadeExibida = 'GSA';
 
@@ -143,7 +146,7 @@
               
               <td style="padding:4px !important; border:1px solid #232b3c !important;">
                 <div class="botoes-grupo">
-                  <button class="btn-acoes btn-gerenciar" onclick="gerenciarMembro(${index})" title="Promover, Rebaixar ou Alterar Cargo">⚙️ Alterar</button>
+                  <button class="btn-acoes btn-gerenciar" onclick="gerenciarMembro(${index})" title="Alterar Patente / Cargo">⚙️ Alterar</button>
                   <button class="btn-acoes" onclick="removerMembro(${index})" title="Demitir do Efetivo">X</button>
                 </div>
               </td>
@@ -159,11 +162,12 @@
           `;
 
           const p = membro.patente.toLowerCase();
-          let alvo = document.getElementById("secao-sargentos"); 
+          let alvo = document.getElementById("secao-sargentos"); // Praças vai para o fim da tabela
 
-          if (p.includes("geral") || p.includes("tenente") || p.includes("sub-tenente")) {
+          // Regra de separação das seções automáticas:
+          if (p === "comando geral" || p === "sub comando") {
             alvo = document.getElementById("secao-alto-comando");
-          } else if (p.includes("cmd") || p.includes("comando")) {
+          } else if (p.includes("comando ")) {
             alvo = document.getElementById("secao-comandos-unidade");
           }
 
@@ -180,7 +184,7 @@
           let lista = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
           const membroAtual = lista[index];
 
-          let mensagemMenu = `Alterando o Policial: ${membroAtual.nome}\nPatente Atual: ${membroAtual.patente}\n\nEscolha a NOVA PATENTE (Subir ou Rebaixar):\n`;
+          let mensagemMenu = `Alterando o Policial: ${membroAtual.nome}\nPatente Atual: ${membroAtual.patente}\n\nEscolha o número do NOVO CARGO:\n`;
           listaPatentes.forEach((patente, i) => {
             mensagemMenu += `${i + 1} - ${patente}\n`;
           });
@@ -194,7 +198,6 @@
             const dataAtual = new Date();
             const dataFormatada = dataAtual.toLocaleDateString('pt-BR') + ' às ' + dataAtual.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
 
-            // Garante que se alterar o membro antigo, a unidade dele salva também mude para GSA
             if(lista[index].unidade.toUpperCase() === 'GRA') {
               lista[index].unidade = 'GSA';
             }
