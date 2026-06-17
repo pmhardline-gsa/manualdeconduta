@@ -1,27 +1,33 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <style>
-    /* Estilo para deixar bonito e organizado */
-    body { background-color: #0f131a; color: white; font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; }
-    form { background: #141923; padding: 20px; border-radius: 8px; border: 1px solid #232b3c; display: flex; flex-direction: column; gap: 10px; width: 300px; }
-    input, select, button { padding: 10px; border-radius: 4px; border: 1px solid #232b3c; background: #1c2434; color: white; }
-    button { background: #f0a500; color: black; font-weight: bold; cursor: pointer; }
-  </style>
-</head>
-<body>
+<body style="background-color: #0f131a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
 
-  <!-- Seu formulário organizado -->
-  <form action="https://api.sheetmonkey.io/form/uNobqNddXgQBDmBA4hVzMF" method="POST">
-    <input type="number" name="ID" placeholder="ID" required>
-    <input type="text" name="Nome" placeholder="Nome" required>
-    <input type="number" name="Badge" placeholder="Badge" required>
-    <select name="Patente" required>
+  <form action="https://api.sheetmonkey.io/form/uNobqNddXgQBDmBA4hVzMF" method="POST" 
+        style="background: #141923; padding: 25px; border-radius: 8px; border: 1px solid #232b3c; width: 320px; display: flex; flex-direction: column; gap: 15px;">
+    
+    <h2 style="color: #f0a500; text-align: center; margin: 0;">Novo Cadastro</h2>
+    
+    <input type="number" name="ID" placeholder="ID (Apenas números)" required 
+           style="padding: 12px; border-radius: 4px; border: 1px solid #232b3c; background: #1c2434; color: white;">
+    
+    <input type="text" name="Nome" placeholder="Nome do Policial" required 
+           style="padding: 12px; border-radius: 4px; border: 1px solid #232b3c; background: #1c2434; color: white;">
+    
+    <input type="number" name="Badge" placeholder="Número da Badge (Apenas números)" required 
+           style="padding: 12px; border-radius: 4px; border: 1px solid #232b3c; background: #1c2434; color: white;">
+    
+    <select name="Patente" required 
+            style="padding: 12px; border-radius: 4px; border: 1px solid #232b3c; background: #1c2434; color: white;">
+        <option value="" disabled selected>Selecione a Patente</option>
         <option value="CMD.GERAL">CMD.GERAL</option>
         <option value="CAPITAO">CAPITAO</option>
+        <option value="TENENTE">TENENTE</option>
     </select>
-    <button type="submit">Cadastrar Oficial</button>
+    
+    <button type="submit" 
+            style="padding: 12px; border-radius: 4px; border: none; background: #f0a500; color: black; font-weight: bold; cursor: pointer;">
+      Cadastrar Oficial
+    </button>
   </form>
 
 </body>
