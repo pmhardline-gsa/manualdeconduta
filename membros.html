@@ -49,7 +49,6 @@
 </head>
 <body>
 
-  <!-- Botão para navegar até a aba de cadastro -->
   <a href="cadastro.html" class="btn-cadastro">+ Cadastrar Novo Membro</a>
 
   <table style="width:100% !important; border-collapse:collapse !important; background-color:#141923 !important; color:#ffffff !important; font-size:13px !important; border: 1px solid #232b3c !important;">
@@ -79,37 +78,33 @@
       </tr>
     </thead>
     
-    <tbody id="tabela-corpo">
-      <!-- SEÇÃO: ALTO COMANDO -->
+    <tbody id="corpo-da-tabela">
       <tr id="secao-alto-comando" style="background-color:#2a364f !important; font-weight:bold !important; color:#ffffff !important; text-align:center !important;">
         <td colspan="12" style="padding:6px !important; letter-spacing:1px !important; border:1px solid #232b3c !important;">ALTO COMANDO</td>
       </tr>
 
-      <!-- SEÇÃO: COMANDOS DE UNIDADE -->
       <tr id="secao-comandos-unidade" style="background-color:#2a364f !important; font-weight:bold !important; color:#ffffff !important; text-align:center !important;">
         <td colspan="12" style="padding:6px !important; letter-spacing:1px !important; border:1px solid #232b3c !important;">COMANDOS DE UNIDADE</td>
       </tr>
 
-      <!-- SEÇÃO: SARGENTOS -->
       <tr id="secao-sargentos" style="background-color:#2a364f !important; font-weight:bold !important; color:#ffffff !important; text-align:center !important;">
-        <td colspan="12" style="padding:6px !important; letter-spacing:1px !important; border:1px solid #232b3c !important;">SARGENTO</td>
+        <td colspan="12" style="padding:6px !important; letter-spacing:1px !important; border:1px solid #232b3c !important;">SARGENTO / PRAÇAS</td>
       </tr>
     </tbody>
   </table>
 
-  <!-- SCRIPT QUE GERENCIA OS MEMBROS DINÂMICOS E EXIGE SENHA PARA EXCLUSÃO -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      
-      // DEFIINA A MESMA SENHA DO CADASTRO AQUI (Entre as aspas)
       const SENHA_COMANDO = "COMANDO1BPM"; 
 
       function renderizarMembros() {
-        // Remove linhas adicionadas anteriormente para evitar duplicados ao recarregar
+        // Limpa as linhas geradas anteriormente para não duplicar
         const linhasAntigas = document.querySelectorAll(".linha-dinamica");
         linhasAntigas.forEach(linha => linha.remove());
 
         const membrosSalvos = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
+        // Inverte a ordem para listar os mais recentes primeiro de forma correta
+        const membrosInvertidos = [...membrosSalvos].reverse();
 
         const coresUnidades = {
           'RPM': '#1a4a75', 'SPEED': '#236b43', 'GTM': '#4a354f', 
@@ -117,9 +112,7 @@
           'CMD GTM': '#4a354f', 'CMD GRA': '#5c3a21', 'CMD SWAT': '#2d3748'
         };
 
-        // Renderiza de trás para frente para manter a ordem de inserção correta abaixo dos cabeçalhos
-        membrosSalvos.asReversed().forEach((membro, index) => {
-          // Ajusta o index real por causa da inversão do loop visual
+        membrosInvertidos.forEach((membro, index) => {
           const realIndex = membrosSalvos.length - 1 - index;
           const corUnidade = coresUnidades[membro.unidade.toUpperCase()] || '#4a5568';
 
@@ -156,13 +149,15 @@
             secaoAlvo = document.getElementById("secao-sargentos");
           }
 
+          // Segurança extra: se encontrar a seção ele coloca embaixo dela, se não encontrar, joga no fim da tabela
           if (secaoAlvo) {
             secaoAlvo.insertAdjacentHTML('afterend', novaLinhaHTML);
+          } else {
+            document.getElementById("corpo-da-tabela").insertAdjacentHTML('beforeend', novaLinhaHTML);
           }
         });
       }
 
-      // Função global para excluir o membro com validação de senha
       window.excluirMembro = function(index) {
         const senhaDigitada = prompt("Digite a senha de Comando para confirmar a demissão:");
 
@@ -170,18 +165,3 @@
           if (confirm("Tem certeza absoluta que deseja remover este policial do efetivo?")) {
             let membrosExistentes = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
             membrosExistentes.splice(index, 1);
-            localStorage.setItem("efetivoMembros", JSON.stringify(membrosExistentes));
-            renderizarMembros(); // Atualiza a tabela na hora
-            alert("Policial removido com sucesso!");
-          }
-        } else {
-          alert("Senha incorreta! Ação de demissão cancelada.");
-        }
-      }
-
-      // Inicializa a tabela ao carregar a página
-      renderizarMembros();
-    });
-  </script>
-</body>
-</html>
