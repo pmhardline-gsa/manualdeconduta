@@ -113,12 +113,16 @@
         <input type="text" id="badge-membro" placeholder="Ex: 712">
       </div>
       <div class="form-group">
-        <label for="patente-membro">Patente</label>
+        <label for="patente-membro">Patente / Cargo</label>
         <select id="patente-membro" required>
           <option value="" disabled selected>Selecione...</option>
-          <option value="CMD. Geral">CMD. Geral</option>
-          <option value="2º Tenente">2º Tenente</option>
-          <option value="Sub-Tenente">Sub-Tenente</option>
+          <option value="Comando Geral">Comando Geral</option>
+          <option value="Sub Comando">Sub Comando</option>
+          <option value="Comando RPM">Comando RPM</option>
+          <option value="Comando SPEED">Comando SPEED</option>
+          <option value="Comando GTM">Comando GTM</option>
+          <option value="Comando GSA">Comando GSA</option>
+          <option value="Comando SWAT">Comando SWAT</option>
           <option value="1º Sargento">1º Sargento</option>
           <option value="2º Sargento">2º Sargento</option>
           <option value="3º Sargento">3º Sargento</option>
@@ -133,7 +137,7 @@
           <option value="RPM">RPM</option>
           <option value="SPEED">SPEED</option>
           <option value="GTM">GTM</option>
-          <option value="GSA">GSA</option> <!-- Troca efetuada aqui -->
+          <option value="GSA">GSA</option>
           <option value="SWAT">SWAT</option>
         </select>
       </div>
@@ -145,6 +149,7 @@
   <script>
     const SENHA_CORRETA = "COMANDO1BPM"; 
 
+    // Bloqueio de segurança por senha ao carregar a página
     document.addEventListener("DOMContentLoaded", function() {
       const senhaDigitada = prompt("Digite a senha de Comando para acessar o cadastro:");
       if (senhaDigitada === SENHA_CORRETA) {
@@ -155,21 +160,28 @@
       }
     });
 
+    // Envio dos dados para o LocalStorage
     document.getElementById("form-cadastro").addEventListener("submit", function(e) {
       e.preventDefault();
+
+      // Pega a data e hora atual do momento do cadastro no formato PT-BR
+      const dataAtual = new Date();
+      const dataFormatada = dataAtual.toLocaleDateString('pt-BR') + ' às ' + dataAtual.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
 
       const novoMembro = {
         id: document.getElementById("id-membro").value,
         nome: document.getElementById("nome-membro").value,
         badge: document.getElementById("badge-membro").value || "-",
         patente: document.getElementById("patente-membro").value,
-        unidade: document.getElementById("unidade-membro").value
+        unidade: document.getElementById("unidade-membro").value,
+        ultimaPromocao: dataFormatada // Já entra com a data de ingresso salva
       };
 
       let lista = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
       lista.push(novoMembro);
       localStorage.setItem("efetivoMembros", JSON.stringify(lista));
 
+      // Exibe mensagem de sucesso e limpa os campos
       const msg = document.getElementById("msg-sucesso");
       msg.style.display = "block";
       document.getElementById("form-cadastro").reset();
