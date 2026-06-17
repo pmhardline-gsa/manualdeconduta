@@ -10,12 +10,17 @@
     table { width: 100%; border-collapse: collapse; background-color: #141923; margin-top: 20px; }
     th { background-color: #1c2434; color: #f0a500; padding: 15px; border: 1px solid #232b3c; }
     td { border: 1px solid #232b3c; padding: 12px; text-align: center; color: #e2e8f0; }
+    .btn-link { color: #f0a500; text-decoration: none; font-weight: bold; transition: 0.3s; }
+    .btn-link:hover { color: #d48e00; text-decoration: underline; }
   </style>
 </head>
 <body>
 
   <h1>Cadeia de Comando - PMHL-GSA</h1>
-  <div style="text-align: center;"><a href="cadastro.html" style="color: #f0a500;">+ Novo Cadastro</a></div>
+  
+  <div style="text-align: center;">
+    <a href="https://script.google.com/macros/s/AKfycbwTBNEa6xuLrEDMrIcDcNnNmtJGK_rgfwNmrBsdz58kwhoqgCiBrxSBjkpxf4slHAO8/exec" target="_blank" class="btn-link">+ Novo Cadastro</a>
+  </div>
 
   <table id="tabela-efetivo">
     <thead>
@@ -25,10 +30,12 @@
         <th>Badge</th>
         <th>Patente</th>
         <th>Unidade</th>
+        <th>Advertências</th>
+        <th>Cursos</th>
       </tr>
     </thead>
     <tbody id="corpo-tabela">
-      <tr><td colspan="5">Carregando dados...</td></tr>
+      <tr><td colspan="7">Carregando dados...</td></tr>
     </tbody>
   </table>
 
@@ -42,11 +49,29 @@
         complete: function(results) {
           const corpo = document.getElementById("corpo-tabela");
           corpo.innerHTML = "";
+          
           results.data.forEach(membro => {
             if (membro.Nome && membro.Nome.trim() !== "") {
-              corpo.innerHTML += `<tr><td>${membro.ID}</td><td>${membro.Nome}</td><td>${membro.Badge}</td><td>${membro.Patente}</td><td>${membro.Unidade}</td></tr>`;
+              // Pega as colunas de Advertências e Cursos exatamente como estão na planilha
+              const advs = membro["Advertências"] || "";
+              const cursos = membro["Cursos"] || "";
+              
+              corpo.innerHTML += `
+                <tr>
+                  <td>${membro.ID}</td>
+                  <td>${membro.Nome}</td>
+                  <td>${membro.Badge}</td>
+                  <td>${membro.Patente}</td>
+                  <td>${membro.Unidade}</td>
+                  <td>${advs}</td>
+                  <td>${cursos}</td>
+                </tr>`;
             }
           });
+          
+          if(corpo.innerHTML === "") {
+            corpo.innerHTML = `<tr><td colspan="7">Nenhum registro encontrado.</td></tr>`;
+          }
         }
       });
     }
