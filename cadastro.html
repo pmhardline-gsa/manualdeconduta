@@ -13,12 +13,13 @@
 </head>
 <body>
 
-  <!-- Note que removemos o 'action' para controlar o envio via JavaScript -->
-  <form id="cadastroForm">
+  <form action="https://api.sheetmonkey.io/form/uNobqNddXgQBDmBA4hVzMF" method="POST">
     <h2 style="color: #f0a500; text-align: center;">Novo Cadastro</h2>
+    
     <input type="number" name="ID" placeholder="ID (Apenas números)" required>
     <input type="text" name="Nome" placeholder="Nome do Policial" required>
     <input type="number" name="Badge" placeholder="Número da Badge (Apenas números)" required>
+    
     <select name="Patente" required>
         <option value="" disabled selected>Selecione a Patente</option>
         <option value="CMD.GERAL">CMD.GERAL</option>
@@ -29,24 +30,14 @@
         <option value="CABO">CABO</option>
         <option value="SOLDADO">SOLDADO</option>
     </select>
+    
     <input type="text" name="Unidade" placeholder="Unidade" value="GSA" required>
+    
+    <!-- A ÚNICA ALTERAÇÃO NECESSÁRIA -->
+    <input type="hidden" name="x-redirect" value="https://pmhardline-gsa.github.io/manualdeconduta/membros.html">
+    
     <button type="submit">Cadastrar Oficial</button>
   </form>
-
-  <script>
-    document.getElementById('cadastroForm').addEventListener('submit', function(e) {
-      e.preventDefault(); // Impede o envio padrão
-      const formData = new FormData(this);
-      
-      fetch('https://api.sheetmonkey.io/form/uNobqNddXgQBDmBA4hVzMF', {
-        method: 'POST',
-        body: formData
-      }).then(() => {
-        // Redireciona manualmente após o sucesso
-        window.location.href = 'https://pmhardline-gsa.github.io/manualdeconduta/membros.html';
-      });
-    });
-  </script>
 
 </body>
 </html>
