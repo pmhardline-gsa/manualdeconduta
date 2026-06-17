@@ -13,7 +13,6 @@
       <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:8% !important; background-color:#1a2232 !important;">BADGE</th>
       <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:15% !important; background-color:#1a2232 !important;">PATENTE</th>
       <th colspan="4" style="padding:5px !important; border:1px solid #232b3c !important; background-color:#b8860b !important; color:#000000 !important;">CURSOS</th>
-      <th rowspan="2" style="padding:10px !important; border:1px solid #232b3c !important; width:10% !important; background-color:#1a2232 !important;">ÚLT. PROMO</th>
       <th colspan="3" style="padding:5px !important; border:1px solid #232b3c !important; color:#ff4d4d !important; background-color:#1a2232 !important;">ADVERTÊNCIAS</th>
     </tr>
     <tr style="background-color:#242f44 !important; text-align:center !important; font-size:11px !important; color:#ffffff !important;">
