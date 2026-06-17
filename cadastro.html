@@ -2,30 +2,18 @@
 <html>
 <head>
     <style>
-        body { background: #0b0e14; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; }
-        .tab-btn { background: #1c2434; border: 1px solid #f0a500; color: #f0a500; padding: 10px; margin: 5px; cursor: pointer; }
-        .box { background: #141923; padding: 25px; border: 1px solid #232b3c; width: 300px; margin-top: 20px; }
-        input, select { width: 100%; padding: 10px; margin: 5px 0; background: #0b0e14; border: 1px solid #232b3c; color: white; }
-        button { width: 100%; padding: 10px; background: #f0a500; border: none; cursor: pointer; font-weight: bold; }
+        body { background: #0b0e14; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; }
+        .box { background: #141923; padding: 25px; border-radius: 8px; border: 1px solid #f0a500; width: 350px; margin-top: 20px; }
+        input, select { width: 100%; padding: 12px; margin: 8px 0; background: #0b0e14; border: 1px solid #232b3c; color: white; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #f0a500; border: none; font-weight: bold; cursor: pointer; color: black; border-radius: 4px; }
+        #gNome { color: #f0a500; font-weight: bold; margin-bottom: 10px; text-align: center; }
     </style>
 </head>
 <body>
-    <div>
-        <button class="tab-btn" onclick="show('cad')">Novo Cadastro</button>
-        <button class="tab-btn" onclick="show('gerir')">Gerir Efetivo</button>
-    </div>
-
-    <div id="cad" class="box">
-        <h3>Cadastrar Oficial</h3>
-        <input type="number" id="cID" placeholder="ID">
-        <input type="text" id="cNome" placeholder="Nome">
-        <button onclick="alert('Use seu link SheetMonkey aqui')">Cadastrar</button>
-    </div>
-
-    <div id="gerir" class="box" style="display:none;">
-        <h3>Gerir Efetivo</h3>
-        <input type="number" id="gID" placeholder="Digite o ID" onblur="buscar()">
-        <div id="gNome" style="color:#f0a500; font-weight:bold; margin:10px 0;"></div>
+    <div class="box">
+        <h3 style="text-align:center; color:#f0a500;">Gerir Efetivo GSA</h3>
+        <input type="number" id="gID" placeholder="Digite o ID do Oficial" onblur="buscar()">
+        <div id="gNome"></div>
         <select id="gPatente">
             <option>Alto Comando</option><option>Comando</option><option>Sub-Comando</option>
             <option>Piloto Veterano</option><option>Piloto Sênior</option><option>Piloto Oficial</option>
@@ -33,17 +21,11 @@
             <option>Operador Veterano</option><option>Operador Sênior</option><option>Operador Oficial</option>
             <option>Tripulante Operacional</option><option>Aspirante Operador</option>
         </select>
-        <div style="margin:10px 0;">
-            <input type="checkbox" id="adv1"> ADV 1 | <input type="checkbox" id="adv2"> ADV 2 | <input type="checkbox" id="adv3"> ADV 3
-        </div>
+        <input type="text" id="gAdvs" placeholder="Ex: ADV1, ADV2">
         <button onclick="salvar()">Salvar Alterações</button>
     </div>
 
     <script>
-        function show(id) {
-            document.getElementById('cad').style.display = id == 'cad' ? 'block' : 'none';
-            document.getElementById('gerir').style.display = id == 'gerir' ? 'block' : 'none';
-        }
         function buscar() {
             const id = document.getElementById('gID').value;
             document.getElementById('gNome').innerText = "Buscando...";
@@ -54,10 +36,8 @@
         function salvar() {
             const id = document.getElementById('gID').value;
             const pat = document.getElementById('gPatente').value;
-            const a1 = document.getElementById('adv1').checked;
-            const a2 = document.getElementById('adv2').checked;
-            const a3 = document.getElementById('adv3').checked;
-            google.script.run.withSuccessHandler(msg => alert(msg)).salvarAlteracao(id, pat, a1, a2, a3);
+            const advs = document.getElementById('gAdvs').value;
+            google.script.run.withSuccessHandler(msg => alert(msg)).salvarAlteracao(id, pat, advs);
         }
     </script>
 </body>
