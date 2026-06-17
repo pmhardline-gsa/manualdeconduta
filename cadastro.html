@@ -31,6 +31,9 @@
         
         <label>Nome do Oficial:</label>
         <input type="text" id="cNome" placeholder="Digite o Nome">
+
+        <label>Badge (Número):</label>
+        <input type="number" id="cBadge" placeholder="Digite o Badge (Ex: 400)">
         
         <label>Patente Inicial:</label>
         <select id="cPatente">
@@ -67,7 +70,6 @@
     </div>
 
     <script>
-        // Função para alternar as abas (Simplificada e direta para evitar erros)
         function switchTab(tab) {
             var pCad = document.getElementById('panel-cad');
             var pGerir = document.getElementById('panel-gerir');
@@ -90,20 +92,20 @@
         function cadastrarNovo() {
             var id = document.getElementById('cID').value;
             var nome = document.getElementById('cNome').value;
+            var badge = document.getElementById('cBadge').value;
             var pat = document.getElementById('cPatente').value;
 
-            if (!id || !nome) { alert("Preencha ID e Nome para cadastrar!"); return; }
+            if (!id || !nome || !badge) { alert("Preencha ID, Nome e Badge para cadastrar!"); return; }
 
             google.script.run
                 .withSuccessHandler(function(msg) {
                     alert(msg);
                     document.getElementById('cID').value = '';
                     document.getElementById('cNome').value = '';
+                    document.getElementById('cBadge').value = '';
                 })
-                .withFailureHandler(function(err) { 
-                    alert("Erro ao cadastrar: " + err.message); 
-                })
-                .inserirNovoOficial(id, nome, pat);
+                .withFailureHandler(function(err) { alert("Erro ao cadastrar: " + err.message); })
+                .inserirNovoOficial(id, nome, badge, pat);
         }
 
         function buscar() {
