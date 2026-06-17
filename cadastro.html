@@ -1,55 +1,53 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<body style="background-color: #0f131a; color: white; font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px;">
+<body style="background-color: #0f131a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0;">
 
-  <form id="meuForm" style="background: #141923; padding: 25px; border-radius: 8px; border: 1px solid #232b3c; width: 320px; display: flex; flex-direction: column; gap: 15px;">
-    <h2 style="color: #f0a500; text-align: center;">Novo Cadastro</h2>
+  <form id="meuForm" style="background: #141923; padding: 25px; border-radius: 8px; border: 1px solid #232b3c; width: 350px; display: flex; flex-direction: column; gap: 15px;">
     
-    <input type="number" name="ID" placeholder="ID" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white;">
-    <input type="text" name="Nome" placeholder="Nome" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white;">
-    <input type="number" name="Badge" placeholder="Badge" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white;">
+    <h2 style="color: #f0a500; text-align: center; margin-top: 0;">Novo Cadastro</h2>
     
-    <input type="password" id="senha" placeholder="Digite a senha de acesso" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white;">
+    <input type="number" name="ID" placeholder="ID" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white; border-radius: 4px;">
+    <input type="text" name="Nome" placeholder="Nome" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white; border-radius: 4px;">
+    <input type="number" name="Badge" placeholder="Badge" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white; border-radius: 4px;">
     
-    <button type="submit" id="btn" style="padding: 12px; background: #f0a500; border: none; font-weight: bold; cursor: pointer;">Cadastrar Oficial</button>
-    
-    <a href="LINK_DA_SUA_PLANILHA_AQUI" target="_blank" style="text-align: center; color: #555; text-decoration: none; font-size: 14px; margin-top: 10px;">Voltar para a Planilha</a>
-    
-    <div id="msg" style="text-align: center; margin-top: 10px; font-weight: bold;"></div>
-  </form>
-<label style="color: #f0a500; font-size: 14px;">Selecione a Patente:</label>
     <select name="Patente" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white; border-radius: 4px;">
-        <option value="" disabled selected>Selecione uma opção</option>
+        <option value="" disabled selected>Selecione a Patente</option>
         <option value="CMD.GERAL">CMD.GERAL</option>
-        <option value="CMD.SUBCOMANDO">CMD.SUBCOMANDO</option>
         <option value="CAPITAO">CAPITAO</option>
         <option value="TENENTE">TENENTE</option>
-        <option value="SUBTENENTE">SUBTENENTE</option>
-        <option value="SARGENTO">SARGENTO</option>
     </select>
+    
+    <input type="password" id="senha" placeholder="Senha de acesso" required style="padding: 12px; background: #1c2434; border: 1px solid #232b3c; color: white; border-radius: 4px;">
+    
+    <button type="submit" id="btn" style="padding: 12px; background: #f0a500; border: none; font-weight: bold; cursor: pointer; border-radius: 4px; color: black;">Cadastrar Oficial</button>
+    
+    <a href="LINK_DA_SUA_PLANILHA" target="_blank" style="text-align: center; color: #777; text-decoration: none; font-size: 13px;">Voltar para a Planilha</a>
+    
+    <div id="msg" style="text-align: center; font-weight: bold; min-height: 20px;"></div>
+  </form>
+
   <script>
     document.getElementById('meuForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const senhaCorreta = "123456"; // <--- ALTERE A SENHA AQUI
-      const senhaDigitada = document.getElementById('senha').value;
+      const senhaCorreta = "123456"; // Mude para sua senha
       const msg = document.getElementById('msg');
+      const btn = document.getElementById('btn');
 
-      if (senhaDigitada !== senhaCorreta) {
+      if (document.getElementById('senha').value !== senhaCorreta) {
         msg.textContent = "Senha incorreta!";
         msg.style.color = "#ff4d4d";
         return;
       }
 
-      msg.textContent = "Cadastrando...";
-      const formData = new FormData(e.target);
+      btn.disabled = true;
+      msg.textContent = "Enviando...";
       
-      await fetch('https://api.sheetmonkey.io/form/uNobqNddXgQBDmBA4hVzMF', {
-        method: 'POST',
-        body: formData
-      });
+      const formData = new FormData(e.target);
+      await fetch('https://api.sheetmonkey.io/form/uNobqNddXgQBDmBA4hVzMF', { method: 'POST', body: formData });
 
       msg.textContent = "Cadastro concluído com sucesso!";
       msg.style.color = "#4CAF50";
+      btn.disabled = false;
       e.target.reset();
     });
   </script>
