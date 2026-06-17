@@ -1,68 +1,61 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<style>
-    body { background-color: #0b0e14; color: white; font-family: sans-serif; }
-    .tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; }
-    button { padding: 10px 20px; cursor: pointer; background: #1c2434; border: 1px solid #f0a500; color: white; }
-    button:hover { background: #f0a500; color: black; }
-    .content { display: none; max-width: 400px; margin: auto; background: #141923; padding: 20px; border-radius: 8px; }
-    .active { display: block; }
-</style>
+    <style>
+        body { background: #0b0e14; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; }
+        .tab-btn { background: #1c2434; border: 1px solid #f0a500; color: white; padding: 10px 20px; cursor: pointer; }
+        .box { background: #141923; padding: 25px; border-radius: 8px; border: 1px solid #232b3c; width: 350px; margin-top: 20px; }
+        input, select { width: 100%; padding: 10px; margin: 8px 0; background: #0b0e14; border: 1px solid #232b3c; color: white; }
+        button { width: 100%; padding: 10px; background: #f0a500; border: none; font-weight: bold; cursor: pointer; }
+    </style>
 </head>
 <body>
 
-<div class="tabs">
-    <button onclick="openTab('cadastrar')">Novo Cadastro</button>
-    <button onclick="openTab('gerir')">Gerir Efetivo</button>
+<div style="margin-top:20px;">
+    <button class="tab-btn" onclick="show('cad')">Novo Cadastro</button>
+    <button class="tab-btn" onclick="show('gerir')">Gerir Efetivo</button>
 </div>
 
-<div id="cadastrar" class="content active">
-    <h2>Cadastrar Novo Oficial</h2>
-    <form id="formCadastro">
-        <input type="number" name="ID" placeholder="ID" required style="width: 100%; margin-bottom: 10px;">
-        <input type="text" name="Nome" placeholder="Nome" required style="width: 100%; margin-bottom: 10px;">
-        <select name="Unidade" required style="width: 100%; margin-bottom: 10px;">
-            <option value="GSA">GSA</option><option value="RPM">RPM</option>
-            <option value="SWAT">SWAT</option><option value="SPEED">SPEED</option>
-        </select>
-        <button type="submit">Cadastrar</button>
-    </form>
+<div id="cad" class="box">
+    <h3>Cadastrar Oficial</h3>
+    <input type="number" placeholder="ID" id="cID">
+    <input type="text" placeholder="Nome" id="cNome">
+    <input type="number" placeholder="Badge" id="cBadge">
+    <select id="cUnidade"><option>GSA</option><option>RPM</option><option>SWAT</option><option>SPEED</option></select>
+    <select id="cPatente">
+        <option>Alto Comando</option><option>Comando</option><option>Sub-Comando</option>
+        <option>1º Sargento</option><option>2º Sargento</option><option>3º Sargento</option>
+    </select>
+    <button onclick="cadastrar()">Registrar</button>
 </div>
 
-<div id="gerir" class="content">
-    <h2>Gerir Efetivo</h2>
-    <input type="number" id="idBusca" placeholder="Digite o ID do Oficial" style="width: 100%; margin-bottom: 10px;">
+<div id="gerir" class="box" style="display:none;">
+    <h3>Gerir Efetivo</h3>
+    <input type="number" id="gID" placeholder="Digite o ID" onblur="buscarNome()">
+    <div id="gNome" style="color:#f0a500; font-weight:bold; margin-bottom:10px;"></div>
     
-    <div style="margin-top: 10px;">
-        <label>Patente:</label>
-        <select id="novaPatente" style="width: 100%;">
-            <option value="Alto Comando">Alto Comando</option>
-            <option value="Comando">Comando</option>
-            <option value="Sub-Comando">Sub-Comando</option>
-        </select>
+    <select id="gPatente">
+        <option>Alto Comando</option><option>Comando</option><option>Sub-Comando</option>
+        <option>1º Sargento</option><option>2º Sargento</option><option>3º Sargento</option>
+    </select>
+    
+    <div style="font-size: 12px; margin: 10px 0;">
+        <input type="checkbox" id="adv1"> ADV 1 | <input type="checkbox" id="adv2"> ADV 2 | <input type="checkbox" id="adv3"> ADV 3
     </div>
-
-    <div style="margin-top: 10px;">
-        <label>Advertências:</label><br>
-        <input type="checkbox" value="ADV1"> ADV 1 
-        <input type="checkbox" value="ADV2"> ADV 2
-    </div>
-
-    <button onclick="salvarGestao()" style="margin-top: 15px; width: 100%;">Salvar Alterações</button>
+    <button onclick="salvarAlteracao()">Salvar Alterações</button>
 </div>
 
 <script>
-function openTab(tabName) {
-    document.querySelectorAll('.content').forEach(c => c.style.display = 'none');
-    document.getElementById(tabName).style.display = 'block';
+function show(id) {
+    document.getElementById('cad').style.display = id == 'cad' ? 'block' : 'none';
+    document.getElementById('gerir').style.display = id == 'gerir' ? 'block' : 'none';
 }
 
-function salvarGestao() {
-    alert("Dados enviados para atualização da planilha!");
-    // Aqui você integraria com um script que busca o ID na planilha e atualiza as colunas
+function buscarNome() {
+    const id = document.getElementById('gID').value;
+    // Aqui você chamaria o google.script.run para buscar o nome na planilha pelo ID
+    document.getElementById('gNome').innerText = "Nome encontrado: Exemplo"; 
 }
 </script>
-
 </body>
 </html>
