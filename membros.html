@@ -1,0 +1,68 @@
+<!-- Cole este código no final do seu membros.html, antes do </body> -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // 1. Busca os membros salvos no banco de dados do navegador
+    const membrosSalvos = JSON.parse(localStorage.getItem("efetivoMembros")) || [];
+
+    // 2. Mapeamento de cores para deixar as unidades automáticas e bonitas
+    const coresUnidades = {
+      'RPM': '#1a4a75',
+      'SPEED': '#236b43',
+      'GTM': '#4a354f',
+      'GRA': '#5c3a21',
+      'SWAT': '#2d3748',
+      'CMD SPEED': '#1b4d3e',
+      'CMD GTM': '#4a354f',
+      'CMD GRA': '#5c3a21',
+      'CMD SWAT': '#2d3748'
+    };
+
+    // 3. Loop para rodar cada membro cadastrado e enfiar na tabela
+    membrosSalvos.forEach(membro => {
+      // Define a cor de fundo da unidade baseado no nome dela (se não achar, usa cinza)
+      const corUnidade = coresUnidades[membro.unidade.toUpperCase()] || '#4a5568';
+
+      // Cria o bloco HTML exatamente no padrão que você usa
+      const novaLinhaHTML = `
+        <tr style="text-align:center !important; background-color:#141923 !important;">
+          <td style="padding:8px !important; border:1px solid #232b3c !important; color:#718096 !important; background-color:#141923 !important;">${membro.id}</td>
+          <td style="padding:8px !important; border:1px solid #232b3c !important; text-align:left !important; font-weight:bold !important; background-color:#141923 !important;">${membro.nome}</td>
+          <td style="padding:8px !important; border:1px solid #232b3c !important; color:#a0aec0 !important; background-color:#141923 !important;">${membro.badge || '-'}</td>
+          <td style="padding:8px !important; border:1px solid #232b3c !important; background-color:#141923 !important;">${membro.patente}</td>
+          <td style="padding:8px !important; border:1px solid #232b3c !important; background-color:${corUnidade} !important; color:#ffffff !important; font-weight:bold !important;">${membro.unidade.toUpperCase()}</td>
+          
+          <!-- Cursos Padrão (Iniciam vazios para você alterar depois) -->
+          <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
+          <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
+          <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
+          <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
+          
+          <!-- Advertências Padrão (Iniciam vazias) -->
+          <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
+          <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
+          <td style="border:1px solid #232b3c !important; color:#4a5568 !important; background-color:#141923 !important;">☐</td>
+        </tr>
+      `;
+
+      // 4. Identifica em qual categoria o membro entra com base na patente dele
+      let tBodyAlvo;
+      const patenteLimpa = membro.patente.toLowerCase();
+
+      if (patenteLimpa.includes("geral") || patenteLimpa.includes("tenente")) {
+        tBodyAlvo = document.querySelector("#alto-comando");
+      } else if (patenteLimpa.includes("cmd") || patenteLimpa.includes("comando")) {
+        tBodyAlvo = document.querySelector("#comandos-unidade");
+      } else {
+        tBodyAlvo = document.querySelector("#sargentos"); // Categoria padrão se for Sargento/outros
+      }
+
+      // 5. Injeta a linha na tabela se encontrar a seção correta, se não, joga no final da tabela
+      if (tBodyAlvo) {
+        tBodyAlvo.insertAdjacentHTML('beforeend', novaLinhaHTML);
+      } else {
+        const tabelaGeral = document.querySelector("table tbody");
+        if (tabelaGeral) tabelaGeral.insertAdjacentHTML('beforeend', novaLinhaHTML);
+      }
+    });
+  });
+</script>
