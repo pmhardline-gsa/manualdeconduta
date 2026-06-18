@@ -15,16 +15,14 @@
         th { background: #1c2434; color: #f0a500; padding: 12px; font-size: 0.8em; text-transform: uppercase; border: 1px solid #232b3c; }
         td { padding: 12px; border: 1px solid #1a202c; text-align: center; color: #e2e8f0; }
         
-        /* Estilo para colunas de Advertência */
         .col-adv { background-color: rgba(240, 165, 0, 0.04); border: 1px solid #1a202c; }
-        
         .cat-row { background: #1c2434; font-weight: bold; text-align: left; padding-left: 20px; color: #f0a500; text-transform: uppercase; letter-spacing: 1px; }
         tr:hover { background: #1a202c; }
         
         /* Cores das Caixas */
-        .check-marcado { color: #f0a500; font-weight: bold; } /* Amarelo para Cursos */
-        .adv-marcado { color: #ff4d4d; font-weight: bold; }   /* Vermelho para Advertências */
-        .check-vazio { color: #4a5568; }                     /* Cinza para vazios */
+        .check-marcado { color: #f0a500; font-weight: bold; } /* Amarelo Cursos */
+        .adv-marcado { color: #ff4d4d; font-weight: bold; }   /* Vermelho ADVs */
+        .check-vazio { color: #4a5568; }                     /* Cinza Vazios */
     </style>
 </head>
 <body>
@@ -52,26 +50,18 @@
 <script>
     const URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
 
-    // MAPEAMENTO DA HIERARQUIA
     const hierarquia = {
-        "Alto Comando": 1,
-        "Comando": 2,
-        "Sub-Comando": 3,
-        "Piloto Veterano": 4,
-        "Piloto Sênior": 5,
-        "Piloto Oficial": 6,
-        "Piloto Estagiário": 7,
-        "Aspirante a Piloto": 8,
-        "Operador Veterano": 9,
-        "Operador Sênior": 10,
-        "Operador Oficial": 11,
-        "Tripulante Operacional": 12,
-        "Aspirante Operador": 13
+        "Alto Comando": 1, "Comando": 2, "Sub-Comando": 3,
+        "Piloto Veterano": 4, "Piloto Sênior": 5, "Piloto Oficial": 6, "Piloto Estagiário": 7, "Aspirante a Piloto": 8,
+        "Operador Veterano": 9, "Operador Sênior": 10, "Operador Oficial": 11, "Tripulante Operacional": 12, "Aspirante Operador": 13
     };
 
-    // Função auxiliar para renderizar as caixas de advertência vermelhas se marcadas
+    // FUNÇÃO CORRIGIDA: Mais inteligente para ler qualquer marcação (X, x, sim, 1)
     function renderizarAdv(valor) {
-        if (valor && (valor.toUpperCase().includes("X") || valor.includes("☑"))) {
+        if (!valor) return `<span class="check-vazio">☐</span>`;
+        
+        const textoClean = valor.toString().trim().toUpperCase();
+        if (textoClean !== "" && textoClean !== "-" && textoClean !== "0") {
             return `<span class="adv-marcado">☑</span>`;
         }
         return `<span class="check-vazio">☐</span>`;
@@ -81,25 +71,14 @@
         const corpo = document.getElementById("corpo");
         corpo.innerHTML = "";
 
-        // Limpa linhas em branco e ordena por hierarquia
         let membrosOrdenados = res.data.filter(m => m.ID && m.ID.trim() !== "" && m.Nome && m.Nome.trim() !== "").sort((a, b) => {
             return (hierarquia[a.Patente.trim()] || 99) - (hierarquia[b.Patente.trim()] || 99);
         });
 
-        // CATEGORIAS
         const categorias = [
-            { 
-                nome: "ALTO COMANDO / COMANDO", 
-                patentes: ["Alto Comando", "Comando", "Sub-Comando"] 
-            },
-            { 
-                nome: "CORPO DE PILOTOS", 
-                patentes: ["Piloto Veterano", "Piloto Sênior", "Piloto Oficial", "Piloto Estagiário", "Aspirante a Piloto"] 
-            },
-            { 
-                nome: "CORPO DE OPERADORES", 
-                patentes: ["Operador Veterano", "Operador Sênior", "Operador Oficial", "Tripulante Operacional", "Aspirante Operador"] 
-            }
+            { nome: "ALTO COMANDO / COMANDO", patentes: ["Alto Comando", "Comando", "Sub-Comando"] },
+            { nome: "CORPO DE PILOTOS", patentes: ["Piloto Veterano", "Piloto Sênior", "Piloto Oficial", "Piloto Estagiário", "Aspirante a Piloto"] },
+            { nome: "CORPO DE OPERADORES", patentes: ["Operador Veterano", "Operador Sênior", "Operador Oficial", "Tripulante Operacional", "Aspirante Operador"] }
         ];
 
         categorias.forEach(cat => {
@@ -118,12 +97,11 @@
                         <td>${m.Patente}</td>
                         <td>${m.Unidade || "-"}</td>
                         
-                        <!-- Lógica das caixas de ADV ficando vermelhas -->
+                        <!-- Lógica das caixas de ADV atualizada -->
                         <td class="col-adv">${renderizarAdv(m["ADV 1"])}</td>
                         <td class="col-adv">${renderizarAdv(m["ADV 2"])}</td>
                         <td class="col-adv">${renderizarAdv(m["ADV 3"])}</td>
                         
-                        <!-- Lógica das caixas de Curso ficando amarelas -->
                         <td class="${c.includes("C.F.A") ? 'check-marcado' : 'check-vazio'}">${c.includes("C.F.A") ? "☑" : "☐"}</td>
                         <td class="${c.includes("P.O.E") ? 'check-marcado' : 'check-vazio'}">${c.includes("P.O.E") ? "☑" : "☐"}</td>
                     </tr>`;
