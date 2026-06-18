@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <title>Efetivo PMHL</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
         body { background-color: #0b0e14; color: #fff; font-family: 'Segoe UI', sans-serif; padding: 20px; }
@@ -31,9 +32,7 @@
                     <th rowspan="2">ID</th><th rowspan="2">NOME</th><th rowspan="2">BADGE</th><th rowspan="2">PATENTE</th><th rowspan="2">UNIDADE</th>
                     <th colspan="3">ADVERTÊNCIAS</th><th colspan="2">CURSOS</th>
                 </tr>
-                <tr>
-                    <th>ADV 1</th><th>ADV 2</th><th>ADV 3</th><th>C.F.A</th><th>P.O.E</th>
-                </tr>
+                <tr><th>ADV 1</th><th>ADV 2</th><th>ADV 3</th><th>C.F.A</th><th>P.O.E</th></tr>
             </thead>
             <tbody id="corpo"></tbody>
         </table>
@@ -43,28 +42,39 @@
 <script>
     const URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
 
+    // Definição da hierarquia (quanto menor o número, maior a patente)
+    const hierarquia = {
+        "Alto Comando": 1,
+        "Comando": 2,
+        "Sub-Comando": 3,
+        "Aspirante a Piloto": 4,
+        "Piloto": 5
+    };
+
     Papa.parse(URL, { download: true, header: true, complete: function(res) {
         const corpo = document.getElementById("corpo");
         corpo.innerHTML = "";
-        
-        // Define as categorias fixas que você quer
+
+        // Ordena os membros pela hierarquia definida acima
+        let membrosOrdenados = res.data.filter(m => m.ID).sort((a, b) => {
+            return (hierarquia[a.Patente] || 99) - (hierarquia[b.Patente] || 99);
+        });
+
         const categorias = [
-            { nome: "ALTO COMANDO / COMANDO", patentes: ["Alto Comando", "Sub-Comando", "Comando"] },
+            { nome: "ALTO COMANDO / COMANDO", patentes: ["Alto Comando", "Comando", "Sub-Comando"] },
             { nome: "CORPO DE PILOTOS", patentes: ["Aspirante a Piloto", "Piloto"] }
         ];
 
         categorias.forEach(cat => {
-            // Adiciona a linha de título da categoria
             corpo.innerHTML += `<tr><td colspan="10" class="cat-row">${cat.nome}</td></tr>`;
-
-            // Filtra membros que pertencem a esta categoria
-            res.data.filter(m => cat.patentes.some(p => m.Patente && m.Patente.includes(p))).forEach(m => {
+            
+            membrosOrdenados.filter(m => cat.patentes.includes(m.Patente)).forEach(m => {
                 let c = (m.Cursos || "").toUpperCase();
                 corpo.innerHTML += `<tr>
-                    <td>${m.ID || "-"}</td>
-                    <td style="text-align:left">${m.Nome || "-"}</td>
+                    <td>${m.ID}</td>
+                    <td style="text-align:left">${m.Nome}</td>
                     <td>${m.Badge || "-"}</td>
-                    <td>${m.Patente || "-"}</td>
+                    <td>${m.Patente}</td>
                     <td>${m.Unidade || "-"}</td>
                     <td>${m["ADV 1"] || "☐"}</td><td>${m["ADV 2"] || "☐"}</td><td>${m["ADV 3"] || "☐"}</td>
                     <td class="${c.includes("C.F.A") ? 'check-marcado' : 'check-vazio'}">${c.includes("C.F.A") ? "☑" : "☐"}</td>
