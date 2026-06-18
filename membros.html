@@ -79,10 +79,11 @@
                 membrosDaCategoria.forEach(m => {
                     let c = (m.Cursos || "").toUpperCase();
                     
-                    // Pega o texto da coluna única "Advertências" e limpa espaços
-                    let advTexto = (m["Advertências"] || "").toUpperCase().replace(/\s+/g, '');
+                    // Busca o valor da coluna tentando variações comuns de nome (com acento, sem acento ou abreviado)
+                    let colunaBruta = m["Advertências"] || m["Advertencia"] || m["ADV"] || m["adv"] || "";
+                    let advTexto = colunaBruta.toString().toUpperCase().replace(/\s+/g, '');
 
-                    // Se na planilha estiver "ADV1", marca a caixa 1. Se for "ADV2", marca a 1 e a 2...
+                    // Sistema de checagem acumulativa
                     let adv1 = (advTexto.includes("ADV1") || advTexto.includes("ADV2") || advTexto.includes("ADV3")) 
                         ? `<span class="adv-marcado">☑</span>` : `<span class="check-vazio">☐</span>`;
                         
@@ -99,10 +100,9 @@
                         <td>${m.Patente}</td>
                         <td>${m.Unidade || "-"}</td>
                         
-                        <!-- Colunas geradas a partir da célula única da planilha -->
-                        <td class="col-adv">${ADV1}</td>
-                        <td class="col-adv">${ADV2}</td>
-                        <td class="col-adv">${ADV3}</td>
+                        <td class="col-adv">${adv1}</td>
+                        <td class="col-adv">${adv2}</td>
+                        <td class="col-adv">${adv3}</td>
                         
                         <td class="${c.includes("C.F.A") ? 'check-marcado' : 'check-vazio'}">${c.includes("C.F.A") ? "☑" : "☐"}</td>
                         <td class="${c.includes("P.O.E") ? 'check-marcado' : 'check-vazio'}">${c.includes("P.O.E") ? "☑" : "☐"}</td>
