@@ -11,81 +11,18 @@
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/dark.css">
   
   <style>
-    /* Customização de cores para o padrão da PMHL (Preto e Dourado) */
-    :root {
-      --theme-color: #f0a500; /* Cor dos links e destaques em tom dourado */
-    }
-    .sidebar {
-      background-color: #1c1f24 !important; /* Fundo do menu lateral esquerdo */
-    }
-    body {
-      background-color: #111417 !important; /* Fundo principal da página */
-    }
+    :root { --theme-color: #f0a500; }
+    .sidebar { background-color: #1c1f24 !important; }
+    body { background-color: #111417 !important; }
     
-    /* BLOQUEIO E AJUSTE DA LOGO FIXA (SEM LINK) */
-    .sidebar .app-name-link {
-      pointer-events: none; /* Desativa o clique */
-      cursor: default;      /* Remove o ponteiro de link */
-      text-decoration: none;
-    }
-    /* Ajuste das tabelas para o tema escuro */
-    .markdown-section table tr:nth-child(2n) {
-      background-color: #1e2227 !important; /* Muda o fundo branco para um cinza bem escuro */
-    }
+    .sidebar .app-name-link { pointer-events: none; cursor: default; text-decoration: none; }
+    .markdown-section table tr:nth-child(2n) { background-color: #1e2227 !important; }
+    .markdown-section table td { color: #cbd5e1 !important; }
+    .markdown-section table, .markdown-section table th, .markdown-section table td { border-color: #2d3139 !important; }
+    .sidebar .app-name-link img { max-width: 100px; height: auto; display: block; margin: 20px auto 10px auto; }
+    .sidebar .app-name { text-align: center; font-size: 22px; font-weight: bold; color: #ffffff; display: block; margin-bottom: 20px; }
     
-    /* Garante que o texto dentro das linhas escuras fique claro e visível */
-    .markdown-section table td {
-      color: #cbd5e1 !important; /* Cor do texto (cinza claro) */
-    }
-    
-    /* Deixa as bordas da tabela mais discretas */
-    .markdown-section table, .markdown-section table th, .markdown-section table td {
-      border-color: #2d3139 !important;
-    }
-    .sidebar .app-name-link img {
-      max-width: 100px; /* Controla a largura máxima da logo */
-      height: auto;
-      display: block;
-      margin: 20px auto 10px auto; /* Centraliza a imagem e dá espaço para o texto */
-    }
-    .sidebar .app-name {
-      text-align: center;
-      font-size: 22px;
-      font-weight: bold;
-      color: #ffffff;
-      display: block;
-      margin-bottom: 20px;
-    }
-   /* Desativa o clique e o comportamento de link da Logo e do Título */
-    .sidebar .app-name-link {
-      pointer-events: none; /* Impede qualquer clique do mouse */
-      cursor: default;      /* Remove a mãozinha do mouse, deixando a seta normal */
-      text-decoration: none;
-    }
-    /* Estilização para o bloco de alerta VERMELHO (Perigo/Proibição) */
-    blockquote.danger {
-      background-color: #2b1616 !important; /* Fundo vermelho escuro */
-      border-left-color: #e74c3c !important; /* Borda lateral vermelha viva */
-      color: #f9ebeb !important;             /* Cor do texto clara */
-      padding: 15px !important;
-      border-radius: 4px;
-    }
-    /* Estilização para o bloco de alerta AMARELO (Atenção/Advertência) */
-    blockquote.warning {
-      background-color: #2a2216 !important; /* Fundo amarelo escuro */
-      border-left-color: #f0a500 !important; /* Borda dourada/amarela */
-      color: #f9f3eb !important;             /* Texto claro */
-      padding: 15px !important;
-      border-radius: 4px;
-    }
-    /* Estilização para o bloco de notas/alerta azul (Callout) */
-    blockquote {
-      background-color: #16222f !important;
-      border-left-color: #4a90e2 !important;
-      color: #b0c4de !important;
-      padding: 15px !important;
-      border-radius: 4px;
-    }
+    blockquote { background-color: #16222f !important; border-left-color: #4a90e2 !important; color: #b0c4de !important; padding: 15px !important; border-radius: 4px; }
   </style>
 </head>
 <body>
@@ -95,26 +32,16 @@
     window.$docsify = {
       name: 'PMHL',
       repo: '',
-      
-      // Puxa a logo salva no seu repositório do GitHub
       logo: 'logo.png', 
-      
       loadSidebar: true,
       subMaxLevel: 2,
       homepage: 'manualdeconduta.md',
       alias: {
-        '/.*/_sidebar.md': '_sidebar.md',
-        '/_sidebar.md': '_sidebar.md',
-        '/': 'manualdeconduta.md',
-        '/': 'membros.html',
-        '/': 'ocorrencias.md',
-        '/': 'aeronave.md',
-        '/': 'hierarquia.md'
+        '/_sidebar.md': '/_sidebar.md'
       }
     }
   </script>
   
-  <!-- Scripts de funcionamento do Docsify -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
 </body>
 </html>
