@@ -2,135 +2,21 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Efetivo PMHL-GSA - Centralizado</title>
+  <title>Efetivo PMHL-GSA</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   <style>
-    body { 
-      background-color: #0b0e14; 
-      color: #ffffff; 
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-      padding: 30px 20px; 
-      margin: 0;
-    }
-    .container {
-      max-width: 1350px;
-      margin: 0 auto;
-    }
-    h1 { 
-      color: #f0a500; 
-      text-align: center; 
-      margin-bottom: 25px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-    .action-container {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .btn-link { 
-      display: inline-block;
-      color: #000000; 
-      background-color: #f0a500;
-      text-decoration: none; 
-      font-weight: bold; 
-      padding: 10px 24px;
-      border-radius: 4px;
-      box-shadow: 0 4px 10px rgba(240, 165, 0, 0.2);
-      transition: all 0.3s ease; 
-    }
-    .btn-link:hover { 
-      background-color: #d48e00; 
-      transform: translateY(-2px);
-    }
-    
-    /* Caixa que envolve a tabela criando as pontas arredondadas */
-    .table-wrapper {
-      background-color: #141923;
-      border: 1px solid #232b3c;
-      border-radius: 12px; 
-      overflow: hidden;    
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-    }
-    
-    table { 
-      width: 100%; 
-      border-collapse: separate; 
-      border-spacing: 0;
-      text-align: left;
-    }
-    th { 
-      background-color: #1c2434; 
-      color: #f0a500; 
-      padding: 12px; 
-      font-size: 0.9em;
-      font-weight: bold;
-      border-right: 1px solid #232b3c;
-      border-bottom: 1px solid #232b3c;
-      text-align: center;
-    }
-    th:last-child {
-      border-right: none;
-    }
-    
-    /* Cores personalizadas para os cabeçalhos de Cursos e Advertências */
-    .th-cursos-header {
-      background-color: #f0a500;
-      color: #000000;
-    }
-    .th-advs-header {
-      background-color: #2a1a1a;
-      color: #ff4d4d;
-    }
-
-    td { 
-      padding: 12px; 
-      border-right: 1px solid #232b3c;
-      border-bottom: 1px solid #232b3c; 
-      text-align: center; 
-      color: #e2e8f0;
-      font-size: 0.95em;
-    }
-    td:last-child {
-      border-right: none;
-    }
-    tr:last-child td {
-      border-bottom: none;
-    }
-    tr:hover td {
-      background-color: #1a202c;
-    }
-    
-    /* Linha escura divisora de categorias */
-    .categoria-divisora {
-      background-color: #1c2434 !important;
-      color: #ffffff !important;
-      font-weight: bold;
-      font-size: 0.9em;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      padding: 8px !important;
-      text-align: center;
-      border-right: none !important;
-    }
-    .badge-id {
-      font-weight: bold;
-      color: #f0a500;
-    }
-    
-    /* Estilo visual dos quadradinhos (Checkboxes de texto) */
-    .chk-box {
-      font-size: 1.2em;
-      font-weight: bold;
-    }
-    .marcado {
-      color: #f0a500;
-    }
-    .adv-marcado {
-      color: #ff4d4d;
-    }
-    .vazio {
-      color: #4a5568;
-    }
+    body { background-color: #0b0e14; color: #ffffff; font-family: 'Segoe UI', sans-serif; padding: 20px; }
+    .container { max-width: 1350px; margin: 0 auto; }
+    h1 { color: #f0a500; text-align: center; }
+    .table-wrapper { background-color: #141923; border: 1px solid #232b3c; border-radius: 8px; overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; text-align: center; }
+    th, td { padding: 12px; border: 1px solid #232b3c; }
+    thead tr { background-color: #1c2434; color: #f0a500; }
+    .categoria-divisora { background-color: #1c2434 !important; color: #ffffff !important; font-weight: bold; text-transform: uppercase; }
+    .chk-box { font-size: 1.2em; }
+    .marcado { color: #f0a500; }
+    .adv-marcado { color: #ff4d4d; }
+    .vazio { color: #4a5568; }
   </style>
 </head>
 <body>
@@ -138,10 +24,6 @@
   <div class="container">
     <h1>1º BPM - HARDLINE</h1>
     
-    <div class="action-container">
-      <a href="https://script.google.com/macros/s/AKfycbwtJEC35f80OO07rPrQ8fuWDcHbqnEQIQyUh8iVRwP-WB-KfIVM_IICr-rweX2eX864/exec" class="btn-link">+ Cadastrar Novo Membro</a>
-    </div>
-
     <div class="table-wrapper">
       <table id="tabela-efetivo">
         <thead>
@@ -151,19 +33,16 @@
             <th rowspan="2">BADGE</th>
             <th rowspan="2">PATENTE</th>
             <th rowspan="2">UNIDADE</th>
-            <th colspan="3" class="th-advs-header">ADVERTÊNCIAS</th>
-            <th colspan="2" class="th-cursos-header">CURSOS</th>
+            <th colspan="3">ADVERTÊNCIAS</th>
+            <th colspan="2">CURSOS</th>
           </tr>
           <tr>
-            <th style="background-color: #1c2434; font-size: 0.8em; color: #ff4d4d;">ADV 1</th>
-            <th style="background-color: #1c2434; font-size: 0.8em; color: #ff4d4d;">ADV 2</th>
-            <th style="background-color: #1c2434; font-size: 0.8em; color: #ff4d4d;">ADV 3</th>
-            <th style="background-color: #1c2434; font-size: 0.85em;">C.F.A</th>
-            <th style="background-color: #1c2434; font-size: 0.85em;">P.O.E</th>
+            <th>ADV 1</th><th>ADV 2</th><th>ADV 3</th>
+            <th>C.F.A</th><th>P.O.E</th>
           </tr>
         </thead>
         <tbody id="corpo-tabela">
-          <tr><td colspan="10">Carregando dados do efetivo...</td></tr>
+          <tr><td colspan="10">Carregando...</td></tr>
         </tbody>
       </table>
     </div>
@@ -171,8 +50,9 @@
 
   <script>
     const URL_PLANILHA = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
-
-    const hierarquiaPatentes = {
+    
+    // Simplifiquei a hierarquia para evitar erros de leitura
+    const hierarquia = {
       "ALTO COMANDO": 1, "COMANDO": 2, "SUB-COMANDO": 3,
       "PILOTO VETERANO": 4, "PILOTO SÊNIOR": 5, "PILOTO OFICIAL": 6, "PILOTO ESTAGIÁRIO": 7, "ASPIRANTE A PILOTO": 8,
       "OPERADOR VETERANO": 9, "OPERADOR SÊNIOR": 10, "OPERADOR OFICIAL": 11, "TRIPULANTE OPERACIONAL": 12, "ASPIRANTE OPERADOR": 13
@@ -180,94 +60,45 @@
 
     function carregarDados() {
       Papa.parse(URL_PLANILHA, {
-        download: true,
-        header: true,
+        download: true, header: true,
         complete: function(results) {
           const corpo = document.getElementById("corpo-tabela");
           corpo.innerHTML = "";
           
-          let membrosValidos = results.data.filter(membro => membro.Nome && membro.Nome.trim() !== "");
+          let membros = results.data.filter(m => m.Nome && m.Nome.trim() !== "");
+          membros.sort((a, b) => (hierarquia[a.Patente?.toUpperCase().trim()] || 99) - (hierarquia[b.Patente?.toUpperCase().trim()] || 99));
 
-          membrosValidos.sort((a, b) => {
-            let patA = (a.Patente || "").toUpperCase().trim();
-            let patB = (b.Patente || "").toUpperCase().trim();
-            return (hierarquiaPatentes[patA] || 99) - (hierarquiaPatentes[patB] || 99);
+          let cat = "";
+          membros.forEach(m => {
+            // Lógica de categorias
+            let patente = m.Patente || "";
+            let novaCat = patente.includes("PILOTO") ? "PILOTOS" : (patente.includes("OPERADOR") || patente.includes("TRIPULANTE") ? "OPERADORES" : "COMANDO");
+            if (cat !== novaCat) {
+              cat = novaCat;
+              corpo.innerHTML += `<tr><td colspan="10" class="categoria-divisora">${cat}</td></tr>`;
+            }
+
+            // Advertências
+            let adv = (m["Advertências"] || "").toUpperCase();
+            let b1 = adv.includes("ADV1") || adv.includes("ADV2") || adv.includes("ADV3") ? '<span class="marcado">☑</span>' : '<span class="vazio">☐</span>';
+            let b2 = adv.includes("ADV2") || adv.includes("ADV3") ? '<span class="marcado">☑</span>' : '<span class="vazio">☐</span>';
+            let b3 = adv.includes("ADV3") ? '<span class="marcado">☑</span>' : '<span class="vazio">☐</span>';
+
+            // Cursos
+            let cursos = (m["Cursos"] || "").toUpperCase();
+            let c1 = cursos.includes("C.F.A") ? '<span class="marcado">☑</span>' : '<span class="vazio">☐</span>';
+            let c2 = cursos.includes("P.O.E") ? '<span class="marcado">☑</span>' : '<span class="vazio">☐</span>';
+
+            corpo.innerHTML += `<tr>
+              <td>${m.ID}</td><td style="text-align:left">${m.Nome}</td><td>${m.Badge || "-"}</td>
+              <td>${m.Patente || "-"}</td><td>${m.Unidade || "-"}</td>
+              <td>${b1}</td><td>${b2}</td><td>${b3}</td><td>${c1}</td><td>${c2}</td>
+            </tr>`;
           });
-          
-          let exibiuComando = false;
-          let exibiuPilotos = false;
-          let exibiuOperadores = false;
-
-          membrosValidos.forEach(membro => {
-            const advsString = (membro["Advertências"] || "").toUpperCase().trim();
-            const cursosString = membro["Cursos"] || "";
-            
-            let patenteFormatada = membro.Patente || "";
-            let patenteUpper = patenteFormatada.toUpperCase().trim();
-            
-            if (patenteUpper === "SUB-COMANDO") patenteFormatada = "Sub-Comando";
-            else if (patenteUpper === "ALTO COMANDO") patenteFormatada = "Alto Comando";
-            else if (patenteUpper === "COMANDO") patenteFormatada = "Comando";
-
-            // Geração Inteligente das Linhas Separadoras de Categoria
-            if ((patenteUpper === "ALTO COMANDO" || patenteUpper === "COMANDO" || patenteUpper === "SUB-COMANDO") && !exibiuComando) {
-              corpo.innerHTML += `<tr><td colspan="10" class="categoria-divisora">Alto Comando / Comando</td></tr>`;
-              exibiuComando = true;
-            }
-            else if (patenteUpper.includes("PILOTO") && !exibiuPilotos) {
-              corpo.innerHTML += `<tr><td colspan="10" class="categoria-divisora">Corpo de Pilotos da Unidade</td></tr>`;
-              exibiuPilotos = true;
-            }
-            else if ((patenteUpper.includes("OPERADOR") || patenteUpper.includes("TRIPULANTE")) && !exibiuOperadores) {
-              corpo.innerHTML += `<tr><td colspan="10" class="categoria-divisora">Corpo de Operadores da Unidade</td></tr>`;
-              exibiuOperadores = true;
-            }
-
-            // Gerenciamento Visual de Advertências Acumulativas (☑)
-            let boxAdv1 = '<span class="chk-box vazio">☐</span>';
-            let boxAdv2 = '<span class="chk-box vazio">☐</span>';
-            let boxAdv3 = '<span class="chk-box vazio">☐</span>';
-
-            if (advsString === "ADV1") {
-              boxAdv1 = '<span class="chk-box adv-marcado">☑</span>';
-            } else if (advsString === "ADV2") {
-              boxAdv1 = '<span class="chk-box adv-marcado">☑</span>';
-              boxAdv2 = '<span class="chk-box adv-marcado">☑</span>';
-            } else if (advsString === "ADV3") {
-              boxAdv1 = '<span class="chk-box adv-marcado">☑</span>';
-              boxAdv2 = '<span class="chk-box adv-marcado">☑</span>';
-              boxAdv3 = '<span class="chk-box adv-marcado">☑</span>';
-            }
-
-            // Gerenciamento Visual de Cursos Realizados
-            let arrayCursos = cursosString.split(' / ').map(c => c.trim().toUpperCase());
-            let temCFA = arrayCursos.includes("C.F.A") ? '<span class="chk-box marcado">☑</span>' : '<span class="chk-box vazio">☐</span>';
-            let temPOE = arrayCursos.includes("P.O.E") ? '<span class="chk-box marcado">☑</span>' : '<span class="chk-box vazio">☐</span>';
-
-            corpo.innerHTML += `
-              <tr>
-                <td class="badge-id">${membro.ID}</td>
-                <td style="text-align: left; padding-left: 20px; font-weight: 500;">${membro.Nome}</td>
-                <td>${membro.Badge || "-"}</td>
-                <td style="font-weight: 500;">${patenteFormatada}</td>
-                <td>${membro.Unidade || "-"}</td>
-                <td>${boxAdv1}</td>
-                <td>${boxAdv2}</td>
-                <td>${boxAdv3}</td>
-                <td>${temCFA}</td>
-                <td>${temPOE}</td>
-              </tr>`;
-          });
-          
-          if(membrosValidos.length === 0) {
-            corpo.innerHTML = `<tr><td colspan="10">Nenhum registro encontrado no efetivo.</td></tr>`;
-          }
         }
       });
     }
-    
     carregarDados();
-    setInterval(carregarDados, 60000); 
   </script>
 </body>
 </html>
