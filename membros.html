@@ -13,6 +13,11 @@
         th { background: #1c2434; color: #f0a500; padding: 12px; font-size: 0.8em; text-transform: uppercase; border: 1px solid #232b3c; }
         td { padding: 12px; border: 1px solid #1a202c; text-align: center; color: #e2e8f0; }
         .categoria { background: #1c2434; font-weight: bold; padding: 10px; }
+        
+        /* ESTILO PARA AS CAIXAS */
+        .check-marcado { color: #f0a500; font-weight: bold; } /* Amarelo */
+        .check-vazio { color: #4a5568; } /* Cinza */
+        
         tr:hover { background: #1a202c; }
     </style>
 </head>
@@ -41,10 +46,19 @@
 <script>
     const URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
 
+    function gerarCheck(texto) {
+        // Se o texto contiver o item, retorna o ícone com classe amarela, senão, cinza
+        const marcado = texto.toUpperCase().includes("X") || texto.includes("☑"); 
+        return marcado 
+            ? `<span class="check-marcado">☑</span>` 
+            : `<span class="check-vazio">☐</span>`;
+    }
+
     Papa.parse(URL, { download: true, header: true, complete: function(res) {
         const corpo = document.getElementById("corpo");
         corpo.innerHTML = "";
         let cat = "";
+        
         res.data.forEach(m => {
             if(!m.Nome) return;
             let novaCat = (m.Patente.includes("Piloto")) ? "CORPO DE PILOTOS" : "ALTO COMANDO / COMANDO";
@@ -52,13 +66,14 @@
                 cat = novaCat;
                 corpo.innerHTML += `<tr><td colspan="10" class="categoria">${cat}</td></tr>`;
             }
+            
             let c = (m.Cursos || "").toUpperCase();
             corpo.innerHTML += `<tr>
                 <td>${m.ID}</td><td style="text-align:left">${m.Nome}</td><td>${m.Badge || "-"}</td>
                 <td>${m.Patente}</td><td>${m.Unidade || "-"}</td>
-                <td>☐</td><td>☐</td><td>☐</td>
-                <td>${c.includes("C.F.A") ? "☑" : "☐"}</td>
-                <td>${c.includes("P.O.E") ? "☑" : "☐"}</td>
+                <td>${gerarCheck("")}</td><td>${gerarCheck("")}</td><td>${gerarCheck("")}</td>
+                <td>${c.includes("C.F.A") ? '<span class="check-marcado">☑</span>' : '<span class="check-vazio">☐</span>'}</td>
+                <td>${c.includes("P.O.E") ? '<span class="check-marcado">☑</span>' : '<span class="check-vazio">☐</span>'}</td>
             </tr>`;
         });
     }});
