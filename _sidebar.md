@@ -2,7 +2,7 @@
   * [Manual de Conduta](manualdeconduta.md)
 * **ORGANIZAÇÃO**
   * [Hierarquia Militar](hierarquia.md)
-  * [Planilha de membros](Planilhademembros.md)
+  * [Planilha de membros](membros.html)
 * **OPERAÇÕES**
   * [Comunicação](comunicacao.md)
   * [Aeronaves](aeronave.md)
