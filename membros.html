@@ -1,61 +1,60 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Efetivo PMHL</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-    <style>
-        body { background-color: #0b0e14; color: #fff; font-family: 'Segoe UI', sans-serif; padding: 20px; }
-        .container { max-width: 1200px; margin: 0 auto; text-align: center; }
-        h1 { color: #f0a500; }
-        .btn { display: inline-block; background: #f0a500; color: #000; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-bottom: 20px; }
-        .table-wrapper { background: #141923; border-radius: 12px; overflow: hidden; border: 1px solid #232b3c; }
-        table { width: 100%; border-collapse: collapse; }
-        th { background: #1c2434; color: #f0a500; padding: 15px; font-size: 0.85em; text-transform: uppercase; }
-        td { padding: 15px; border-bottom: 1px solid #1a202c; text-align: center; }
-        .cat-row { background: #1c2434; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        tr:hover { background: #1a202c; }
-        .check { color: #f0a500; font-weight: bold; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Efetivo PMHL - GSA</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <style>
+    body { background-color: #0b0e14; color: #fff; font-family: 'Segoe UI', sans-serif; padding: 40px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 { color: #f0a500; text-align: center; margin-bottom: 30px; }
+    .wrapper { background: #141923; border-radius: 12px; border: 1px solid #232b3c; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    table { width: 100%; border-collapse: collapse; }
+    th { background: #1c2434; color: #f0a500; padding: 15px; font-size: 0.85em; text-transform: uppercase; border-bottom: 2px solid #232b3c; }
+    td { padding: 15px; border-bottom: 1px solid #1a202c; text-align: center; color: #e2e8f0; }
+    .categoria { background: #1c2434; color: #fff; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; padding: 12px; }
+    tr:hover { background: #1a202c; }
+    .marcado { color: #f0a500; font-weight: bold; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>1º BPM - HARDLINE</h1>
-        <a href="URL_DO_SEU_FORMULARIO" target="_blank" class="btn">+ Cadastrar Novo Membro</a>
-        <div class="table-wrapper">
-            <table id="tabela">
-                <thead>
-                    <tr><th>ID</th><th>NOME</th><th>BADGE</th><th>PATENTE</th><th>UNIDADE</th><th>ADV</th><th>C.F.A</th><th>P.O.E</th></tr>
-                </thead>
-                <tbody id="corpo"><tr><td colspan="8">Carregando...</td></tr></tbody>
-            </table>
-        </div>
+  <div class="container">
+    <h1>1º BPM - HARDLINE</h1>
+    <div class="wrapper">
+      <table id="tabela">
+        <thead>
+          <tr>
+            <th>ID</th><th>NOME</th><th>BADGE</th><th>PATENTE</th><th>UNIDADE</th><th>ADV</th><th colspan="2">CURSOS</th>
+          </tr>
+        </thead>
+        <tbody id="corpo"><tr><td colspan="8">Carregando...</td></tr></tbody>
+      </table>
     </div>
+  </div>
 
-    <script>
-        const URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
-        
-        Papa.parse(URL, { download: true, header: true, complete: function(res) {
-            const corpo = document.getElementById("corpo");
-            corpo.innerHTML = "";
-            let catAtual = "";
-            
-            res.data.forEach(m => {
-                if(!m.Nome) return;
-                let novaCat = m.Patente.includes("Piloto") ? "CORPO DE PILOTOS" : "ALTO COMANDO";
-                if(catAtual !== novaCat) {
-                    catAtual = novaCat;
-                    corpo.innerHTML += `<tr><td colspan="8" class="cat-row">${catAtual}</td></tr>`;
-                }
-                let c = (m.Cursos || "").toUpperCase();
-                corpo.innerHTML += `<tr>
-                    <td>${m.ID}</td><td style="text-align:left">${m.Nome}</td><td>${m.Badge}</td>
-                    <td>${m.Patente}</td><td>${m.Unidade}</td><td>-</td>
-                    <td class="check">${c.includes("C.F.A") ? "☑" : "☐"}</td>
-                    <td class="check">${c.includes("P.O.E") ? "☑" : "☐"}</td>
-                </tr>`;
-            });
-        }});
-    </script>
+  <script>
+    const URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
+    
+    Papa.parse(URL, { download: true, header: true, complete: function(res) {
+      const corpo = document.getElementById("corpo");
+      corpo.innerHTML = "";
+      let categoria = "";
+      
+      res.data.filter(m => m.Nome).forEach(m => {
+        let novaCat = m.Patente.includes("Piloto") ? "CORPO DE PILOTOS" : "ALTO COMANDO";
+        if (categoria !== novaCat) {
+          categoria = novaCat;
+          corpo.innerHTML += `<tr><td colspan="8" class="categoria">${categoria}</td></tr>`;
+        }
+        let c = (m.Cursos || "").toUpperCase();
+        corpo.innerHTML += `<tr>
+          <td>${m.ID}</td><td style="text-align:left">${m.Nome}</td><td>${m.Badge || "-"}</td>
+          <td>${m.Patente}</td><td>${m.Unidade || "-"}</td><td>-</td>
+          <td class="marcado">${c.includes("C.F.A") ? "☑" : "☐"}</td>
+          <td class="marcado">${c.includes("P.O.E") ? "☑" : "☐"}</td>
+        </tr>`;
+      });
+    }});
+  </script>
 </body>
 </html>
