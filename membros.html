@@ -1,69 +1,58 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-    <style>
-        body { background-color: #0b0e14; color: white; font-family: sans-serif; }
-        .table-wrapper { background-color: #141923; border-radius: 12px; overflow: hidden; border: 1px solid #232b3c; margin: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th { background-color: #1c2434; color: #f0a500; padding: 15px; font-size: 0.85em; text-transform: uppercase; }
-        td { padding: 15px; border-bottom: 1px solid #1a202c; text-align: center; }
-        .erro { color: #ff6b6b; padding: 20px; text-align: center; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Efetivo PMHL - Hardline</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+  <style>
+    body { background-color: #0b0e14; color: #fff; font-family: 'Segoe UI', sans-serif; padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 { color: #f0a500; text-align: center; }
+    .wrapper { background: #141923; border-radius: 16px; overflow: hidden; border: 1px solid #232b3c; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+    table { width: 100%; border-collapse: collapse; }
+    th { background: #1c2434; color: #f0a500; padding: 15px; text-transform: uppercase; font-size: 0.8em; }
+    td { padding: 15px; border-bottom: 1px solid #1a202c; text-align: center; color: #e2e8f0; }
+    tr:hover { background: #1a202c; }
+    .marcado { color: #f0a500; font-weight: bold; }
+    .vazio { color: #4a5568; }
+  </style>
 </head>
 <body>
-
-<div class="table-wrapper">
-    <table id="tabela">
+  <div class="container">
+    <h1>1º BPM - HARDLINE</h1>
+    <div class="wrapper">
+      <table>
         <thead>
-            <tr>
-                <th>ID</th><th>NOME</th><th>BADGE</th><th>PATENTE</th><th>UNIDADE</th><th>ADV</th><th>CFA</th><th>POE</th>
-            </tr>
+          <tr>
+            <th>ID</th><th>NOME</th><th>BADGE</th><th>PATENTE</th><th>UNIDADE</th><th>ADV</th><th>C.F.A</th><th>P.O.E</th>
+          </tr>
         </thead>
-        <tbody id="corpo">
-            <tr><td colspan="8">Buscando dados na planilha...</td></tr>
-        </tbody>
-    </table>
-</div>
+        <tbody id="corpo"><tr><td colspan="8">Carregando dados...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
 
-<script>
-    // URL DA SUA PLANILHA PUBLICADA COMO CSV
+  <script>
     const URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
-
-    Papa.parse(URL, {
-        download: true,
-        header: true,
-        complete: function(results) {
-            const corpo = document.getElementById("corpo");
-            corpo.innerHTML = "";
-            
-            if (results.errors.length > 0) {
-                corpo.innerHTML = "<tr><td colspan='8' class='erro'>Erro ao ler a planilha. Verifique se ela foi 'Publicada na Web'.</td></tr>";
-                console.error(results.errors);
-                return;
-            }
-
-            results.data.forEach(m => {
-                if (m.Nome && m.Nome.trim() !== "") {
-                    let c = (m.Cursos || "").toUpperCase();
-                    corpo.innerHTML += `<tr>
-                        <td>${m.ID || "-"}</td>
-                        <td style="text-align:left">${m.Nome}</td>
-                        <td>${m.Badge || "-"}</td>
-                        <td>${m.Patente || "-"}</td>
-                        <td>${m.Unidade || "-"}</td>
-                        <td>${m.Advertências || "-"}</td>
-                        <td>${c.includes("C.F.A") ? "☑" : "☐"}</td>
-                        <td>${c.includes("P.O.E") ? "☑" : "☐"}</td>
-                    </tr>`;
-                }
-            });
-        },
-        error: function(err) {
-            document.getElementById("corpo").innerHTML = "<tr><td colspan='8' class='erro'>Erro de conexão: " + err.message + "</td></tr>";
+    Papa.parse(URL, { download: true, header: true, complete: function(res) {
+      const corpo = document.getElementById("corpo");
+      corpo.innerHTML = "";
+      res.data.forEach(m => {
+        if(m.Nome && m.Nome.trim() !== "") {
+          let c = (m.Cursos || "").toUpperCase();
+          corpo.innerHTML += `<tr>
+            <td>${m.ID || "-"}</td>
+            <td style="text-align:left">${m.Nome}</td>
+            <td>${m.Badge || "-"}</td>
+            <td>${m.Patente || "-"}</td>
+            <td>${m.Unidade || "-"}</td>
+            <td>${m.Advertências || "-"}</td>
+            <td class="${c.includes("C.F.A") ? 'marcado' : 'vazio'}">${c.includes("C.F.A") ? "☑" : "☐"}</td>
+            <td class="${c.includes("P.O.E") ? 'marcado' : 'vazio'}">${c.includes("P.O.E") ? "☑" : "☐"}</td>
+          </tr>`;
         }
-    });
-</script>
+      });
+    }});
+  </script>
 </body>
 </html>
