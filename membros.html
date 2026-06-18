@@ -2,138 +2,73 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Efetivo PMHL-GSA - Painel</title>
+  <title>Efetivo PMHL - GSA</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   <style>
-    /* Reset e Fundo */
-    body { 
-        background-color: #0b0e14; 
-        color: #ffffff; 
-        font-family: 'Segoe UI', Tahoma, sans-serif; 
-        padding: 30px 20px; 
-        margin: 0; 
-    }
-    .container { max-width: 1300px; margin: 0 auto; }
-    h1 { color: #f0a500; text-align: center; margin-bottom: 25px; font-weight: 600; }
-    
-    .action-container { text-align: center; margin-bottom: 30px; }
-    .btn-link { display: inline-block; color: #000000; background-color: #f0a500; text-decoration: none; font-weight: bold; padding: 10px 24px; border-radius: 8px; transition: 0.3s; }
-    .btn-link:hover { background-color: #d48e00; transform: translateY(-2px); }
-
-    /* Estilo do Container da Tabela (O segredo para não ficar quadrado) */
-    .table-wrapper { 
-        background-color: #141923; 
-        border-radius: 16px; 
-        overflow: hidden; 
-        border: 1px solid #232b3c;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    }
-    
+    body { background-color: #0b0e14; color: #ffffff; font-family: 'Segoe UI', sans-serif; padding: 20px; }
+    .table-wrapper { background-color: #141923; border-radius: 12px; overflow: hidden; border: 1px solid #232b3c; }
     table { width: 100%; border-collapse: collapse; }
-    
-    th { 
-        background-color: #1c2434; 
-        color: #f0a500; 
-        padding: 16px; 
-        font-size: 0.85em; 
-        text-transform: uppercase;
-        border-bottom: 1px solid #232b3c;
-    }
-    
-    td { 
-        padding: 16px; 
-        border-bottom: 1px solid #1a202c; 
-        text-align: center; 
-        color: #e2e8f0; 
-    }
-
-    /* Remove bordas inferiores das últimas linhas para manter o visual limpo */
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background-color: #1a202c; }
-    
-    /* Categorias */
-    .categoria-divisora { 
-        background-color: #1c2434 !important; 
-        color: #ffffff !important; 
-        font-weight: bold; 
-        padding: 12px !important; 
-        letter-spacing: 1px;
-    }
-    
-    .badge-id { font-weight: bold; color: #f0a500; }
-    .marcado { color: #f0a500; font-weight: bold; font-size: 1.2em; }
-    .vazio { color: #4a5568; font-size: 1.2em; }
+    th { background-color: #1c2434; color: #f0a500; padding: 15px; text-transform: uppercase; font-size: 0.8em; }
+    td { padding: 15px; border-bottom: 1px solid #1a202c; text-align: center; }
+    .categoria-divisora { background-color: #1c2434 !important; font-weight: bold; padding: 10px !important; }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>1º BPM - HARDLINE</h1>
-    
-    <div class="action-container">
-      <a href="https://script.google.com/macros/s/AKfycbxYTcABsSdVR88Pk4D_t7TVdABWQBfI11zL_IUFAbMq0C1IBBPtcA9ACVp7Lo8nVes/exec" target="_blank" class="btn-link">+ Cadastrar Novo Membro</a>
-    </div>
-
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th rowspan="2">ID</th>
-            <th rowspan="2">NOME</th>
-            <th rowspan="2">BADGE</th>
-            <th rowspan="2">PATENTE</th>
-            <th rowspan="2">UNIDADE</th>
-            <th rowspan="2">ADVERTÊNCIAS</th>
-            <th colspan="2">CURSOS</th>
-          </tr>
-          <tr>
-            <th>C.F.A</th>
-            <th>P.O.E</th>
-          </tr>
-        </thead>
-        <tbody id="corpo-tabela">
-          <tr><td colspan="8">Carregando dados...</td></tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="table-wrapper">
+    <table id="tabela-efetivo">
+      <thead>
+        <tr>
+          <th>ID</th><th>NOME</th><th>BADGE</th><th>PATENTE</th><th>UNIDADE</th><th>ADV</th><th>CFA</th><th>POE</th>
+        </tr>
+      </thead>
+      <tbody id="corpo-tabela">
+        <tr><td colspan="8">Aguardando conexão com a planilha...</td></tr>
+      </tbody>
+    </table>
   </div>
 
   <script>
+    // URL direta de publicação (CSV)
     const URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
-    const hierarquia = { "ALTO COMANDO": 1, "COMANDO": 2, "SUB-COMANDO": 3, "PILOTO VETERANO": 4, "PILOTO SÊNIOR": 5, "PILOTO OFICIAL": 6, "PILOTO ESTAGIÁRIO": 7, "ASPIRANTE A PILOTO": 8, "OPERADOR VETERANO": 9, "OPERADOR SÊNIOR": 10, "OPERADOR OFICIAL": 11, "TRIPULANTE OPERACIONAL": 12, "ASPIRANTE OPERADOR": 13 };
 
-    function carregarDados() {
-      Papa.parse(URL, { download: true, header: true, complete: function(res) {
-        const corpo = document.getElementById("corpo-tabela");
-        corpo.innerHTML = "";
-        let membros = res.data.filter(m => m.Nome?.trim());
-        
-        membros.sort((a, b) => (hierarquia[a.Patente?.toUpperCase().trim()] || 99) - (hierarquia[b.Patente?.toUpperCase().trim()] || 99));
-
-        let cat = "";
-        membros.forEach(m => {
-          let novaCat = m.Patente?.toUpperCase().includes("PILOTO") ? "CORPO DE PILOTOS" : "ALTO COMANDO / COMANDO";
-          if (cat !== novaCat) {
-            cat = novaCat;
-            corpo.innerHTML += `<tr><td colspan="8" class="categoria-divisora">${cat}</td></tr>`;
+    function carregar() {
+      Papa.parse(URL, {
+        download: true,
+        header: true,
+        error: function(err) {
+          document.getElementById("corpo-tabela").innerHTML = "<tr><td colspan='8'>Erro ao carregar dados. Verifique a URL.</td></tr>";
+        },
+        complete: function(results) {
+          const corpo = document.getElementById("corpo-tabela");
+          corpo.innerHTML = "";
+          
+          if (results.data.length === 0) {
+            corpo.innerHTML = "<tr><td colspan='8'>Nenhum dado encontrado.</td></tr>";
+            return;
           }
 
-          let cursos = (m["Cursos"] || "").toUpperCase();
-          corpo.innerHTML += `<tr>
-            <td class="badge-id">${m.ID || "-"}</td>
-            <td style="text-align:left; padding-left:20px;">${m.Nome}</td>
-            <td>${m.Badge || "-"}</td>
-            <td>${m.Patente || "-"}</td>
-            <td>${m.Unidade || "-"}</td>
-            <td>${m["Advertências"] || "-"}</td>
-            <td>${cursos.includes("C.F.A") ? '<span class="marcado">☑</span>' : '<span class="vazio">☐</span>'}</td>
-            <td>${cursos.includes("P.O.E") ? '<span class="marcado">☑</span>' : '<span class="vazio">☐</span>'}</td>
-          </tr>`;
-        });
-      }});
+          results.data.forEach(m => {
+            if (m.Nome && m.Nome.trim() !== "") {
+              let cursos = (m.Cursos || "").toUpperCase();
+              corpo.innerHTML += `<tr>
+                <td>${m.ID || "-"}</td>
+                <td style="text-align:left">${m.Nome}</td>
+                <td>${m.Badge || "-"}</td>
+                <td>${m.Patente || "-"}</td>
+                <td>${m.Unidade || "-"}</td>
+                <td>${m.Advertências || "-"}</td>
+                <td>${cursos.includes("C.F.A") ? "☑" : "☐"}</td>
+                <td>${cursos.includes("P.O.E") ? "☑" : "☐"}</td>
+              </tr>`;
+            }
+          });
+        }
+      });
     }
-    carregarDados();
-    setInterval(carregarDados, 60000);
+
+    // Executa a função assim que a página carregar
+    window.onload = carregar;
   </script>
 </body>
 </html>
