@@ -2,67 +2,86 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <title>Efetivo PMHL-GSA</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   <style>
-    body { margin: 0; padding: 0; background-color: #111417; }
-    iframe { width: 100%; height: 100vh; border: none; }
+    body { background-color: #0b0e14; color: #ffffff; font-family: 'Segoe UI', sans-serif; padding: 20px; }
+    .container { max-width: 1300px; margin: 0 auto; text-align: center; }
+    h1 { color: #f0a500; margin-bottom: 25px; }
+    
+    .table-wrapper { background-color: #141923; border: 1px solid #232b3c; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+    table { width: 100%; border-collapse: collapse; text-align: center; }
+    th, td { padding: 14px; border: 1px solid #232b3c; }
+    
+    /* Cabeçalho */
+    thead tr { background-color: #1c2434; color: #f0a500; font-weight: bold; }
+    
+    /* Linha divisora de categoria */
+    .categoria-divisora { background-color: #1c2434 !important; color: #ffffff !important; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+    
+    /* Efeito de hover e checkboxes */
+    tbody tr:hover { background-color: #1a202c; }
+    .marcado { color: #f0a500; font-weight: bold; }
+    .vazio { color: #4a5568; }
   </style>
 </head>
 <body>
-  <iframe srcdoc='
-    <!DOCTYPE html>
-    <html lang="pt-BR">
-    <head>
-      <style>
-        body { background-color: #141923; color: #ffffff; font-family: sans-serif; padding: 15px; }
-        table { width: 100%; border-collapse: collapse; text-align: center; border: 1px solid #232b3c; table-layout: fixed; }
-        th, td { padding: 10px; border: 1px solid #232b3c; overflow: hidden; }
-        thead tr { background-color: #1c2434; color: #f0a500; }
-        .col-fixa { width: 80px; } /* Largura fixa para colunas de checkboxes */
-        .marcado { color: #f0a500; font-weight: bold; }
-        .vazio { color: #4a5568; }
-      </style>
-    </head>
-    <body>
-      <table>
+
+<div class="container">
+    <h1>1º BPM - HARDLINE</h1>
+    <div class="table-wrapper">
+      <table id="tabela-efetivo">
         <thead>
           <tr>
-            <th rowspan="2" style="width: 50px;">ID</th>
+            <th rowspan="2">ID</th>
             <th rowspan="2">NOME</th>
-            <th rowspan="2" style="width: 80px;">BADGE</th>
+            <th rowspan="2">BADGE</th>
             <th rowspan="2">PATENTE</th>
             <th rowspan="2">UNIDADE</th>
-            <th colspan="3">ADVERTÊNCIAS</th>
+            <th rowspan="2">ADVERTÊNCIAS</th>
             <th colspan="2">CURSOS</th>
           </tr>
           <tr>
-            <th class="col-fixa">ADV 1</th><th class="col-fixa">ADV 2</th><th class="col-fixa">ADV 3</th>
-            <th class="col-fixa">C.F.A</th><th class="col-fixa">P.O.E</th>
+            <th>C.F.A</th>
+            <th>P.O.E</th>
           </tr>
         </thead>
-        <tbody id="corpo-tabela"><tr><td colspan="10">Carregando dados...</td></tr></tbody>
+        <tbody id="corpo-tabela">
+          <tr><td colspan="7">Carregando dados...</td></tr>
+        </tbody>
       </table>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-      <script>
-        const URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
-        Papa.parse(URL, { download: true, header: true, complete: function(res) {
-          const corpo = document.getElementById("corpo-tabela");
-          corpo.innerHTML = "";
-          res.data.filter(m => m.Nome).forEach(m => {
-            let adv = (m["Advertências"] || "").toUpperCase();
+    </div>
+</div>
+
+<script>
+    const URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
+    
+    Papa.parse(URL, { download: true, header: true, complete: function(res) {
+        const corpo = document.getElementById("corpo-tabela");
+        corpo.innerHTML = "";
+        
+        let categoriaAtual = "";
+        res.data.filter(m => m.Nome).forEach(m => {
+            // Lógica de categorias
+            let novaCategoria = m.Patente.includes("PILOTO") ? "CORPO DE PILOTOS" : "ALTO COMANDO / COMANDO";
+            if (categoriaAtual !== novaCategoria) {
+                categoriaAtual = novaCategoria;
+                corpo.innerHTML += `<tr><td colspan="7" class="categoria-divisora">${categoriaAtual}</td></tr>`;
+            }
+
             let cur = (m["Cursos"] || "").toUpperCase();
             corpo.innerHTML += `<tr>
-              <td>${m.ID}</td><td style="text-align:left">${m.Nome}</td><td>${m.Badge || "-"}</td><td>${m.Patente || "-"}</td><td>${m.Unidade || "-"}</td>
-              <td>${adv.includes("ADV1") ? "<span class=marcado>☑</span>" : "<span class=vazio>☐</span>"}</td>
-              <td>${adv.includes("ADV2") ? "<span class=marcado>☑</span>" : "<span class=vazio>☐</span>"}</td>
-              <td>${adv.includes("ADV3") ? "<span class=marcado>☑</span>" : "<span class=vazio>☐</span>"}</td>
-              <td>${cur.includes("C.F.A") ? "<span class=marcado>☑</span>" : "<span class=vazio>☐</span>"}</td>
-              <td>${cur.includes("P.O.E") ? "<span class=marcado>☑</span>" : "<span class=vazio>☐</span>"}</td>
+                <td>${m.ID}</td>
+                <td style="text-align:left; padding-left:20px;">${m.Nome}</td>
+                <td>${m.Badge || "-"}</td>
+                <td>${m.Patente}</td>
+                <td>${m.Unidade || "-"}</td>
+                <td>-</td>
+                <td>${cur.includes("C.F.A") ? "<span class='marcado'>☑</span>" : "<span class='vazio'>☐</span>"}</td>
+                <td>${cur.includes("P.O.E") ? "<span class='marcado'>☑</span>" : "<span class='vazio'>☐</span>"}</td>
             </tr>`;
-          });
-        }});
-      </script>
-    </body>
-    </html>
-  '></iframe>
+        });
+    }});
+</script>
 </body>
 </html>
