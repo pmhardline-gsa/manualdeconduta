@@ -5,26 +5,64 @@
   <title>Efetivo PMHL-GSA - Painel</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   <style>
-    body { background-color: #0b0e14; color: #ffffff; font-family: 'Segoe UI', Tahoma, sans-serif; padding: 30px 20px; margin: 0; }
+    /* Reset e Fundo */
+    body { 
+        background-color: #0b0e14; 
+        color: #ffffff; 
+        font-family: 'Segoe UI', Tahoma, sans-serif; 
+        padding: 30px 20px; 
+        margin: 0; 
+    }
     .container { max-width: 1300px; margin: 0 auto; }
-    h1 { color: #f0a500; text-align: center; margin-bottom: 25px; font-weight: 600; letter-spacing: 0.5px; }
+    h1 { color: #f0a500; text-align: center; margin-bottom: 25px; font-weight: 600; }
     
     .action-container { text-align: center; margin-bottom: 30px; }
-    .btn-link { display: inline-block; color: #000000; background-color: #f0a500; text-decoration: none; font-weight: bold; padding: 10px 24px; border-radius: 4px; transition: 0.3s; }
+    .btn-link { display: inline-block; color: #000000; background-color: #f0a500; text-decoration: none; font-weight: bold; padding: 10px 24px; border-radius: 8px; transition: 0.3s; }
     .btn-link:hover { background-color: #d48e00; transform: translateY(-2px); }
 
-    .table-wrapper { background-color: #141923; border: 1px solid #232b3c; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
-    table { width: 100%; border-collapse: collapse; border-spacing: 0; }
+    /* Estilo do Container da Tabela (O segredo para não ficar quadrado) */
+    .table-wrapper { 
+        background-color: #141923; 
+        border-radius: 16px; 
+        overflow: hidden; 
+        border: 1px solid #232b3c;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
     
-    th { background-color: #1c2434; color: #f0a500; padding: 14px; font-size: 0.85em; text-align: center; border-bottom: 2px solid #232b3c; }
-    td { padding: 14px; border-bottom: 1px solid #232b3c; text-align: center; color: #e2e8f0; }
+    table { width: 100%; border-collapse: collapse; }
     
+    th { 
+        background-color: #1c2434; 
+        color: #f0a500; 
+        padding: 16px; 
+        font-size: 0.85em; 
+        text-transform: uppercase;
+        border-bottom: 1px solid #232b3c;
+    }
+    
+    td { 
+        padding: 16px; 
+        border-bottom: 1px solid #1a202c; 
+        text-align: center; 
+        color: #e2e8f0; 
+    }
+
+    /* Remove bordas inferiores das últimas linhas para manter o visual limpo */
+    tr:last-child td { border-bottom: none; }
     tr:hover td { background-color: #1a202c; }
-    .categoria-divisora { background-color: #1c2434 !important; color: #ffffff !important; font-weight: bold; text-transform: uppercase; padding: 10px !important; }
+    
+    /* Categorias */
+    .categoria-divisora { 
+        background-color: #1c2434 !important; 
+        color: #ffffff !important; 
+        font-weight: bold; 
+        padding: 12px !important; 
+        letter-spacing: 1px;
+    }
+    
     .badge-id { font-weight: bold; color: #f0a500; }
-    .chk-box { font-size: 1.2em; font-weight: bold; }
-    .marcado { color: #f0a500; }
-    .vazio { color: #4a5568; }
+    .marcado { color: #f0a500; font-weight: bold; font-size: 1.2em; }
+    .vazio { color: #4a5568; font-size: 1.2em; }
   </style>
 </head>
 <body>
@@ -88,13 +126,14 @@
             <td>${m.Patente || "-"}</td>
             <td>${m.Unidade || "-"}</td>
             <td>${m["Advertências"] || "-"}</td>
-            <td>${cursos.includes("C.F.A") ? '<span class="chk-box marcado">☑</span>' : '<span class="chk-box vazio">☐</span>'}</td>
-            <td>${cursos.includes("P.O.E") ? '<span class="chk-box marcado">☑</span>' : '<span class="chk-box vazio">☐</span>'}</td>
+            <td>${cursos.includes("C.F.A") ? '<span class="marcado">☑</span>' : '<span class="vazio">☐</span>'}</td>
+            <td>${cursos.includes("P.O.E") ? '<span class="marcado">☑</span>' : '<span class="vazio">☐</span>'}</td>
           </tr>`;
         });
       }});
     }
     carregarDados();
+    setInterval(carregarDados, 60000);
   </script>
 </body>
 </html>
