@@ -2,14 +2,12 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Efetivo PMHL</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
         body { background-color: #0b0e14; color: #fff; font-family: 'Segoe UI', sans-serif; padding: 20px; }
         .container { max-width: 1200px; margin: 0 auto; text-align: center; }
         h1 { color: #f0a500; margin-bottom: 20px; }
-        .btn-cadastro { display: inline-block; background: #f0a500; color: #000; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-bottom: 25px; transition: 0.3s; }
-        .btn-cadastro:hover { background: #d48e00; }
+        .btn-cadastro { display: inline-block; background: #f0a500; color: #000; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-bottom: 25px; }
         .table-container { background: #141923; border-radius: 12px; overflow: hidden; border: 1px solid #232b3c; }
         table { width: 100%; border-collapse: collapse; }
         th { background: #1c2434; color: #f0a500; padding: 12px; font-size: 0.8em; text-transform: uppercase; border: 1px solid #232b3c; }
@@ -24,7 +22,6 @@
 
 <div class="container">
     <h1>1º BPM - HARDLINE</h1>
-    
     <a href="https://script.google.com/macros/s/AKfycbwtJEC35f80OO07rPrQ8fuWDcHbqnEQIQyUh8iVRwP-WB-KfIVM_IICr-rweX2eX864/exec" target="_blank" class="btn-cadastro">+ Cadastrar Novo Membro</a>
 
     <div class="table-container">
@@ -38,7 +35,7 @@
                     <th>ADV 1</th><th>ADV 2</th><th>ADV 3</th><th>C.F.A</th><th>P.O.E</th>
                 </tr>
             </thead>
-            <tbody id="corpo"><tr><td colspan="10">Carregando dados da planilha...</td></tr></tbody>
+            <tbody id="corpo"></tbody>
         </table>
     </div>
 </div>
@@ -49,31 +46,31 @@
     Papa.parse(URL, { download: true, header: true, complete: function(res) {
         const corpo = document.getElementById("corpo");
         corpo.innerHTML = "";
-        let catAtual = "";
+        
+        // Define as categorias fixas que você quer
+        const categorias = [
+            { nome: "ALTO COMANDO / COMANDO", patentes: ["Alto Comando", "Sub-Comando", "Comando"] },
+            { nome: "CORPO DE PILOTOS", patentes: ["Aspirante a Piloto", "Piloto"] }
+        ];
 
-        // Filtra para pegar apenas linhas que realmente tenham ID e Nome
-        const dadosValidos = res.data.filter(m => m.ID && m.ID.trim() !== "" && m.Nome && m.Nome.trim() !== "");
+        categorias.forEach(cat => {
+            // Adiciona a linha de título da categoria
+            corpo.innerHTML += `<tr><td colspan="10" class="cat-row">${cat.nome}</td></tr>`;
 
-        dadosValidos.forEach(m => {
-            // Lógica de categoria
-            let novaCat = (m.Patente && m.Patente.includes("Piloto")) ? "CORPO DE PILOTOS" : "ALTO COMANDO / COMANDO";
-            
-            if (catAtual !== novaCat) {
-                catAtual = novaCat;
-                corpo.innerHTML += `<tr><td colspan="10" class="cat-row">${catAtual}</td></tr>`;
-            }
-
-            let c = (m.Cursos || "").toUpperCase();
-            corpo.innerHTML += `<tr>
-                <td>${m.ID}</td>
-                <td style="text-align:left">${m.Nome}</td>
-                <td>${m.Badge || "-"}</td>
-                <td>${m.Patente || "-"}</td>
-                <td>${m.Unidade || "-"}</td>
-                <td>${m["ADV 1"] || "☐"}</td><td>${m["ADV 2"] || "☐"}</td><td>${m["ADV 3"] || "☐"}</td>
-                <td class="${c.includes("C.F.A") ? 'check-marcado' : 'check-vazio'}">${c.includes("C.F.A") ? "☑" : "☐"}</td>
-                <td class="${c.includes("P.O.E") ? 'check-marcado' : 'check-vazio'}">${c.includes("P.O.E") ? "☑" : "☐"}</td>
-            </tr>`;
+            // Filtra membros que pertencem a esta categoria
+            res.data.filter(m => cat.patentes.some(p => m.Patente && m.Patente.includes(p))).forEach(m => {
+                let c = (m.Cursos || "").toUpperCase();
+                corpo.innerHTML += `<tr>
+                    <td>${m.ID || "-"}</td>
+                    <td style="text-align:left">${m.Nome || "-"}</td>
+                    <td>${m.Badge || "-"}</td>
+                    <td>${m.Patente || "-"}</td>
+                    <td>${m.Unidade || "-"}</td>
+                    <td>${m["ADV 1"] || "☐"}</td><td>${m["ADV 2"] || "☐"}</td><td>${m["ADV 3"] || "☐"}</td>
+                    <td class="${c.includes("C.F.A") ? 'check-marcado' : 'check-vazio'}">${c.includes("C.F.A") ? "☑" : "☐"}</td>
+                    <td class="${c.includes("P.O.E") ? 'check-marcado' : 'check-vazio'}">${c.includes("P.O.E") ? "☑" : "☐"}</td>
+                </tr>`;
+            });
         });
     }});
 </script>
