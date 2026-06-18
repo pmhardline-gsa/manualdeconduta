@@ -56,17 +56,6 @@
         "Operador Veterano": 9, "Operador Sênior": 10, "Operador Oficial": 11, "Tripulante Operacional": 12, "Aspirante Operador": 13
     };
 
-    // FUNÇÃO CORRIGIDA: Mais inteligente para ler qualquer marcação (X, x, sim, 1)
-    function renderizarAdv(valor) {
-        if (!valor) return `<span class="check-vazio">☐</span>`;
-        
-        const textoClean = valor.toString().trim().toUpperCase();
-        if (textoClean !== "" && textoClean !== "-" && textoClean !== "0") {
-            return `<span class="adv-marcado">☑</span>`;
-        }
-        return `<span class="check-vazio">☐</span>`;
-    }
-
     Papa.parse(URL, { download: true, header: true, complete: function(res) {
         const corpo = document.getElementById("corpo");
         corpo.innerHTML = "";
@@ -89,6 +78,19 @@
                 
                 membrosDaCategoria.forEach(m => {
                     let c = (m.Cursos || "").toUpperCase();
+                    
+                    // Pega o texto da coluna única "Advertências" e limpa espaços
+                    let advTexto = (m["Advertências"] || "").toUpperCase().replace(/\s+/g, '');
+
+                    // Se na planilha estiver "ADV1", marca a caixa 1. Se for "ADV2", marca a 1 e a 2...
+                    let adv1 = (advTexto.includes("ADV1") || advTexto.includes("ADV2") || advTexto.includes("ADV3")) 
+                        ? `<span class="adv-marcado">☑</span>` : `<span class="check-vazio">☐</span>`;
+                        
+                    let adv2 = (advTexto.includes("ADV2") || advTexto.includes("ADV3")) 
+                        ? `<span class="adv-marcado">☑</span>` : `<span class="check-vazio">☐</span>`;
+                        
+                    let adv3 = (advTexto.includes("ADV3")) 
+                        ? `<span class="adv-marcado">☑</span>` : `<span class="check-vazio">☐</span>`;
 
                     corpo.innerHTML += `<tr>
                         <td>${m.ID}</td>
@@ -97,10 +99,10 @@
                         <td>${m.Patente}</td>
                         <td>${m.Unidade || "-"}</td>
                         
-                        <!-- Lógica das caixas de ADV atualizada -->
-                        <td class="col-adv">${renderizarAdv(m["ADV 1"])}</td>
-                        <td class="col-adv">${renderizarAdv(m["ADV 2"])}</td>
-                        <td class="col-adv">${renderizarAdv(m["ADV 3"])}</td>
+                        <!-- Colunas geradas a partir da célula única da planilha -->
+                        <td class="col-adv">${ADV1}</td>
+                        <td class="col-adv">${ADV2}</td>
+                        <td class="col-adv">${ADV3}</td>
                         
                         <td class="${c.includes("C.F.A") ? 'check-marcado' : 'check-vazio'}">${c.includes("C.F.A") ? "☑" : "☐"}</td>
                         <td class="${c.includes("P.O.E") ? 'check-marcado' : 'check-vazio'}">${c.includes("P.O.E") ? "☑" : "☐"}</td>
