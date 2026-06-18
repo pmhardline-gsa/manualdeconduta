@@ -2,35 +2,42 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Efetivo PMHL-GSA</title>
+  <title>Efetivo PMHL-GSA - Painel</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   <style>
-    body { background-color: #0b0e14; color: #ffffff; font-family: 'Segoe UI', sans-serif; padding: 20px; }
-    .container { max-width: 1300px; margin: 0 auto; text-align: center; }
-    h1 { color: #f0a500; margin-bottom: 25px; }
+    body { background-color: #0b0e14; color: #ffffff; font-family: 'Segoe UI', Tahoma, sans-serif; padding: 30px 20px; margin: 0; }
+    .container { max-width: 1300px; margin: 0 auto; }
+    h1 { color: #f0a500; text-align: center; margin-bottom: 25px; font-weight: 600; letter-spacing: 0.5px; }
     
-    .table-wrapper { background-color: #141923; border: 1px solid #232b3c; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
-    table { width: 100%; border-collapse: collapse; text-align: center; }
-    th, td { padding: 14px; border: 1px solid #232b3c; }
+    .action-container { text-align: center; margin-bottom: 30px; }
+    .btn-link { display: inline-block; color: #000000; background-color: #f0a500; text-decoration: none; font-weight: bold; padding: 10px 24px; border-radius: 4px; transition: 0.3s; }
+    .btn-link:hover { background-color: #d48e00; transform: translateY(-2px); }
+
+    .table-wrapper { background-color: #141923; border: 1px solid #232b3c; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+    table { width: 100%; border-collapse: collapse; border-spacing: 0; }
     
-    /* Cabeçalho */
-    thead tr { background-color: #1c2434; color: #f0a500; font-weight: bold; }
+    th { background-color: #1c2434; color: #f0a500; padding: 14px; font-size: 0.85em; text-align: center; border-bottom: 2px solid #232b3c; }
+    td { padding: 14px; border-bottom: 1px solid #232b3c; text-align: center; color: #e2e8f0; }
     
-    /* Linha divisora de categoria */
-    .categoria-divisora { background-color: #1c2434 !important; color: #ffffff !important; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-    
-    /* Efeito de hover e checkboxes */
-    tbody tr:hover { background-color: #1a202c; }
-    .marcado { color: #f0a500; font-weight: bold; }
+    tr:hover td { background-color: #1a202c; }
+    .categoria-divisora { background-color: #1c2434 !important; color: #ffffff !important; font-weight: bold; text-transform: uppercase; padding: 10px !important; }
+    .badge-id { font-weight: bold; color: #f0a500; }
+    .chk-box { font-size: 1.2em; font-weight: bold; }
+    .marcado { color: #f0a500; }
     .vazio { color: #4a5568; }
   </style>
 </head>
 <body>
 
-<div class="container">
+  <div class="container">
     <h1>1º BPM - HARDLINE</h1>
+    
+    <div class="action-container">
+      <a href="https://script.google.com/macros/s/AKfycbxYTcABsSdVR88Pk4D_t7TVdABWQBfI11zL_IUFAbMq0C1IBBPtcA9ACVp7Lo8nVes/exec" target="_blank" class="btn-link">+ Cadastrar Novo Membro</a>
+    </div>
+
     <div class="table-wrapper">
-      <table id="tabela-efetivo">
+      <table>
         <thead>
           <tr>
             <th rowspan="2">ID</th>
@@ -47,41 +54,47 @@
           </tr>
         </thead>
         <tbody id="corpo-tabela">
-          <tr><td colspan="7">Carregando dados...</td></tr>
+          <tr><td colspan="8">Carregando dados...</td></tr>
         </tbody>
       </table>
     </div>
-</div>
+  </div>
 
-<script>
+  <script>
     const URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
-    
-    Papa.parse(URL, { download: true, header: true, complete: function(res) {
+    const hierarquia = { "ALTO COMANDO": 1, "COMANDO": 2, "SUB-COMANDO": 3, "PILOTO VETERANO": 4, "PILOTO SÊNIOR": 5, "PILOTO OFICIAL": 6, "PILOTO ESTAGIÁRIO": 7, "ASPIRANTE A PILOTO": 8, "OPERADOR VETERANO": 9, "OPERADOR SÊNIOR": 10, "OPERADOR OFICIAL": 11, "TRIPULANTE OPERACIONAL": 12, "ASPIRANTE OPERADOR": 13 };
+
+    function carregarDados() {
+      Papa.parse(URL, { download: true, header: true, complete: function(res) {
         const corpo = document.getElementById("corpo-tabela");
         corpo.innerHTML = "";
+        let membros = res.data.filter(m => m.Nome?.trim());
         
-        let categoriaAtual = "";
-        res.data.filter(m => m.Nome).forEach(m => {
-            // Lógica de categorias
-            let novaCategoria = m.Patente.includes("PILOTO") ? "CORPO DE PILOTOS" : "ALTO COMANDO / COMANDO";
-            if (categoriaAtual !== novaCategoria) {
-                categoriaAtual = novaCategoria;
-                corpo.innerHTML += `<tr><td colspan="7" class="categoria-divisora">${categoriaAtual}</td></tr>`;
-            }
+        membros.sort((a, b) => (hierarquia[a.Patente?.toUpperCase().trim()] || 99) - (hierarquia[b.Patente?.toUpperCase().trim()] || 99));
 
-            let cur = (m["Cursos"] || "").toUpperCase();
-            corpo.innerHTML += `<tr>
-                <td>${m.ID}</td>
-                <td style="text-align:left; padding-left:20px;">${m.Nome}</td>
-                <td>${m.Badge || "-"}</td>
-                <td>${m.Patente}</td>
-                <td>${m.Unidade || "-"}</td>
-                <td>-</td>
-                <td>${cur.includes("C.F.A") ? "<span class='marcado'>☑</span>" : "<span class='vazio'>☐</span>"}</td>
-                <td>${cur.includes("P.O.E") ? "<span class='marcado'>☑</span>" : "<span class='vazio'>☐</span>"}</td>
-            </tr>`;
+        let cat = "";
+        membros.forEach(m => {
+          let novaCat = m.Patente?.toUpperCase().includes("PILOTO") ? "CORPO DE PILOTOS" : "ALTO COMANDO / COMANDO";
+          if (cat !== novaCat) {
+            cat = novaCat;
+            corpo.innerHTML += `<tr><td colspan="8" class="categoria-divisora">${cat}</td></tr>`;
+          }
+
+          let cursos = (m["Cursos"] || "").toUpperCase();
+          corpo.innerHTML += `<tr>
+            <td class="badge-id">${m.ID || "-"}</td>
+            <td style="text-align:left; padding-left:20px;">${m.Nome}</td>
+            <td>${m.Badge || "-"}</td>
+            <td>${m.Patente || "-"}</td>
+            <td>${m.Unidade || "-"}</td>
+            <td>${m["Advertências"] || "-"}</td>
+            <td>${cursos.includes("C.F.A") ? '<span class="chk-box marcado">☑</span>' : '<span class="chk-box vazio">☐</span>'}</td>
+            <td>${cursos.includes("P.O.E") ? '<span class="chk-box marcado">☑</span>' : '<span class="chk-box vazio">☐</span>'}</td>
+          </tr>`;
         });
-    }});
-</script>
+      }});
+    }
+    carregarDados();
+  </script>
 </body>
 </html>
