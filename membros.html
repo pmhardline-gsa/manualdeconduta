@@ -8,16 +8,17 @@
         body { background-color: #0b0e14; color: #fff; font-family: 'Segoe UI', sans-serif; padding: 20px; }
         .container { max-width: 1200px; margin: 0 auto; text-align: center; }
         h1 { color: #f0a500; margin-bottom: 20px; }
-        .btn-cadastro { display: inline-block; background: #f0a500; color: #000; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-bottom: 25px; }
+        .btn-cadastro { display: inline-block; background: #f0a500; color: #000; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-bottom: 25px; transition: 0.3s; }
+        .btn-cadastro:hover { background: #d48e00; }
         .table-container { background: #141923; border-radius: 12px; overflow: hidden; border: 1px solid #232b3c; }
         table { width: 100%; border-collapse: collapse; }
         th { background: #1c2434; color: #f0a500; padding: 12px; font-size: 0.8em; text-transform: uppercase; border: 1px solid #232b3c; }
         td { padding: 12px; border: 1px solid #1a202c; text-align: center; color: #e2e8f0; }
         
-        /* Estilo para colunas de Advertência */
-        .col-adv { background-color: rgba(240, 165, 0, 0.05); color: #f0a500; font-weight: bold; }
+        /* Estilo destacado para colunas de Advertência solicitado */
+        .col-adv { background-color: rgba(240, 165, 0, 0.04); color: #f0a500; font-weight: bold; }
         
-        .cat-row { background: #1c2434; font-weight: bold; text-align: left; padding-left: 20px; color: #f0a500; }
+        .cat-row { background: #1c2434; font-weight: bold; text-align: left; padding-left: 20px; color: #f0a500; text-transform: uppercase; letter-spacing: 1px; }
         tr:hover { background: #1a202c; }
         .check-marcado { color: #f0a500; font-weight: bold; }
         .check-vazio { color: #4a5568; }
@@ -34,7 +35,7 @@
             <thead>
                 <tr>
                     <th rowspan="2">ID</th><th rowspan="2">NOME</th><th rowspan="2">BADGE</th><th rowspan="2">PATENTE</th><th rowspan="2">UNIDADE</th>
-                    <th colspan="3" style="color: #ff4d4d;">ADVERTÊNCIAS</th><th colspan="2">CURSOS</th>
+                    <th colspan="3" style="color: #ff4d4d; letter-spacing: 1px;">ADVERTÊNCIAS</th><th colspan="2">CURSOS</th>
                 </tr>
                 <tr>
                     <th class="col-adv">ADV 1</th><th class="col-adv">ADV 2</th><th class="col-adv">ADV 3</th><th>C.F.A</th><th>P.O.E</th>
@@ -48,46 +49,78 @@
 <script>
     const URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
 
-    // Ordem hierárquica (menor número = maior patente)
+    // MAPEAMENTO COMPLETO DA HIERARQUIA (Menor número = Maior autoridade/Topo da lista)
     const hierarquia = {
         "Alto Comando": 1,
         "Comando": 2,
         "Sub-Comando": 3,
-        "Aspirante a Piloto": 4,
-        "Piloto": 5
+        "Piloto Veterano": 4,
+        "Piloto Sênior": 5,
+        "Piloto Oficial": 6,
+        "Piloto Estagiário": 7,
+        "Aspirante a Piloto": 8,
+        "Operador Veterano": 9,
+        "Operador Sênior": 10,
+        "Operador Oficial": 11,
+        "Tripulante Operacional": 12,
+        "Aspirante Operador": 13
     };
 
     Papa.parse(URL, { download: true, header: true, complete: function(res) {
         const corpo = document.getElementById("corpo");
         corpo.innerHTML = "";
 
-        let membrosOrdenados = res.data.filter(m => m.ID && m.ID.trim() !== "").sort((a, b) => {
-            return (hierarquia[a.Patente] || 99) - (hierarquia[b.Patente] || 99);
+        // Filtra linhas inválidas/sujas e ordena rigorosamente pela hierarquia configurada acima
+        let membrosOrdenados = res.data.filter(m => m.ID && m.ID.trim() !== "" && m.Nome && m.Nome.trim() !== "").sort((a, b) => {
+            return (hierarquia[a.Patente.trim()] || 99) - (hierarquia[b.Patente.trim()] || 99);
         });
 
+        // ESTRUTURA DAS CATEGORIAS
         const categorias = [
-            { nome: "ALTO COMANDO / COMANDO", patentes: ["Alto Comando", "Comando", "Sub-Comando"] },
-            { nome: "CORPO DE PILOTOS", patentes: ["Aspirante a Piloto", "Piloto"] }
+            { 
+                nome: "ALTO COMANDO / COMANDO", 
+                patentes: ["Alto Comando", "Comando", "Sub-Comando"] 
+            },
+            { 
+                nome: "CORPO DE PILOTOS", 
+                patentes: ["Piloto Veterano", "Piloto Sênior", "Piloto Oficial", "Piloto Estagiário", "Aspirante a Piloto"] 
+            },
+            { 
+                nome: "CORPO DE OPERADORES", 
+                patentes: ["Operador Veterano", "Operador Sênior", "Operador Oficial", "Tripulante Operacional", "Aspirante Operador"] 
+            }
         ];
 
         categorias.forEach(cat => {
-            corpo.innerHTML += `<tr><td colspan="10" class="cat-row">${cat.nome}</td></tr>`;
+            // Filtra os membros que pertencem à categoria atual do loop
+            const membrosDaCategoria = membrosOrdenados.filter(m => cat.patentes.includes(m.Patente.trim()));
             
-            membrosOrdenados.filter(m => cat.patentes.includes(m.Patente)).forEach(m => {
-                let c = (m.Cursos || "").toUpperCase();
-                corpo.innerHTML += `<tr>
-                    <td>${m.ID}</td>
-                    <td style="text-align:left">${m.Nome}</td>
-                    <td>${m.Badge || "-"}</td>
-                    <td>${m.Patente}</td>
-                    <td>${m.Unidade || "-"}</td>
-                    <td class="col-adv">${m["ADV 1"] || "☐"}</td>
-                    <td class="col-adv">${m["ADV 2"] || "☐"}</td>
-                    <td class="col-adv">${m["ADV 3"] || "☐"}</td>
-                    <td class="${c.includes("C.F.A") ? 'check-marcado' : 'check-vazio'}">${c.includes("C.F.A") ? "☑" : "☐"}</td>
-                    <td class="${c.includes("P.O.E") ? 'check-marcado' : 'check-vazio'}">${c.includes("P.O.E") ? "☑" : "☐"}</td>
-                </tr>`;
-            });
+            // Só renderiza o divisor de categoria se houver pelo menos 1 membro nela
+            if (membrosDaCategoria.length > 0) {
+                corpo.innerHTML += `<tr><td colspan="10" class="cat-row">${cat.nome}</td></tr>`;
+                
+                membrosDaCategoria.forEach(m => {
+                    let c = (m.Cursos || "").toUpperCase();
+                    
+                    // Converte marcações de ADV da planilha (caso use "X" ou semelhante) ou mantém quadrado padrão
+                    let adv1 = (m["ADV 1"] && m["ADV 1"].trim() !== "") ? m["ADV 1"] : "☐";
+                    let adv2 = (m["ADV 2"] && m["ADV 2"].trim() !== "") ? m["ADV 2"] : "☐";
+                    let adv3 = (m["ADV 3"] && m["ADV 3"].trim() !== "") ? m["ADV 3"] : "☐";
+
+                    corpo.innerHTML += `<tr>
+                        <td>${m.ID}</td>
+                        <td style="text-align:left; padding-left:15px;">${m.Nome}</td>
+                        <td>${m.Badge || "-"}</td>
+                        <td>${m.Patente}</td>
+                        <td>${m.Unidade || "-"}</td>
+                        <td class="col-adv">${adv1}</td>
+                        <td class="col-adv">${adv2}</td>
+                        <td class="col-adv">${adv3}</td>
+                        <td class="${c.includes("C.F.A") ? 'check-marcado' : 'check-vazio'}">${c.includes("C.F.A") ? "☑" : "☐"}</td>
+                        <td class="${c.includes("P.O.E") ? 'check-marcado' : 'check-vazio'}">${c.includes("P.O.E") ? "☑" : "☐"}</td>
+                    </tr>`;
+                });
+            }
         });
     }});
 </script>
