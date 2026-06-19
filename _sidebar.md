@@ -7,4 +7,4 @@
   * [Comunicação](/comunicacao.md)
   * [Aeronaves](/aeronave.md)
   * [Ocorrências](/ocorrencias.md)
-  * [Mapa](/mapas.md)
+  * [Mapa](/mapa.md)
