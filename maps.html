@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Interativo GTA 5</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        #map {
+            width: 100%;
+            height: 100vh;
+            background-color: #0fa8d2; /* Cor do mar de fundo */
+        }
+        .instrucoes {
+            position: absolute;
+            top: 10px;
+            left: 50px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            pointer-events: none;
+            font-size: 13px;
+            line-height: 1.4;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="instrucoes">
+        <strong>Mapa Interativo GTA V</strong><br>
+        • Clique em qualquer lugar para marcar e dar nome a uma rua/local.<br>
+        • Clique no marcador criado para ver o nome ou removê-lo.
+    </div>
+
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script>
+        // 1. Configuração do mapa usando sistema de coordenadas simples (plano)
+        const map = L.map('map', {
+            crs: L.CRS.Simple,
+            minZoom: -2,
+            maxZoom: 2
+        });
+
+        // 2. Definição do tamanho da imagem
+        const bounds = [[0, 0], [1000, 1000]];
+        
+        // 3. Caminho da imagem do mapa (certifique-se de subir a imagem com este nome exato)
+        const urlImagem = 'mapa_gta5.png'; 
+        
+        L.imageOverlay(urlImagem, bounds).addTo(map);
+        map.fitBounds(bounds);
+
+        // Array para armazenar os marcadores salvos no navegador
+        let marcadoresSalvos = JSON.parse(localStorage.getItem('gta5_markers')) || [];
+
+        // 4. Função para renderizar um marcador na tela
+        function criarMarcador(lat, lng, nome, id) {
+            const marker = L.marker([lat, lng]).addTo(map);
+            
+            // Conteúdo do Popup (Nome e botão de deletar)
+            const popupConteudo = `
+                <div style="font-family: Arial, sans-serif;">
+                    <strong style="font-size: 14px;">${nome}</strong><br>
+                    <span style="font-size:11px; color:#666;">Coord: ${lat.toFixed(1)}, ${lng.toFixed(1)}</span><br><br>
+                    <button onclick="deletarMarcador(${id})" style="color:red; cursor:pointer; border:none; background:none; text-decoration:underline; padding:0;">Remover Local</button>
+                </div>
+            `;
+            
+            marker.bindPopup(popupConteudo);
+            marker.idGta = id; // Identificador único para remoção posterior
+        }
+
+        // 5. Carregar marcadores existentes ao abrir o mapa
+        marcadoresSalvos.forEach(m => {
+            criarMarcador(m.lat, m.lng, m.nome, m.id);
+        });
+
+        // 6. Evento de clique no mapa para adicionar novo local
+        map.on('click', function(e) {
+            const lat = e.latlng.lat;
+            const lng = e.latlng.lng;
+
+            // Caixa de texto perguntando o nome da rua ou local
+            const nomeRua = prompt("Digite o nome da rua ou do local que deseja marcar:");
+            
+            if (nomeRua && nomeRua.trim() !== "") {
+                const idUnico = Date.now(); // Gera ID único com base no timestamp
+                
+                // Salva no Array e no LocalStorage do navegador
+                marcadoresSalvos.push({ id: idUnico, lat: lat, lng: lng, nome: nomeRua });
+                localStorage.setItem('gta5_markers', JSON.stringify(marcadoresSalvos));
+                
+                // Cria o marcador visualmente
+                criarMarcador(lat, lng, nomeRua, idUnico);
+            }
+        });
+
+        // 7. Função para deletar o marcador
+        window.deletarMarcador = function(id) {
+            // Filtra o array removendo o item selecionado e atualiza o LocalStorage
+            marcadoresSalvos = marcadoresSalvos.filter(m => m.id !== id);
+            localStorage.setItem('gta5_markers', JSON.stringify(marcadoresSalvos));
+            
+            // Remove o elemento visual do mapa
+            map.eachLayer(function(layer) {
+                if (layer instanceof L.Marker && layer.idGta === id) {
+                    map.removeLayer(layer);
+                }
+            });
+        };
+    </script>
+</body>
+</html>
