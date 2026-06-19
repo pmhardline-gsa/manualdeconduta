@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Efetivo PMHL</title>
-    <!-- Importação do PapaParse -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
         /* === ESTILOS GERAIS === */
@@ -16,7 +15,7 @@
             margin: 0;
         }
         .container { 
-            max-width: 1200px; 
+            max-width: 1300px; /* Aumentado ligeiramente para acomodar as novas colunas */
             margin: 0 auto; 
             text-align: center; 
         }
@@ -95,12 +94,30 @@
             border-top: 2px solid #2a3449;
         }
         
-        /* Efeito Hover nas linhas dos membros (exclui a linha de categoria) */
+        /* Efeito Hover nas linhas dos membros */
         tbody tr:not(.cat-row):hover td { 
             background: #1a202c; 
             transition: background 0.2s ease;
         }
         
+        /* Status Ativo / Inativo */
+        .status-ativo {
+            color: #2ed573;
+            font-weight: bold;
+            background: rgba(46, 213, 115, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+        .status-inativo {
+            color: #ff4757;
+            font-weight: bold;
+            background: rgba(255, 71, 87, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+
         /* Ícones de Checkbox */
         .check-marcado { color: #f0a500; font-weight: bold; font-size: 1.1em; }
         .adv-marcado { color: #ff4d4d; font-weight: bold; font-size: 1.1em; }
@@ -125,6 +142,8 @@
                     <th rowspan="2">BADGE</th>
                     <th rowspan="2">PATENTE</th>
                     <th rowspan="2">UNIDADE</th>
+                    <th rowspan="2">STATUS</th>
+                    <th rowspan="2">DATA ENTRADA</th>
                     <th colspan="3" style="color: #ff4d4d; letter-spacing: 1px;">ADVERTÊNCIAS</th>
                     <th colspan="2">CURSOS</th>
                 </tr>
@@ -137,7 +156,7 @@
                 </tr>
             </thead>
             <tbody id="corpo">
-                <tr><td colspan="10" style="padding: 40px; color: #a0aec0;">Carregando e organizando dados...</td></tr>
+                <tr><td colspan="12" style="padding: 40px; color: #a0aec0;">Carregando e organizando dados...</td></tr>
             </tbody>
         </table>
     </div>
@@ -163,24 +182,23 @@
     Papa.parse(URL, { 
         download: true, 
         header: true,
-        skipEmptyLines: true, // Ignora linhas em branco no final
+        skipEmptyLines: true,
         complete: function(res) {
             const corpo = document.getElementById("corpo");
             corpo.innerHTML = "";
 
             if (!res.data || res.data.length === 0) {
-                corpo.innerHTML = `<tr><td colspan="10" style="color:#ff4d4d; padding: 20px;">Nenhum dado encontrado. A planilha pode estar vazia ou o link mudou.</td></tr>`;
+                corpo.innerHTML = `<tr><td colspan="12" style="color:#ff4d4d; padding: 20px;">Nenhum dado encontrado. A planilha pode estar vazia ou o link mudou.</td></tr>`;
                 return;
             }
 
-            // LIMPEZA EXTREMA DAS COLUNAS (À prova de falhas do Google Sheets)
+            // LIMPEZA EXTREMA DAS COLUNAS
             let dadosNormalizados = res.data.map(linha => {
                 let novaLinha = {};
                 for (let chave in linha) {
                     let chaveLimpa = chave.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
                     novaLinha[chaveLimpa] = linha[chave];
                 }
-                // Adiciona os valores originais em chaves seguras
                 novaLinha.PATENTE_ORIGINAL = linha.Patente || linha.PATENTE || novaLinha.PATENTE || "-";
                 novaLinha.NOME_ORIGINAL = linha.Nome || linha.NOME || novaLinha.NOME || "-";
                 return novaLinha;
@@ -209,7 +227,7 @@
                 });
                 
                 if (membrosDaCategoria.length > 0) {
-                    corpo.innerHTML += `<tr><td colspan="10" class="cat-row">${cat.nome}</td></tr>`;
+                    corpo.innerHTML += `<tr><td colspan="12" class="cat-row">${cat.nome}</td></tr>`;
                     
                     membrosDaCategoria.forEach(m => {
                         let id = m.ID || "-";
@@ -217,7 +235,15 @@
                         let badge = m.BADGE || "-";
                         let patente = m.PATENTE_ORIGINAL || "-";
                         let unidade = m.UNIDADE || "-";
+                        let dataEntrada = m.DATAENTRADA || m.DATA || m.DATADEENTRADA || "-";
                         
+                        // Tratamento do Status (Ativo / Inativo)
+                        let statusBruto = limparString(m.STATUS || m.ATIVO || "ATIVO");
+                        let statusHTML = `<span class="status-ativo">ATIVO</span>`;
+                        if (statusBruto.includes("INATIVO") || statusBruto === "NAO" || statusBruto === "OFF") {
+                            statusHTML = `<span class="status-inativo">INATIVO</span>`;
+                        }
+
                         // Sistema Tolerante para Advertências
                         let advTexto = (m.ADVERTENCIAS || m.ADV || "").toString().toUpperCase().replace(/\s+/g, '');
                         let adv1 = (advTexto.includes("ADV1") || advTexto.includes("ADV2") || advTexto.includes("ADV3")) ? '<span class="adv-marcado">☑</span>' : '<span class="check-vazio">☐</span>';
@@ -235,6 +261,8 @@
                             <td>${badge}</td>
                             <td>${patente}</td>
                             <td>${unidade}</td>
+                            <td>${statusHTML}</td>
+                            <td>${dataEntrada}</td>
                             
                             <td class="col-adv">${adv1}</td>
                             <td class="col-adv">${adv2}</td>
