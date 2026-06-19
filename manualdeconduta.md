@@ -1,4 +1,3 @@
-# Manual de Conduta
 # 📑 DOCUMENTO OFICIAL
 
 # 🌐 Introdução
