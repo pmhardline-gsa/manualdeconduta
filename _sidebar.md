@@ -1,9 +1,9 @@
 * INTRODUÇÃO
-  * [Manual de Conduta](/manualdeconduta.md)
+  * [Manual de Conduta](manualdeconduta.md)
 * ORGANIZAÇÃO
-  * [Hierarquia Militar](/hierarquia.md)
-  * [Planilha de Membros](/membros)
+  * [Hierarquia Militar](hierarquia.md)
+  * [Planilha de Membros](membros.md)
 * OPERAÇÕES
-  * [Comunicação](/comunicacao)
-  * [Aeronaves](/aeronave)
-  * [Ocorrências](/ocorrencias)
+  * [Comunicação](comunicacao.md)
+  * [Aeronaves](aeronave.md)
+  * [Ocorrências](ocorrencias.md)
