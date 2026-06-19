@@ -1,5 +1,5 @@
 * INTRODUÇÃO
-  * [Manual de Conduta](manualdeconduta)
+  * [Manual de Conduta](/manualdeconduta)
 * ORGANIZAÇÃO
   * [Hierarquia Militar](hierarquia)
   * [Planilha de Membros](membros)
