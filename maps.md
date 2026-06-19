@@ -1,11 +1,5 @@
-# 🗺️ Mapa Tático de QTHs — GSA
+# Mapa Interativo de Los Santos
 
-Utilize o mapa interativo oficial para localizar os principais pontos estratégicos e coordenadas da cidade.
+Abaixo você pode visualizar o mapa da cidade. Clique em qualquer ponto para adicionar marcadores personalizados com nomes de ruas, quebradas ou pontos de interesse. Suas marcações ficam salvas automaticamente no seu navegador.
 
-<div style="text-align: center; margin: 40px 0;">
-  <a href="https://gta-5-map.com/?x=-148.62304687499983&y=72.7510384011461&zoom=3" target="_blank" style="padding: 15px 30px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 18px;">
-    🌐 ACESSAR MAPA INTERATIVO (GTA V)
-  </a>
-</div>
-
-> 💡 **Nota:** O mapa será aberto em uma nova aba para garantir a melhor performance de consulta durante suas patrulhas.
+<iframe src="mapa.html" width="100%" height="750px" style="border: 2px solid #222; border-radius: 8px; background: #0fa8d2;"></iframe>
