@@ -47,73 +47,91 @@
 </div>
 
 <script>
-    const URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
+    // URL COM SISTEMA ANTI-CACHE (Burla o atraso de atualização)
+    const baseUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
+    const URL = baseUrl + "&_t=" + new Date().getTime();
+
+    // Normaliza textos (Remove acentos e espaços, deixando tudo padrão)
+    function limparString(str) {
+        if (!str) return "";
+        return str.toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toUpperCase();
+    }
 
     const hierarquia = {
-        "Alto Comando": 1, "Comando": 2, "Sub-Comando": 3,
-        "Piloto Veterano": 4, "Piloto Sênior": 5, "Piloto Oficial": 6, "Piloto Estagiário": 7, "Aspirante a Piloto": 8,
-        "Operador Veterano": 9, "Operador Sênior": 10, "Operador Oficial": 11, "Tripulante Operacional": 12, "Aspirante Operador": 13
+        "ALTO COMANDO": 1, "COMANDO": 2, "SUB-COMANDO": 3,
+        "PILOTO VETERANO": 4, "PILOTO SENIOR": 5, "PILOTO OFICIAL": 6, "PILOTO ESTAGIARIO": 7, "ASPIRANTE A PILOTO": 8,
+        "OPERADOR VETERANO": 9, "OPERADOR SENIOR": 10, "OPERADOR OFICIAL": 11, "TRIPULANTE OPERACIONAL": 12, "ASPIRANTE OPERADOR": 13
     };
 
     Papa.parse(URL, { 
         download: true, 
         header: true,
-        
-        // Esta função limpa invisibilidades: transforma " Advertências " em "ADVERTENCIAS" 
-        transformHeader: function(header) {
-            return header.trim().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        },
-        
+        skipEmptyLines: true, // Ignora linhas em branco no final
         complete: function(res) {
             const corpo = document.getElementById("corpo");
             corpo.innerHTML = "";
 
-            // Filtra pegando da coluna limpa "ID" e ordena pela coluna limpa "PATENTE"
-            let membrosOrdenados = res.data.filter(m => {
-                let id = m.ID || "";
-                return id.toString().trim() !== "";
-            }).sort((a, b) => {
-                let patA = a.PATENTE || "";
-                let patB = b.PATENTE || "";
-                return (hierarquia[patA.trim()] || 99) - (hierarquia[patB.trim()] || 99);
+            if (!res.data || res.data.length === 0) {
+                corpo.innerHTML = `<tr><td colspan="10" style="color:#ff4d4d; padding: 20px;">Nenhum dado encontrado. A planilha pode estar vazia ou o link mudou.</td></tr>`;
+                return;
+            }
+
+            // LIMPEZA EXTREMA DAS COLUNAS (À prova de falhas do Google Sheets)
+            let dadosNormalizados = res.data.map(linha => {
+                let novaLinha = {};
+                for (let chave in linha) {
+                    // Transforma " Advertências " ou "Patente" em "ADVERTENCIAS", "PATENTE" perfeitos
+                    let chaveLimpa = chave.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
+                    novaLinha[chaveLimpa] = linha[chave];
+                }
+                // Adiciona os valores originais em chaves seguras
+                novaLinha.PATENTE_ORIGINAL = linha.Patente || linha.PATENTE || novaLinha.PATENTE || "-";
+                novaLinha.NOME_ORIGINAL = linha.Nome || linha.NOME || novaLinha.NOME || "-";
+                return novaLinha;
+            });
+
+            // Pega só quem tem um ID válido
+            let membrosValidos = dadosNormalizados.filter(m => m.ID && m.ID.toString().trim() !== "");
+
+            // Ordena pela hierarquia
+            membrosValidos.sort((a, b) => {
+                let patA = limparString(a.PATENTE);
+                let patB = limparString(b.PATENTE);
+                return (hierarquia[patA] || 99) - (hierarquia[patB] || 99);
             });
 
             const categorias = [
-                { nome: "ALTO COMANDO / COMANDO", patentes: ["Alto Comando", "Comando", "Sub-Comando"] },
-                { nome: "CORPO DE PILOTOS", patentes: ["Piloto Veterano", "Piloto Sênior", "Piloto Oficial", "Piloto Estagiário", "Aspirante a Piloto"] },
-                { nome: "CORPO DE OPERADORES", patentes: ["Operador Veterano", "Operador Sênior", "Operador Oficial", "Tripulante Operacional", "Aspirante Operador"] }
+                { nome: "ALTO COMANDO / COMANDO", patentes: ["ALTO COMANDO", "COMANDO", "SUB-COMANDO"] },
+                { nome: "CORPO DE PILOTOS", patentes: ["PILOTO VETERANO", "PILOTO SENIOR", "PILOTO OFICIAL", "PILOTO ESTAGIARIO", "ASPIRANTE A PILOTO"] },
+                { nome: "CORPO DE OPERADORES", patentes: ["OPERADOR VETERANO", "OPERADOR SENIOR", "OPERADOR OFICIAL", "TRIPULANTE OPERACIONAL", "ASPIRANTE OPERADOR"] }
             ];
 
             categorias.forEach(cat => {
-                const membrosDaCategoria = membrosOrdenados.filter(m => {
-                    let pat = m.PATENTE || "";
-                    return cat.patentes.includes(pat.trim());
+                const membrosDaCategoria = membrosValidos.filter(m => {
+                    let pat = limparString(m.PATENTE);
+                    return cat.patentes.includes(pat);
                 });
                 
                 if (membrosDaCategoria.length > 0) {
                     corpo.innerHTML += `<tr><td colspan="10" class="cat-row">${cat.nome}</td></tr>`;
                     
                     membrosDaCategoria.forEach(m => {
-                        // Resgata os dados mapeando para os nomes já limpos pelo transformHeader
                         let id = m.ID || "-";
-                        let nome = m.NOME || "-";
+                        let nome = m.NOME_ORIGINAL || m.NOME || "-";
                         let badge = m.BADGE || "-";
-                        let patente = m.PATENTE || "-";
+                        let patente = m.PATENTE_ORIGINAL || "-";
                         let unidade = m.UNIDADE || "-";
-                        let cursos = (m.CURSOS || "").toString().toUpperCase();
                         
-                        // Busca a advertência. Como removemos os acentos, a chave agora é ADVERTENCIAS
+                        // Sistema Tolerante para Advertências
                         let advTexto = (m.ADVERTENCIAS || m.ADV || "").toString().toUpperCase().replace(/\s+/g, '');
+                        let adv1 = (advTexto.includes("ADV1") || advTexto.includes("ADV2") || advTexto.includes("ADV3")) ? '<span class="adv-marcado">☑</span>' : '<span class="check-vazio">☐</span>';
+                        let adv2 = (advTexto.includes("ADV2") || advTexto.includes("ADV3")) ? '<span class="adv-marcado">☑</span>' : '<span class="check-vazio">☐</span>';
+                        let adv3 = (advTexto.includes("ADV3")) ? '<span class="adv-marcado">☑</span>' : '<span class="check-vazio">☐</span>';
 
-                        // Lógica das Advertências
-                        let adv1 = (advTexto.includes("ADV1") || advTexto.includes("ADV2") || advTexto.includes("ADV3")) 
-                            ? `<span class="adv-marcado">☑</span>` : `<span class="check-vazio">☐</span>`;
-                            
-                        let adv2 = (advTexto.includes("ADV2") || advTexto.includes("ADV3")) 
-                            ? `<span class="adv-marcado">☑</span>` : `<span class="check-vazio">☐</span>`;
-                            
-                        let adv3 = (advTexto.includes("ADV3")) 
-                            ? `<span class="adv-marcado">☑</span>` : `<span class="check-vazio">☐</span>`;
+                        // Sistema Tolerante para Cursos
+                        let cursosLimpo = (m.CURSOS || "").toString().toUpperCase().replace(/\s+/g, '');
+                        let cfa = (cursosLimpo.includes("C.F.A") || cursosLimpo.includes("CFA")) ? '<span class="check-marcado">☑</span>' : '<span class="check-vazio">☐</span>';
+                        let poe = (cursosLimpo.includes("P.O.E") || cursosLimpo.includes("POE")) ? '<span class="check-marcado">☑</span>' : '<span class="check-vazio">☐</span>';
 
                         corpo.innerHTML += `<tr>
                             <td>${id}</td>
@@ -126,8 +144,8 @@
                             <td class="col-adv">${adv2}</td>
                             <td class="col-adv">${adv3}</td>
                             
-                            <td class="${cursos.includes("C.F.A") ? 'check-marcado' : 'check-vazio'}">${cursos.includes("C.F.A") ? "☑" : "☐"}</td>
-                            <td class="${cursos.includes("P.O.E") ? 'check-marcado' : 'check-vazio'}">${cursos.includes("P.O.E") ? "☑" : "☐"}</td>
+                            <td>${cfa}</td>
+                            <td>${poe}</td>
                         </tr>`;
                     });
                 }
