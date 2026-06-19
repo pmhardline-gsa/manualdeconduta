@@ -42,13 +42,12 @@
   <script>
     window.$docsify = {
       name: '1º BPM - HARDLINE',
-      logo: 'logo.png', // Isso bota o logo AUTOMATICAMENTE no topo da barra lateral
-      repo: '',
-      subMaxLevel: 2, // Mude de 0 para 2
-  // ... resto das suas configurações
+      logo: 'logo.png',
       loadSidebar: true,
-      executeScript: true, 
-      auto2top: true
+      subMaxLevel: 0, // Mantido em 0 para controle manual via _sidebar.md
+      executeScript: true,
+      auto2top: true,
+      routerMode: 'hash'
     }
   </script>
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
