@@ -6,218 +6,86 @@
     <title>1º BPM - HARDLINE</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
-        /* Reset Global */
-        html, body {
-            background-color: transparent !important;
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            color: #e2e8f0;
-        }
-
+        /* Estilização Forçada */
+        body { background-color: #141923 !important; color: #e2e8f0 !important; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; }
         .main-container { max-width: 1200px; margin: 0 auto; text-align: center; }
-        .titulo-principal { color: #f0a500 !important; margin-bottom: 20px; font-weight: bold; font-size: 2em; }
+        .titulo-principal { color: #f0a500 !important; margin-bottom: 20px; font-size: 2em; }
         
-        .btn-cadastro { 
-            display: inline-block !important; 
-            background: #f0a500 !important; 
-            color: #000000 !important; 
-            padding: 12px 24px !important; 
-            border-radius: 6px !important; 
-            text-decoration: none !important; 
-            font-weight: bold !important; 
-            margin-bottom: 25px !important; 
-            transition: 0.3s !important; 
-        }
-        .btn-cadastro:hover { background: #d48e00 !important; color: #000000 !important; }
+        .table-container { background: #141923 !important; border-radius: 12px; overflow-x: auto; border: 1px solid #232b3c; padding: 20px; }
+        .tabela-membros { width: 100% !important; border-collapse: collapse !important; background: #141923 !important; }
+        .tabela-membros th { background: #1c2434 !important; color: #f0a500 !important; padding: 12px !important; text-transform: uppercase; border: 1px solid #232b3c !important; }
+        .tabela-membros td { padding: 12px !important; border: 1px solid #1a202c !important; text-align: center !important; color: #e2e8f0 !important; }
         
-        .table-container { 
-            background: #141923 !important; 
-            border-radius: 12px; 
-            overflow-x: auto !important; 
-            border: 1px solid #232b3c !important; 
-            margin-top: 20px;
-        }
-        
-        .tabela-membros { 
-            width: 100% !important; 
-            border-collapse: collapse !important; 
-            margin: 0 !important; 
-            display: table !important; 
-            background-color: #141923 !important; 
-        }
-        
-        .tabela-membros th { 
-            background: #1c2434 !important; 
-            color: #f0a500 !important; 
-            padding: 12px !important; 
-            font-size: 0.85em !important; 
-            text-transform: uppercase; 
-            border: 1px solid #232b3c !important; 
-        }
-
-        /* --- AQUI ESTÁ A MÁGICA QUE MATA O FUNDO BRANCO DO DOCSIFY --- */
-        .tabela-membros tr {
-            background-color: #141923 !important; 
-        }
-
-        .tabela-membros td { 
-            background-color: #141923 !important; /* Força o fundo escuro na célula */
-            padding: 12px !important; 
-            border: 1px solid #1a202c !important; 
-            text-align: center !important; 
-            color: #e2e8f0 !important; /* Mantém o texto claro */
-            font-size: 0.95em; 
-        }
-        
-        .tabela-membros td.col-adv { background-color: #161c27 !important; }
-        
-        .tabela-membros td.cat-row { 
-            background-color: #1c2434 !important; 
-            font-weight: bold !important; 
-            text-align: left !important; 
-            padding-left: 20px !important; 
-            color: #f0a500 !important; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-        }
-
-        /* Efeito Hover corrigido para aplicar nas células */
-        .tabela-membros tr:hover td { background-color: #1a202c !important; }
-        /* ----------------------------------------------------------- */
-
-        .check-marcado { color: #f0a500 !important; font-weight: bold; }
-        .adv-marcado { color: #ff4d4d !important; font-weight: bold; }
-        .check-vazio { color: #4a5568 !important; }
+        .btn-cadastro { display: inline-block; background: #f0a500; color: #000; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-bottom: 20px; }
+        .check { color: #f0a500; font-weight: bold; }
+        .none { color: #4a5568; }
     </style>
 </head>
 <body>
 
-<div id="container-geral-membros">
-    <div class="main-container">
-        <h1 class="titulo-principal">1º BPM - HARDLINE</h1>
-        <a href="https://script.google.com/macros/s/AKfycbwtJEC35f80OO07rPrQ8fuWDcHbqnEQIQyUh8iVRwP-WB-KfIVM_IICr-rweX2eX864/exec" target="_blank" class="btn-cadastro">+ Cadastrar Novo Membro</a>
-        <div class="table-container">
-            <table class="tabela-membros">
-                <tbody>
-                    <tr>
-                        <td style="padding: 40px !important; color: #a0aec0 !important; background-color: #141923 !important;">Carregando dados sincronizados...</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+<div class="main-container">
+    <h1 class="titulo-principal">1º BPM - HARDLINE</h1>
+    <a href="https://script.google.com/macros/s/AKfycbwtJEC35f80OO07rPrQ8fuWDcHbqnEQIQyUh8iVRwP-WB-KfIVM_IICr-rweX2eX864/exec" target="_blank" class="btn-cadastro">+ Cadastrar Novo Membro</a>
+    <div id="container-tabela" class="table-container">
+        <p style="color: #a0aec0;">Carregando dados da planilha...</p>
     </div>
 </div>
 
 <script>
-    const baseUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
-    const URL = baseUrl + "&_t=" + new Date().getTime();
-
-    const containerGeral = document.getElementById("container-geral-membros");
-
-    function limparTexto(str) {
-        if (!str) return "";
-        return str.toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toUpperCase();
-    }
+    // URL da planilha publicada como CSV
+    const URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
 
     Papa.parse(URL, {
         download: true,
         header: true,
         skipEmptyLines: true,
-        complete: function(res) {
-            let dadosLimpos = res.data.map(linha => {
-                let novaLinha = {};
-                for (let chave in linha) {
-                    let chaveLimpa = chave.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
-                    novaLinha[chaveLimpa] = linha[chave];
-                }
-                novaLinha.PATENTE_ORIGINAL = linha.Patente || linha.PATENTE || novaLinha.PATENTE || "-";
-                novaLinha.NOME_ORIGINAL = linha.Nome || linha.NOME || novaLinha.NOME || "-";
-                return novaLinha;
-            });
-
-            let membros = dadosLimpos.filter(m => m.ID && m.ID.toString().trim() !== "");
-
-            const blocosociais = [
-                { nome: "ALTO COMANDO / COMANDO", patentes: ["ALTO COMANDO", "COMANDO", "SUB-COMANDO"] },
-                { nome: "CORPO DE PILOTOS", patentes: ["PILOTO VETERANO", "PILOTO SENIOR", "PILOTO SÉNIOR", "PILOTO OFICIAL", "PILOTO ESTAGIARIO", "PILOTO ESTAGIÁRIO", "ASPIRANTE A PILOTO"] },
-                { nome: "CORPO DE OPERADORES", patentes: ["OPERADOR VETERANO", "OPERADOR SENIOR", "OPERADOR SÉNIOR", "OPERADOR OFICIAL", "TRIPULANTE OPERACIONAL", "ASPIRANTE OPERADOR"] }
-            ];
-
-            let tabelaHtml = `
-            <div class="main-container">
-                <h1 class="titulo-principal">1º BPM - HARDLINE</h1>
-                <a href="https://script.google.com/macros/s/AKfycbwtJEC35f80OO07rPrQ8fuWDcHbqnEQIQyUh8iVRwP-WB-KfIVM_IICr-rweX2eX864/exec" target="_blank" class="btn-cadastro">+ Cadastrar Novo Membro</a>
-
-                <div class="table-container">
-                    <table class="tabela-membros">
-                        <thead>
-                            <tr>
-                                <th rowspan="2">ID</th>
-                                <th rowspan="2">NOME</th>
-                                <th rowspan="2">BADGE</th>
-                                <th rowspan="2">PATENTE</th>
-                                <th rowspan="2">UNIDADE</th>
-                                <th colspan="3" style="color: #ff4d4d !important;">ADVERTÊNCIAS</th>
-                                <th colspan="2">CURSOS</th>
-                            </tr>
-                            <tr>
-                                <th style="color: #f0a500 !important;">ADV 1</th>
-                                <th style="color: #f0a500 !important;">ADV 2</th>
-                                <th style="color: #f0a500 !important;">ADV 3</th>
-                                <th>C.F.A</th>
-                                <th>P.O.E</th>
-                            </tr>
-                        </thead>
-                        <tbody>`;
-
-            let temMembros = false;
-
-            blocosociais.forEach(bloco => {
-                const filtrados = membros.filter(m => bloco.patentes.includes(limparTexto(m.PATENTE)));
-                
-                if (filtrados.length > 0) {
-                    temMembros = true;
-                    // Note a classe "cat-row" aqui que agora possui o background fixado
-                    tabelaHtml += `<tr><td colspan="10" class="cat-row">${bloco.nome}</td></tr>`;
+        complete: function(results) {
+            const data = results.data;
+            let html = `
+            <table class="tabela-membros">
+                <thead>
+                    <tr>
+                        <th rowspan="2">ID</th>
+                        <th rowspan="2">NOME</th>
+                        <th rowspan="2">BADGE</th>
+                        <th rowspan="2">PATENTE</th>
+                        <th rowspan="2">UNIDADE</th>
+                        <th colspan="3">ADVERTÊNCIAS</th>
+                        <th colspan="2">CURSOS</th>
+                    </tr>
+                    <tr>
+                        <th>ADV 1</th><th>ADV 2</th><th>ADV 3</th>
+                        <th>C.F.A</th><th>P.O.E</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+            
+            data.forEach(row => {
+                if (row.ID && row.ID.trim() !== "") {
+                    // Lógica simples para marcar checks (ajuste conforme a sua coluna)
+                    const adv = (row.Advertências || row.ADVERTENCIAS || "").toUpperCase();
+                    const cursos = (row.Cursos || row.CURSOS || "").toUpperCase();
                     
-                    filtrados.forEach(m => {
-                        let id = m.ID || "-";
-                        let nome = m.NOME_ORIGINAL || "-";
-                        let badge = m.BADGE || "-";
-                        let patente = m.PATENTE_ORIGINAL || "-";
-                        let unidade = m.UNIDADE || "-";
-                        
-                        let advTexto = (m.ADVERTENCIAS || m.ADV || "").toString().toUpperCase().replace(/\s+/g, '');
-                        let adv1 = (advTexto.includes("ADV1") || advTexto.includes("ADV2") || advTexto.includes("ADV3")) ? '<span class="adv-marcado">☑</span>' : '<span class="check-vazio">☐</span>';
-                        let adv2 = (advTexto.includes("ADV2") || advTexto.includes("ADV3")) ? '<span class="adv-marcado">☑</span>' : '<span class="check-vazio">☐</span>';
-                        let adv3 = (advTexto.includes("ADV3")) ? '<span class="adv-marcado">☑</span>' : '<span class="check-vazio">☐</span>';
-
-                        let cursos = (m.CURSOS || "").toString().toUpperCase().replace(/\s+/g, '');
-                        let cfa = (cursos.includes("C.F.A") || cursos.includes("CFA")) ? '<span class="check-marcado">☑</span>' : '<span class="check-vazio">☐</span>';
-                        let poe = (cursos.includes("P.O.E") || cursos.includes("POE")) ? '<span class="check-marcado">☑</span>' : '<span class="check-vazio">☐</span>';
-
-                        tabelaHtml += `<tr>
-                            <td><b>${id}</b></td>
-                            <td style="text-align:left !important; padding-left:15px !important;">${nome}</td>
-                            <td>${badge}</td>
-                            <td>${patente}</td>
-                            <td>${unidade}</td>
-                            <td class="col-adv">${adv1}</td>
-                            <td class="col-adv">${adv2}</td>
-                            <td class="col-adv">${adv3}</td>
-                            <td>${cfa}</td>
-                            <td>${poe}</td>
-                        </tr>`;
-                    });
+                    html += `<tr>
+                        <td>${row.ID}</td>
+                        <td>${row.Nome || row.NOME || "-"}</td>
+                        <td>${row.Badge || row.BADGE || "-"}</td>
+                        <td>${row.Patente || row.PATENTE || "-"}</td>
+                        <td>${row.Unidade || row.UNIDADE || "-"}</td>
+                        <td>${adv.includes("ADV1") ? '<span class="check">☑</span>' : '<span class="none">☐</span>'}</td>
+                        <td>${adv.includes("ADV2") ? '<span class="check">☑</span>' : '<span class="none">☐</span>'}</td>
+                        <td>${adv.includes("ADV3") ? '<span class="check">☑</span>' : '<span class="none">☐</span>'}</td>
+                        <td>${cursos.includes("C.F.A") ? '<span class="check">☑</span>' : '<span class="none">☐</span>'}</td>
+                        <td>${cursos.includes("P.O.E") ? '<span class="check">☑</span>' : '<span class="none">☐</span>'}</td>
+                    </tr>`;
                 }
             });
-
-            if (!temMembros) {
-                tabelaHtml += `<tr><td colspan="10" style="padding:30px; color:#ff4d4d !important; background-color: #141923 !important;">Nenhum membro ativo encontrado na planilha.</td></tr>`;
-            }
-
-            tabelaHtml += `</tbody></table></div></div>`;
-            containerGeral.innerHTML = tabelaHtml;
+            
+            html += '</tbody></table>';
+            document.getElementById("container-tabela").innerHTML = html;
+        },
+        error: function(err) {
+            document.getElementById("container-tabela").innerHTML = "<p style='color:red;'>Erro ao ler planilha. Verifique se ela foi Publicada na Web.</p>";
         }
     });
 </script>
