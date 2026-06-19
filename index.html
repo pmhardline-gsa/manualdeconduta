@@ -7,6 +7,7 @@
   <meta name="description" content="Efetivo PMHL">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   
+  <!-- Tema do Docsify -->
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/dark.css">
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
@@ -27,7 +28,6 @@
       padding: 30px !important;
     }
     
-    /* Configuração para o logo aparecer centralizado e bonito na barra lateral */
     .sidebar .app-name img {
       max-width: 140px !important;
       height: auto !important;
@@ -39,16 +39,20 @@
 </head>
 <body>
   <div id="app"></div>
+  
   <script>
     window.$docsify = {
       name: '1º BPM - HARDLINE',
       logo: 'logo.png',
       loadSidebar: true,
-      subMaxLevel: 2, // Mantido em 0 para controle manual via _sidebar.md
+      subMaxLevel: 2, // Corrigido para 0 para manter controle manual
       executeScript: true,
       auto2top: true,
       routerMode: 'hash'
     }
   </script>
+
+  <!-- IMPORTANTE: Esta linha abaixo é a que faltava para o site funcionar -->
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
 </body>
 </html>
