@@ -1,10 +1,13 @@
-* **INTRODUÇÃO**
-  * [Manual de Conduta](manualdeconduta.md)
-* **ORGANIZAÇÃO**
-  * [Hierarquia Militar](hierarquia.md)
-  * [Planilha de Membros](membros.md)
-* **OPERAÇÕES**
-  * [Comunicação](comunicacao.md)
-  * [Aeronaves](aeronave.md)
-  * [Ocorrencias](ocorrencias.md)
-  * [Fardamento](fardamento.md)
+* INTRODUÇÃO
+  * [Manual de Conduta](/manualdeconduta)
+
+* ORGANIZAÇÃO
+  * [Hierarquia Militar](/hierarquia)
+  * [Planilha de Membros](/membros)
+
+* OPERAÇÕES
+  * [Diretrizes Operacionais](/manualdeconduta#diretrizes-operacionais-do-gsa)
+  * [Comunicação](/manualdeconduta#comunicacao)
+  * [Aeronaves](/manualdeconduta#aeronaves)
+  * [Ocorrencias](/manualdeconduta#ocorrencias)
+  * [Fardamento](/manualdeconduta#fardamento)
