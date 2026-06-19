@@ -8,4 +8,3 @@
   * [Aeronaves](aeronave.md)
   * [Ocorrencias](ocorrencias.md)
   * [Fardamento](fardamento.md)
- * <a href="membros.html" target="_blank">Planilha de membros</a>
