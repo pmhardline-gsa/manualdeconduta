@@ -2,23 +2,24 @@
 <html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
-    <style>
-        body { background-color: #0f131a; color: #e2e8f0; font-family: sans-serif; margin: 0; padding: 20px; }
-        .table-container { width: 100%; overflow-x: auto; border: 1px solid #232b3c; border-radius: 8px; }
-        table { width: 100%; border-collapse: collapse; background: #0f131a; }
-        th { background: #1c2434; color: #f0a500; padding: 12px; text-transform: uppercase; }
-        td { padding: 12px; border-bottom: 1px solid #1a202c; text-align: center; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membros</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        body { background-color: #0f131a; color: #e2e8f0; font-family: sans-serif; padding: 20px; }
+        .tabela-membros { width: 100%; border-collapse: collapse; border: 1px solid #232b3c; }
+        .tabela-membros th { background: #1c2434; color: #f0a500; padding: 12px; }
+        .tabela-membros td { padding: 12px; border: 1px solid #1a202c; text-align: center; }
+    </style>
 </head>
 <body>
 
-<div id="tabela-container">
-    <h2 style="color: #f0a500;">A carregar dados...</h2>
+<div id="container-tabela">
+    <h3 style="color: #f0a500;">A carregar dados...</h3>
 </div>
 
 <script>
-    // A sua URL de CSV publicada
+    // URL publicada da planilha
     const URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv";
 
     Papa.parse(URL, {
@@ -26,7 +27,7 @@
         header: true,
         complete: function(results) {
             const data = results.data;
-            let html = '<div class="table-container"><table><thead><tr><th>ID</th><th>NOME</th><th>PATENTE</th><th>CURSOS</th></tr></thead><tbody>';
+            let html = '<table class="tabela-membros"><thead><tr><th>ID</th><th>NOME</th><th>PATENTE</th><th>CURSOS</th></tr></thead><tbody>';
             
             data.forEach(row => {
                 if (row.ID) {
@@ -34,14 +35,13 @@
                 }
             });
             
-            html += '</tbody></table></div>';
-            document.getElementById("tabela-container").innerHTML = html;
+            html += '</tbody></table>';
+            document.getElementById("container-tabela").innerHTML = html;
         },
         error: function(err) {
-            document.getElementById("tabela-container").innerHTML = "<h3 style='color:red;'>Erro ao carregar. Verifique a publicação da planilha.</h3>";
+            document.getElementById("container-tabela").innerHTML = "<p style='color:red;'>Erro ao carregar os dados.</p>";
         }
     });
 </script>
-
 </body>
 </html>
