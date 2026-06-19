@@ -26,6 +26,15 @@
       max-width: 1200px !important;
       padding: 30px !important;
     }
+    
+    /* Configuração para o logo aparecer centralizado e bonito na barra lateral */
+    .sidebar .app-name img {
+      max-width: 140px !important;
+      height: auto !important;
+      margin: 15px auto 5px auto !important;
+      display: block !important;
+      filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.6));
+    }
   </style>
 </head>
 <body>
@@ -33,9 +42,10 @@
   <script>
     window.$docsify = {
       name: '1º BPM - HARDLINE',
+      logo: 'logo.png', // Isso bota o logo AUTOMATICAMENTE no topo da barra lateral
       repo: '',
       loadSidebar: true,
-      executeScript: true, // Permite que a tabela de membros execute o código da planilha
+      executeScript: true, 
       auto2top: true
     }
   </script>
