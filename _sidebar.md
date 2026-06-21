@@ -8,3 +8,4 @@
   * [Aeronaves](/aeronave.md)
   * [Ocorrências](/ocorrencias.md)
   * [Maps](/maps.html)
+  * [Escala Aerea](/escala_aerea.md)
