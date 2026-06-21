@@ -1,60 +1,14 @@
 <!DOCTYPE html>
-<html>
-<head><base target="_top">
-  <style>
-    body { background: #0f172a; color: white; display: flex; justify-content: center; padding: 20px; font-family: sans-serif; gap: 20px; }
-    .painel { background: #1e293b; padding: 25px; border-radius: 15px; width: 380px; }
-    .painel-lateral { background: #1e293b; padding: 20px; border-radius: 15px; width: 300px; }
-    input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; background: #0f172a; color: white; border: 1px solid #475569; }
-    button { width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-    .item-ativo { border-bottom: 1px solid #334155; padding: 10px 0; color: #fbbf24; }
-  </style>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Escala Aérea | 1º BPM</title>
+    <style>
+        body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #0b0e14; }
+        iframe { width: 100%; height: 100%; border: none; }
+    </style>
 </head>
 <body>
-  <div class="painel">
-    <h3>1º BPM - Escala</h3>
-    <input type="text" id="campoBusca" placeholder="Pesquisar..." oninput="filtrar()">
-    <select id="selectOficial" onchange="checarStatus()"></select>
-    <select id="selectAero"><option value="EC135">EC135</option><option value="Maverick">Maverick</option></select>
-    <select id="selectAcao">
-      <option value="Patrulha Geral">Patrulha Geral</option>
-      <option value="Joia">Joia</option>
-      <option value="Banco Central">Banco Central</option>
-    </select>
-    <button id="btnIn" onclick="enviar('INICIAR')" style="background: #22c55e;">INICIAR VOO</button>
-    <button id="btnOut" onclick="enviar('FINALIZAR')" style="background: #ef4444; display: none;">FINALIZAR VOO</button>
-  </div>
-  <div class="painel-lateral">
-    <h3>🚁 Patrulhas Ativas</h3>
-    <div id="listaAtivos"></div>
-  </div>
-  <script>
-    let banco = [];
-    window.onload = () => { google.script.run.withSuccessHandler(r => { banco = r; filtrar(); }).obterDadosIniciais(); atualizarLista(); };
-    function filtrar() {
-      const b = document.getElementById('campoBusca').value.toLowerCase();
-      const s = document.getElementById('selectOficial'); s.innerHTML = '';
-      banco.filter(m => m.nome.toLowerCase().includes(b) || m.id.toString().includes(b) || m.badge.toString().includes(b))
-           .forEach(m => { let opt = document.createElement('option'); opt.value = m.nome; opt.text = `${m.nome} | ID: ${m.id} | B: ${m.badge}`; s.appendChild(opt); });
-      checarStatus();
-    }
-    function atualizarLista() {
-      google.script.run.withSuccessHandler(a => {
-        const l = document.getElementById('listaAtivos'); l.innerHTML = a.length ? '' : 'Nenhum ativo.';
-        a.forEach(i => l.innerHTML += `<div class="item-ativo"><b>${i.nome}</b> (${i.acao})</div>`);
-      }).obterVoosAtivos();
-    }
-    function checarStatus() {
-      google.script.run.withSuccessHandler(s => {
-        document.getElementById('btnIn').style.display = (s === "FECHADO") ? 'block' : 'none';
-        document.getElementById('btnOut').style.display = (s === "ABERTO") ? 'block' : 'none';
-      }).verificarStatusVoo(document.getElementById('selectOficial').value);
-    }
-    function enviar(a) {
-      const btn = (a === 'INICIAR') ? document.getElementById('btnIn') : document.getElementById('btnOut');
-      btn.disabled = true; btn.innerText = "PROCESSANDO...";
-      google.script.run.withSuccessHandler(res => { alert(res); checarStatus(); atualizarLista(); btn.disabled = false; btn.innerText = (a === 'INICIAR') ? "INICIAR VOO" : "FINALIZAR VOO"; }).gerenciarVoo(document.getElementById('selectOficial').value, banco.find(x => x.nome === document.getElementById('selectOficial').value).id, document.getElementById('selectAero').value, a, document.getElementById('selectAcao').value);
-    }
-  </script>
+    <iframe src="https://script.google.com/macros/s/AKfycbyU51H4yhYrqYhf9xND3EY4m10DIBvQASgTJNnFk_OXjYJpzseyLU0TDDM_T8RFxQ_C/exec"></iframe>
 </body>
 </html>
