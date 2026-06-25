@@ -43,17 +43,23 @@
 </head>
 <body>
   <div id="app"></div>
-  <script>
-    window.$docsify = {
-      name: '1º BPM - HARDLINE',
-      logo: 'logo.png',
-      loadSidebar: true,
-      subMaxLevel: 2,
-      executeScript: true,
-      auto2top: true,
-      routerMode: 'hash'
-    }
-  </script>
+<script>
+  window.$docsify = {
+    name: '1º BPM - HARDLINE',
+    logo: 'logo.png',
+    loadSidebar: true,
+    subMaxLevel: 2,
+    executeScript: true,
+    auto2top: true,
+    routerMode: 'hash',
+    // Esta configuração corrige o erro de caminhos relativos:
+    alias: {
+      '/.*/_sidebar.md': '/_sidebar.md'
+    },
+    // Garante que o Docsify sempre procure arquivos na raiz:
+    basePath: '/'
+  }
+</script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
 </body>
 </html>
