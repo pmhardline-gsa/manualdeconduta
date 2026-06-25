@@ -60,41 +60,15 @@ Este é o organograma funcional do nosso grupamento, respeitando a cadeia de com
 # 🎖️ ESTRUTURA HIERÁRQUICA — GSA
 
 <div class="tactical-dashboard">
-  
-  <!-- Comando Principal -->
-  <div class="commander-node">
-    <div class="icon">👑</div>
-    <div class="content">
-      <h3>Comando Geral</h3>
-      <p>Gestão Estratégica e Deliberação</p>
-    </div>
-  </div>
-
-  <div class="arrow">▼</div>
-
-  <!-- Supervisão -->
-  <div class="supervisor-node">
-    <div class="icon">📋</div>
-    <h3>Supervisão Aérea</h3>
-  </div>
+  <div class="commander-node">👑 Comando Geral</div>
+  <div class="supervisor-node">📋 Supervisão Aérea</div>
 
   <div class="branch-container">
-    <!-- Pilotos -->
     <div class="unit-card">
       <div class="unit-header">🚁 CORPO DE PILOTOS</div>
       <div class="rank-list">
         <div class="rank-item veteran"><span>★</span> Veterano / Sênior</div>
         <div class="rank-item officer"><span>◆</span> Oficial / Estagiário</div>
-        <div class="rank-item recruit"><span>●</span> Aspirante</div>
-      </div>
-    </div>
-
-    <!-- Operadores -->
-    <div class="unit-card">
-      <div class="unit-header">🔫 CORPO DE OPERADORES</div>
-      <div class="rank-list">
-        <div class="rank-item veteran"><span>★</span> Veterano / Sênior</div>
-        <div class="rank-item officer"><span>◆</span> Oficial / Tripulante</div>
         <div class="rank-item recruit"><span>●</span> Aspirante</div>
       </div>
     </div>
