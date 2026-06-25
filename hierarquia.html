@@ -4,35 +4,50 @@
   <meta charset="UTF-8">
   <title>Organograma GSA</title>
   <style>
-    body { background: #0b0e14; color: #e2e8f0; font-family: sans-serif; padding: 20px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
-    .card { background: #1a202c; border: 1px solid #4a5568; border-radius: 10px; padding: 15px; text-align: center; transition: 0.3s; }
-    .card:hover { transform: translateY(-5px); border-color: #f0a500; }
-    .nome { color: #f0a500; font-weight: bold; }
+    :root { --theme-color: #f0a500; }
+    body { background: #0b0e14; color: white; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+    
+    /* Layout Animado */
+    .comando-section { margin-bottom: 50px; border-bottom: 2px solid var(--theme-color); padding-bottom: 20px; }
+    .grid-container { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+    
+    .card { 
+      background: #1a202c; border: 1px solid #4a5568; padding: 20px; border-radius: 12px; 
+      width: 220px; text-align: center; transition: 0.4s;
+      animation: slideUp 0.6s ease-out;
+    }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .card:hover { transform: translateY(-10px); border-color: var(--theme-color); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+    
+    .nome { color: var(--theme-color); font-weight: bold; margin-bottom: 10px; }
+    .status { font-size: 0.85em; color: #a0aec0; }
   </style>
 </head>
 <body>
+
   <h1>ESTRUTURA HIERÁRQUICA</h1>
-  <div id="container" class="grid"></div>
+  
+  <div id="comando" class="comando-section"></div>
+  <div id="efetivo" class="grid-container"></div>
 
   <script>
+    // Link do CSV da sua planilha (Publicado na Web como CSV)
     const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv';
 
     fetch(url)
-      .then(response => response.text())
-      .then(data => {
-        const rows = data.split('\n').slice(1);
-        const container = document.getElementById('container');
-        rows.forEach(row => {
-          const [nome, id, status] = row.split(',');
-          if(nome) {
-            container.innerHTML += `
-              <div class="card">
-                <div class="nome">${nome}</div>
-                <div>ID: ${id}</div>
-                <div style="font-size: 0.8em; margin-top:5px;">Status: ${status}</div>
-              </div>`;
-          }
+      .then(res => res.text())
+      .then(csv => {
+        const linhas = csv.split('\n').slice(1);
+        linhas.forEach(linha => {
+          const [nome, id, status, cargo] = linha.split(',');
+          if(!nome) return;
+          
+          const div = document.createElement('div');
+          div.className = 'card';
+          div.innerHTML = `<div class="nome">${nome}</div><div>${id}</div><div class="status">Status: ${status}</div>`;
+          
+          if(cargo === 'comando') document.getElementById('comando').appendChild(div);
+          else document.getElementById('efetivo').appendChild(div);
         });
       });
   </script>
