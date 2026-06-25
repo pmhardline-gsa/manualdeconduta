@@ -57,31 +57,49 @@ Este é o organograma funcional do nosso grupamento, respeitando a cadeia de com
 
 ---
 
-# 🎖️ Estrutura Hierárquica — GSA
+# 🎖️ ESTRUTURA HIERÁRQUICA — GSA
 
-<div class="org-chart">
-  <div class="card commander">
-    <h3>Comando Geral (Comando GSA)</h3>
+<div class="tactical-dashboard">
+  
+  <!-- Comando Principal -->
+  <div class="commander-node">
+    <div class="icon">👑</div>
+    <div class="content">
+      <h3>Comando Geral</h3>
+      <p>Gestão Estratégica e Deliberação</p>
+    </div>
   </div>
-  <div class="card">
+
+  <div class="arrow">▼</div>
+
+  <!-- Supervisão -->
+  <div class="supervisor-node">
+    <div class="icon">📋</div>
     <h3>Supervisão Aérea</h3>
   </div>
-  <div class="branches">
-    <div class="branch">
-      <div class="card">
-        <h4>Corpo de Pilotos</h4>
-        <ul><li>Veterano / Sênior</li><li>Oficial / Estagiário</li><li>Aspirante</li></ul>
+
+  <div class="branch-container">
+    <!-- Pilotos -->
+    <div class="unit-card">
+      <div class="unit-header">🚁 CORPO DE PILOTOS</div>
+      <div class="rank-list">
+        <div class="rank-item veteran"><span>★</span> Veterano / Sênior</div>
+        <div class="rank-item officer"><span>◆</span> Oficial / Estagiário</div>
+        <div class="rank-item recruit"><span>●</span> Aspirante</div>
       </div>
     </div>
-    <div class="branch">
-      <div class="card">
-        <h4>Corpo de Operadores</h4>
-        <ul><li>Veterano / Sênior</li><li>Oficial / Tripulante</li><li>Aspirante</li></ul>
+
+    <!-- Operadores -->
+    <div class="unit-card">
+      <div class="unit-header">🔫 CORPO DE OPERADORES</div>
+      <div class="rank-list">
+        <div class="rank-item veteran"><span>★</span> Veterano / Sênior</div>
+        <div class="rank-item officer"><span>◆</span> Oficial / Tripulante</div>
+        <div class="rank-item recruit"><span>●</span> Aspirante</div>
       </div>
     </div>
   </div>
 </div>
-
 ---
 *Para detalhes completos do Plano de Carreira, consulte o Manual de Diretrizes.*
 
