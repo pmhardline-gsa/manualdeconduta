@@ -59,23 +59,35 @@ Este é o organograma funcional do nosso grupamento, respeitando a cadeia de com
 
 # 🎖️ ESTRUTURA HIERÁRQUICA — GSA
 
-<div class="tactical-dashboard">
-  <div class="commander-node">👑 Comando Geral</div>
-  <div class="supervisor-node">📋 Supervisão Aérea</div>
+<div id="render-area"></div>
 
-  <div class="branch-container">
-    <div class="unit-card">
-      <div class="unit-header">🚁 CORPO DE PILOTOS</div>
-      <div class="rank-list">
-        <div class="rank-item veteran"><span>★</span> Veterano / Sênior</div>
-        <div class="rank-item officer"><span>◆</span> Oficial / Estagiário</div>
-        <div class="rank-item recruit"><span>●</span> Aspirante</div>
+<script>
+  const htmlContent = `
+  <div class="tactical-dashboard">
+    <div class="commander-node">👑 Comando Geral</div>
+    <div class="supervisor-node">📋 Supervisão Aérea</div>
+    <div class="branch-container">
+      <div class="unit-card">
+        <div class="unit-header">🚁 CORPO DE PILOTOS</div>
+        <div class="rank-list">
+          <div class="rank-item veteran"><span>★</span> Veterano / Sênior</div>
+          <div class="rank-item officer"><span>◆</span> Oficial / Estagiário</div>
+          <div class="rank-item recruit"><span>●</span> Aspirante</div>
+        </div>
+      </div>
+      <div class="unit-card">
+        <div class="unit-header">🔫 CORPO DE OPERADORES</div>
+        <div class="rank-list">
+          <div class="rank-item veteran"><span>★</span> Veterano / Sênior</div>
+          <div class="rank-item officer"><span>◆</span> Oficial / Tripulante</div>
+          <div class="rank-item recruit"><span>●</span> Aspirante</div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
----
-*Para detalhes completos do Plano de Carreira, consulte o Manual de Diretrizes.*
+  </div>`;
+  
+  document.getElementById('render-area').innerHTML = htmlContent;
+</script>
 
 ---
 
