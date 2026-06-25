@@ -3,51 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        body { background: #0b0e14; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 40px; }
-        .node { background: #1a252f; border: 1px solid #34495e; padding: 12px 25px; border-radius: 8px; margin: 5px; text-align: center; width: 260px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        body { background: #0b0e14; color: #fff; font-family: 'Segoe UI', sans-serif; padding: 40px; display: flex; flex-direction: column; align-items: center; }
+        
+        /* Animação de entrada suave */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .node { background: #1a252f; border: 1px solid #34495e; padding: 15px; border-radius: 8px; margin: 5px; text-align: center; width: 250px; animation: fadeIn 0.6s ease-out; cursor: pointer; transition: 0.3s; }
+        .node:hover { border-color: #f1c40f; transform: scale(1.02); }
+        
         .grid-baixo { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; width: 100%; max-width: 800px; margin-top: 30px; }
         .quadro { background: #1a252f; border: 1px solid #34495e; padding: 20px; border-radius: 12px; }
-        h3 { color: #f1c40f; text-align: center; border-bottom: 2px solid #f1c40f; padding-bottom: 10px; text-transform: uppercase; }
-        .rank-item { padding: 8px; border-bottom: 1px solid #2c3e50; font-size: 0.9em; }
+        
+        h3 { color: #f1c40f; text-align: center; border-bottom: 2px solid #f1c40f; padding-bottom: 10px; }
+        .rank-item { padding: 10px; border-bottom: 1px solid #2c3e50; cursor: pointer; transition: 0.3s; animation: fadeIn 0.8s ease-out; }
+        .rank-item:hover { color: #f1c40f; background: #232f3b; }
+        
+        /* Esconder detalhes inicialmente */
+        .detalhes { display: none; font-size: 0.85em; color: #a0aec0; margin-top: 5px; border-top: 1px dashed #4a5568; padding-top: 5px; }
     </style>
 </head>
 <body>
-    <div id="topo-hierarquia"></div>
+    <div id="topo-hierarquia" style="display:flex; flex-direction:column; align-items:center;"></div>
     <div class="grid-baixo">
-        <div class="quadro"><h3>PILOTOS</h3><div id="pilotos"></div></div>
-        <div class="quadro"><h3>OPERADORES</h3><div id="operadores"></div></div>
+        <div class="quadro"><h3>PILOTOS</h3><div id="lista-pilotos"></div></div>
+        <div class="quadro"><h3>OPERADORES</h3><div id="lista-operadores"></div></div>
     </div>
 
     <script>
         const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv';
-        
-        // Define a ordem hierárquica (quanto maior o número, mais alto o cargo)
         const hierarquia = { 'Alto Comando': 3, 'Comando': 2, 'Sub-Comando': 1 };
 
         fetch(url).then(res => res.text()).then(data => {
-            const rows = data.split('\n').slice(1);
-            let comando = [];
-            
-            rows.forEach(row => {
+            data.split('\n').slice(1).forEach(row => {
                 const [id, nome, badge, patente] = row.split(',');
                 if(!nome) return;
                 const p = patente.trim();
                 
-                if (hierarquia[p] !== undefined) {
-                    comando.push({nome, p, nivel: hierarquia[p]});
-                } else if (p.toLowerCase().includes('piloto')) {
-                    document.getElementById('pilotos').innerHTML += `<div class="rank-item">${p} | ${nome}</div>`;
-                } else {
-                    document.getElementById('operadores').innerHTML += `<div class="rank-item">${p} | ${nome}</div>`;
-                }
-            });
+                // Cria o elemento com detalhes ocultos
+                const html = `
+                    <div class="rank-item" onclick="this.querySelector('.detalhes').style.display = 'block'">
+                        ${p} | ${nome}
+                        <div class="detalhes">ID: ${id} | Badge: ${badge}</div>
+                    </div>`;
 
-            // Ordena o comando do maior nível para o menor
-            comando.sort((a, b) => b.nivel - a.nivel);
-            
-            // Exibe no topo na ordem correta
-            comando.forEach(item => {
-                document.getElementById('topo-hierarquia').innerHTML += `<div class="node"><strong>[ ${item.p.toUpperCase()} ]</strong><br>${item.nome}</div>`;
+                if (hierarquia[p] !== undefined) {
+                    document.getElementById('topo-hierarquia').innerHTML += `<div class="node" onclick="this.querySelector('.detalhes').style.display = 'block'"><strong>[ ${p.toUpperCase()} ]</strong><br>${nome}<div class="detalhes">ID: ${id} | Badge: ${badge}</div></div>`;
+                } else if (p.toLowerCase().includes('piloto')) {
+                    document.getElementById('lista-pilotos').innerHTML += html;
+                } else {
+                    document.getElementById('lista-operadores').innerHTML += html;
+                }
             });
         });
     </script>
