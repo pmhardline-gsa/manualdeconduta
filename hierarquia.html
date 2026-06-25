@@ -2,44 +2,54 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Hierarquia GSA</title>
     <style>
-        body { background: #0b0e14; color: white; font-family: sans-serif; display: flex; justify-content: center; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; width: 90%; padding: 40px; }
-        .card { background: #1a202c; border: 1px solid #4a5568; padding: 20px; border-radius: 12px; transition: 0.3s; text-align: center; }
-        .card:hover { transform: translateY(-10px); border-color: #f0a500; box-shadow: 0 0 20px rgba(240, 165, 0, 0.2); }
-        .rank { color: #f0a500; font-weight: bold; }
+        body { background: #0b0e14; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 40px; }
+        
+        /* Níveis da Hierarquia */
+        .level { display: flex; justify-content: center; gap: 20px; margin-bottom: 40px; width: 100%; flex-wrap: wrap; }
+        .level-title { color: #f0a500; text-transform: uppercase; margin-bottom: 15px; border-bottom: 2px solid #f0a500; padding-bottom: 5px; }
+
+        /* Card estilizado */
+        .card { background: #1a202c; border: 1px solid #4a5568; padding: 15px; border-radius: 12px; width: 200px; text-align: center; }
+        .name { color: #f0a500; font-weight: bold; margin-bottom: 5px; }
+        .id { font-size: 0.9em; color: #cbd5e0; }
+        .status { font-size: 0.8em; color: #718096; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-<div class="grid" id="hierarquia-container"></div>
+<!-- Nível 1: Comando -->
+<h2 class="level-title">Comando Geral</h2>
+<div class="level" id="comando"></div>
+
+<!-- Nível 2: Operacional -->
+<h2 class="level-title">Corpo Operacional</h2>
+<div class="level" id="operacional"></div>
 
 <script>
-    // Substitua pelo link do seu CSV publicado
     const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSw-LdIv-3xH3eswHp06gAaxJI8e9aJcrfyuBPPhBIyc6lwHww33rXMhYei5JzTfDxAc96w2kBZ2DWb/pub?output=csv';
 
-    async function carregarHierarquia() {
+    async function renderizarHierarquia() {
         const response = await fetch(csvUrl);
         const data = await response.text();
-        const linhas = data.split('\n').slice(1); // Ignora cabeçalho
-        
-        const container = document.getElementById('hierarquia-container');
+        const linhas = data.split('\n').slice(1);
         
         linhas.forEach(linha => {
-            const [nome, patente, status] = linha.split(',');
+            const [nome, id, status, nivel] = linha.split(','); // Adicione uma coluna 'nivel' na planilha
             if (!nome) return;
             
-            container.innerHTML += `
+            const card = `
                 <div class="card">
-                    <div class="rank">${patente}</div>
-                    <h3>${nome}</h3>
-                    <p>Status: ${status}</p>
-                </div>
-            `;
+                    <div class="name">${nome}</div>
+                    <div class="id">ID: ${id}</div>
+                    <div class="status">Status: ${status}</div>
+                </div>`;
+            
+            // Coloca no container certo baseado no nível
+            document.getElementById(nivel === 'comando' ? 'comando' : 'operacional').innerHTML += card;
         });
     }
-    carregarHierarquia();
+    renderizarHierarquia();
 </script>
 </body>
 </html>
