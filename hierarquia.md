@@ -51,15 +51,31 @@ O Grupamento de Suporte Aéreo segue uma estrutura hierárquica rígida e bem de
 
 ---
 
-<div align="center">
-  <img 
-    src="./organograma.png" 
-    alt="Organograma PMHL-GSA" 
-    width="1080" 
-    height="auto"
-    style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.4);"
-  >
-</div>
+# 🎖️ Organograma Hierárquico – GSA
+
+Este é o organograma funcional do nosso grupamento, respeitando a cadeia de comando do 1º BPM Hardline.
+
+---
+
+### 🏛️ Comando Geral
+* **Comandante Geral (Comando GSA)**
+    * 🦅 **Supervisão Aérea**
+        * 👨‍✈️ **Pilotos (GSA-Pilotos)**
+            * 🚁 Operadores (GSA-Operadores)
+            * 🛠️ Equipe de Solo/Apoio
+
+---
+
+### 📋 Detalhamento de Cargos
+
+* **Comando GSA:** Responsável pelas diretrizes, disciplina e punições administrativas.
+* **Supervisão Aérea:** Coordena as operações em tempo real e prioridades de fonética.
+* **Pilotos:** Responsáveis pela condução das aeronaves e decisão de pouso/decolagem.
+* **Operadores:** Responsáveis pelo apoio tático, Cód. 5 e monitoramento de perímetro.
+
+---
+
+> *"Onde os olhos da Harpia alcançam, a ordem prevalece. Soberanos no ar."*
 
 ---
 
