@@ -57,25 +57,33 @@ Este é o organograma funcional do nosso grupamento, respeitando a cadeia de com
 
 ---
 
-### 🏛️ Comando Geral
-* **Comandante Geral (Comando GSA)**
-    * 🦅 **Supervisão Aérea**
-        * 👨‍✈️ **Pilotos (GSA-Pilotos)**
-            * 🚁 Operadores (GSA-Operadores)
-            * 🛠️ Equipe de Solo/Apoio
+# 🎖️ Estrutura Hierárquica — GSA
+
+<div class="org-chart">
+  <div class="card commander">
+    <h3>Comando Geral (Comando GSA)</h3>
+  </div>
+  <div class="card">
+    <h3>Supervisão Aérea</h3>
+  </div>
+  <div class="branches">
+    <div class="branch">
+      <div class="card">
+        <h4>Corpo de Pilotos</h4>
+        <ul><li>Veterano / Sênior</li><li>Oficial / Estagiário</li><li>Aspirante</li></ul>
+      </div>
+    </div>
+    <div class="branch">
+      <div class="card">
+        <h4>Corpo de Operadores</h4>
+        <ul><li>Veterano / Sênior</li><li>Oficial / Tripulante</li><li>Aspirante</li></ul>
+      </div>
+    </div>
+  </div>
+</div>
 
 ---
-
-### 📋 Detalhamento de Cargos
-
-* **Comando GSA:** Responsável pelas diretrizes, disciplina e punições administrativas.
-* **Supervisão Aérea:** Coordena as operações em tempo real e prioridades de fonética.
-* **Pilotos:** Responsáveis pela condução das aeronaves e decisão de pouso/decolagem.
-* **Operadores:** Responsáveis pelo apoio tático, Cód. 5 e monitoramento de perímetro.
-
----
-
-> *"Onde os olhos da Harpia alcançam, a ordem prevalece. Soberanos no ar."*
+*Para detalhes completos do Plano de Carreira, consulte o Manual de Diretrizes.*
 
 ---
 
