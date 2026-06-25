@@ -44,7 +44,7 @@
 <body>
   <div id="app"></div>
 
-  <script>
+<script>
     window.$docsify = {
       name: '1º BPM - HARDLINE',
       logo: 'logo.png',
@@ -53,12 +53,10 @@
       executeScript: true,
       auto2top: true,
       routerMode: 'hash',
-      // Força a leitura do sidebar sempre na raiz
+      // Removemos o basePath para permitir que o Docsify resolva o caminho relativo
       alias: {
         '/.*/_sidebar.md': '/_sidebar.md'
-      },
-      // Define a raiz como o caminho base para todos os arquivos
-      basePath: '/'
+      }
     }
   </script>
   
