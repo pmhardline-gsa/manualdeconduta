@@ -45,14 +45,11 @@
 *   **Operador Sênior:** Especialista em balística e assalto aerotático. Detém a prioridade no acionamento da linha de fogo lateral em missões de infiltração, apoio de fogo aproximado, cenários de alto risco e eventos sob Código 5 (COD5).
 *   **Operador Veterano:** Tripulante Master da divisão. Encarregado da fiscalização doutrinária de todas as praças operacionais inferiores, acumulando funções de planejamento tático e rotinas administrativas junto ao Comando.
 
-> ### 🏛️ Cadeia de Comando e Hierarquia Operacional
-
-O Grupamento de Suporte Aéreo segue uma estrutura hierárquica rígida e bem definida, garantindo a fluidez da comunicação e o respeito à doutrina tanto em solo quanto na linha de voo.
-
 ---
 
-# 🎖️ ESTRUTURA HIERÁRQUICA — GSA
+# 🏛️ Cadeia de Comando e Hierarquia Operacional— GSA
 
+O Grupamento de Suporte Aéreo segue uma estrutura hierárquica rígida e bem definida, garantindo a fluidez da comunicação e o respeito à doutrina tanto em solo quanto na linha de voo.
 
 <iframe src="hierarquia.html" width="100%" height="800px" style="border: none; background: transparent;"></iframe>
 
