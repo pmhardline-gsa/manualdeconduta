@@ -1,57 +1,44 @@
-## Diretrizes Operacionais do GSA
+# :eagle: MANUAL DE DIRETRIZES OPERACIONAIS – GSA
+
+> *"Onde os olhos da Harpia alcançam, a ordem prevalece. Soberanos no ar."*
 
 ---
 
-> ### 1. Fuga de Abordagem
+### :one: Fuga de Abordagem
+O GSA está autorizado a prestar apoio normalmente, independente da classe do veículo envolvido. Esta regra é válida tanto para ocorrências comuns quanto para casos com Suspeito Armado ou confirmados de Cód. 5.
 
-O GSA está autorizado a prestar apoio normalmente, **independente da classe do veículo** envolvido. Esta regra é válida tanto para ocorrências com Suspeito Armado quanto para casos confirmados de **Cód.5**.
-
----
-
-> ### 2. Protocolo de Boosting
+### :two: Protocolo de Boosting
 O apoio em situações de Boosting segue critérios rígidos baseados na classe do veículo:
 
-* **Boosting Classes A e S:** Estamos autorizados a prestar apoio direto no **veículo principal**.
-* **Boosting Classes B ou Inferiores:** É **proibido** interferir, acompanhar ou modular qualquer informação sobre o veículo PRINCIPAL. O auxílio é restrito exclusivamente aos **veículos de APOIO**, e apenas se estes forem de classe **A** ou **S**.
+* **Classes A e S:** Autorizado o apoio e acompanhamento direto no veículo principal.
+* **Classe B ou Inferiores:** Proibido interferir, acompanhar ou modular qualquer informação sobre o veículo principal. O auxílio do GSA restringe-se exclusivamente aos veículos de APOIO, e apenas se estes forem de classe A ou S.
 
-<blockquote class="warning">
+> :warning: **Regra de Contingente:** Sempre que o GSA for empenhado em um Boosting, é obrigatório tripular a aeronave com, no mínimo, **Piloto + 1 Operador**.
 
-⚠️ **Regra de Contingente para Boosting:**
-Sempre que o GSA for empenhado em um Boosting (seja no apoio ou no principal, classes A ou S), é **obrigatório** tripular o helicóptero com pelo menos **Piloto + 1 Operador**. Os meliantes podem abrir fogo contra a aeronave, transformando a ocorrência em uma situação de prioridade para todo o batalhão.
+### :three: Intervenção em Aeronaves Hostis/Civis
+Caso a tripulação visualize outra aeronave de asa rotativa prestando apoio a criminosos ou interferindo na QRU, o protocolo abaixo deve ser seguido estritamente:
 
-</blockquote>
+1.  :phone: **Contato Via 911:** Tentar o contato imediato com a aeronave.
+2.  :mega: **Ordem de Pouso:** Emitir a ordem de pouso imediato através de 03 (três) avisos claros.
+3.  :gun: **Uso da Força:** Caso desobedecido, autorizado efetuar disparos direcionados para fumaçar a aeronave inimiga.
 
----
+### :four: Cód. 5 de Qualquer Natureza
+Em casos de Cód. 5, o GSA assume o papel de coordenação tática aérea:
 
-> ### 3. Intervenção em Aeronaves Hostis/Civis
-Se a tripulação do GSA visualizar outra aeronave de asa rotativa prestando apoio ou interferindo na QRU, o protocolo abaixo deve ser seguido estritamente:
+* :radio: **Prioridade de Fonética:** O grupamento tem total prioridade nas modulações de rádio.
+* :no_entry: **Isolamento de Área:** Abrir a área de risco (Zona Vermelha) e realizar o anúncio oficial no Altaphone.
+* :eyes: **Monitoramento:** Responsabilidade total por relatar à unidade terrestre toda a movimentação dentro do perímetro.
 
-1. **Contato Via 911:** A aeronave deve ser contatada imediatamente.
-2. **Ordem de Pouso:** Deve ser emitida a ordem de pouso imediato por meio de **03 (três) avisos claros**.
-3. **Uso da Força:** Caso a aeronave não obedeça às ordens após o terceiro aviso, os oficiais estão autorizados a efetuar **disparos direcionados para fumaçar a aeronave** inimiga.
-
----
-
-> ### 4. Cód.5 de Qualquer Natureza
-Em casos de COD.5, o GSA assume o papel de coordenação tática aérea:
-
-* **Prioridade de Fonética:** O grupamento tem total prioridade na modulação do rádio.
-* **Isolamento de Área:** A principal função é abrir a área de risco (**Zona Vermelha**) e realizar o anúncio oficial no *Altaphone* através do aplicativo Anúncios (seguindo os padrões estipulados em AVISOS).
-* **Monitoramento:** Responsabilidade total por monitorar e comunicar à unidade terrestre toda a movimentação dentro e ao redor do perímetro isolado.
+### :five: Demais QRUs
+* :car: **Veículos de 4 Rodas:** Apoio permitido apenas se o veículo for classe **A ou S**. Veículos classe C ou inferior, modular até a chegada de uma unidade terrestre e dar QTA.
+* :motorcycle: **Motocicletas:** Permissão para acompanhar qualquer motocicleta, independente de classe ou cilindrada.
+* :no_entry_sign: **Corrida Ilegal:** Proibido aguardar no final do percurso. A postura é a intervenção imediata para cortar a ação na raiz.
 
 ---
 
-> ### 5. Demais QRUs (ATM, Corrida Ilegal, Porta-malas, Registradora, Tráfico)
-* **Veículos de 4 Rodas:** O apoio só é permitido se o veículo envolvido for estritamente de classe **A** ou **S**.
-* **Procedimento de Transição:** Caso o veículo da QRU não atenda aos requisitos de classe (ex: um carro classe C), o GSA pode iniciar o acompanhamento e modular as informações **apenas até que a primeira unidade terrestre chegue** para assumir. Assim que a viatura assumir, o GSA deve dar **QTA imediatamente**.
-* **Motocicletas:** O GSA possui permissão para acompanhar **any motocicleta, independente da sua classe** ou cilindrada.
+### :prohibited: PROIBIÇÕES ABSOLUTAS
+* **Proibido pousar** ou descer a aeronave em áreas de QRU ativa (exceto em locais estratégicos seguros para embarque/desembarque de atiradores).
+* O descumprimento destas diretrizes resultará em punição severa a todo o grupamento.
 
 ---
-
-<blockquote class="danger">
-
-🚫 **Proibição Absoluta:**
-O piloto não deve, em hipótese alguma, pousar ou descer a aeronave em áreas de QRU ativa. O pouso só é permitido em locais estritamente estratégicos e seguros para o embarque/desembarque de atiradores ou para procedimentos de abordagem à própria aeronave.
-
-</blockquote>
-
+**COMANDO GSA – Nomad Gorbatchev**
