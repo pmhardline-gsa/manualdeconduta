@@ -1,48 +1,45 @@
-<style>
-  /* Animação de entrada */
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  
-  .tactical-wrapper { animation: fadeIn 0.8s ease-out; display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 20px; }
-  
-  /* Cards interativos */
-  .rank-card { 
-    background: rgba(26, 32, 44, 0.8); border: 1px solid #4a5568; 
-    border-radius: 15px; padding: 20px; width: 100%; max-width: 400px;
-    transition: 0.4s; cursor: pointer; border-left: 5px solid var(--theme-color);
-  }
-  .rank-card:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(240, 165, 0, 0.3); border-color: #fff; }
-  
-  .rank-title { color: var(--theme-color); font-weight: bold; font-size: 1.2em; margin-bottom: 10px; }
-  .rank-desc { color: #cbd5e0; font-size: 0.9em; }
-</style>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Hierarquia GSA</title>
+    <style>
+        body { background: #0b0e14; color: white; font-family: sans-serif; display: flex; justify-content: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; width: 90%; padding: 40px; }
+        .card { background: #1a202c; border: 1px solid #4a5568; padding: 20px; border-radius: 12px; transition: 0.3s; text-align: center; }
+        .card:hover { transform: translateY(-10px); border-color: #f0a500; box-shadow: 0 0 20px rgba(240, 165, 0, 0.2); }
+        .rank { color: #f0a500; font-weight: bold; }
+    </style>
+</head>
+<body>
 
-<div class="tactical-wrapper">
-  <h1>🎖️ GSA - CADEIA DE COMANDO</h1>
-  
-  <!-- Comando -->
-  <div class="rank-card" style="border-left-color: #f0a500;">
-    <div class="rank-title">👑 COMANDO GERAL</div>
-    <div class="rank-desc">Diretrizes estratégicas, disciplina e governança máxima do grupamento.</div>
-  </div>
+<div class="grid" id="hierarquia-container"></div>
 
-  <!-- Hierarquia -->
-  <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
-    <div class="rank-card">
-      <div class="rank-title">🚁 CORPO DE PILOTOS</div>
-      <div class="rank-desc">
-        • Veterano / Sênior: Gestão de Voo<br>
-        • Oficial / Estagiário: Instrução<br>
-        • Aspirante: Probatório
-      </div>
-    </div>
-    
-    <div class="rank-card">
-      <div class="rank-title">🔫 CORPO DE OPERADORES</div>
-      <div class="rank-desc">
-        • Veterano / Sênior: Assalto Aerotático<br>
-        • Oficial / Tripulante: Engajamento<br>
-        • Aspirante: Avaliação Técnica
-      </div>
-    </div>
-  </div>
-</div>
+<script>
+    // Substitua pelo link do seu CSV publicado
+    const csvUrl = 'LINK_DO_SEU_CSV_AQUI';
+
+    async function carregarHierarquia() {
+        const response = await fetch(csvUrl);
+        const data = await response.text();
+        const linhas = data.split('\n').slice(1); // Ignora cabeçalho
+        
+        const container = document.getElementById('hierarquia-container');
+        
+        linhas.forEach(linha => {
+            const [nome, patente, status] = linha.split(',');
+            if (!nome) return;
+            
+            container.innerHTML += `
+                <div class="card">
+                    <div class="rank">${patente}</div>
+                    <h3>${nome}</h3>
+                    <p>Status: ${status}</p>
+                </div>
+            `;
+        });
+    }
+    carregarHierarquia();
+</script>
+</body>
+</html>
