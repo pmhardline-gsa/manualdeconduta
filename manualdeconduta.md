@@ -97,7 +97,7 @@ Se identificar desvios de conduta por parte de outros membros ou necessitar repo
 
 ---
 
-# Cadeia de Comando e Hierarquia Operacional— GSA
+## 🦅Cadeia de Comando e Hierarquia Operacional— GSA
 
 O Grupamento de Suporte Aéreo segue uma estrutura hierárquica rígida e bem definida, garantindo a fluidez da comunicação e o respeito à doutrina tanto em solo quanto na linha de voo.
 
