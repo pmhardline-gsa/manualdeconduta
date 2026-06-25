@@ -3,30 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        body { background: #0b0e14; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        .node { background: #1a252f; border: 1px solid #34495e; padding: 15px; border-radius: 8px; margin: 10px; text-align: center; width: 250px; }
-        .grid { display: flex; gap: 40px; justify-content: center; margin-top: 20px; }
-        .quadro { background: #1a252f; border: 1px solid #34495e; padding: 20px; border-radius: 8px; width: 300px; }
-        .rank-item { padding: 8px; border-bottom: 1px solid #2c3e50; color: #cbd5e0; }
-        h3 { color: #f1c40f; text-align: center; border-bottom: 2px solid #f1c40f; padding-bottom: 10px; }
+        body { background: #0b0e14; color: #fff; font-family: sans-serif; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .grid { display: flex; gap: 20px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+        .node { background: #1a252f; border: 1px solid #34495e; padding: 10px; border-radius: 8px; margin: 5px; text-align: center; width: 220px; }
+        .quadro { background: #1a252f; border: 1px solid #34495e; padding: 15px; border-radius: 8px; width: 300px; }
+        .rank-item { padding: 5px; border-bottom: 1px solid #2c3e50; font-size: 0.85em; }
+        h3 { color: #f1c40f; text-align: center; border-bottom: 2px solid #f1c40f; padding-bottom: 5px; }
     </style>
 </head>
 <body>
     <h1>CADEIA DE COMANDO PMHL-GSA</h1>
     
-    <div class="node"><strong>[ ALTO COMANDO ]</strong></div>
-    <div style="font-size: 20px;">⬇️</div>
-    <div class="node"><strong>[ COMANDO ]</strong></div>
+    <div id="topo-hierarquia"></div>
 
     <div class="grid">
-        <div class="quadro">
-            <h3>PILOTOS</h3>
-            <div id="lista-pilotos"></div>
-        </div>
-        <div class="quadro">
-            <h3>OPERADORES</h3>
-            <div id="lista-operadores"></div>
-        </div>
+        <div class="quadro"><h3>PILOTOS</h3><div id="lista-pilotos"></div></div>
+        <div class="quadro"><h3>OPERADORES</h3><div id="lista-operadores"></div></div>
     </div>
 
     <script>
@@ -35,16 +27,21 @@
         fetch(url).then(res => res.text()).then(data => {
             const rows = data.split('\n').slice(1);
             rows.forEach(row => {
-                const [id, nome, badge, patente, unidade] = row.split(',');
+                const [id, nome, badge, patente] = row.split(',');
                 if(!nome) return;
-                
-                const html = `<div class="rank-item">${patente} - ${nome}</div>`;
-                
-                // Distribuição baseada na coluna "Patente"
-                if(patente.toLowerCase().includes('piloto')) {
-                    document.getElementById('lista-pilotos').innerHTML += html;
-                } else {
-                    document.getElementById('lista-operadores').innerHTML += html;
+                const p = patente.trim();
+
+                // Identifica se é comando alto ou operacional
+                if (['Alto Comando', 'Comando', 'Sub-Comando'].includes(p)) {
+                    document.getElementById('topo-hierarquia').innerHTML += `<div class="node"><strong>[ ${p.toUpperCase()} ]</strong><br>${nome}</div>`;
+                } 
+                // Identifica Pilotos
+                else if (p.toLowerCase().includes('piloto')) {
+                    document.getElementById('lista-pilotos').innerHTML += `<div class="rank-item">${p} - ${nome}</div>`;
+                } 
+                // Identifica Operadores
+                else {
+                    document.getElementById('lista-operadores').innerHTML += `<div class="rank-item">${p} - ${nome}</div>`;
                 }
             });
         });
