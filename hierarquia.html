@@ -1,0 +1,48 @@
+<style>
+  /* Animação de entrada */
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  
+  .tactical-wrapper { animation: fadeIn 0.8s ease-out; display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 20px; }
+  
+  /* Cards interativos */
+  .rank-card { 
+    background: rgba(26, 32, 44, 0.8); border: 1px solid #4a5568; 
+    border-radius: 15px; padding: 20px; width: 100%; max-width: 400px;
+    transition: 0.4s; cursor: pointer; border-left: 5px solid var(--theme-color);
+  }
+  .rank-card:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(240, 165, 0, 0.3); border-color: #fff; }
+  
+  .rank-title { color: var(--theme-color); font-weight: bold; font-size: 1.2em; margin-bottom: 10px; }
+  .rank-desc { color: #cbd5e0; font-size: 0.9em; }
+</style>
+
+<div class="tactical-wrapper">
+  <h1>🎖️ GSA - CADEIA DE COMANDO</h1>
+  
+  <!-- Comando -->
+  <div class="rank-card" style="border-left-color: #f0a500;">
+    <div class="rank-title">👑 COMANDO GERAL</div>
+    <div class="rank-desc">Diretrizes estratégicas, disciplina e governança máxima do grupamento.</div>
+  </div>
+
+  <!-- Hierarquia -->
+  <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+    <div class="rank-card">
+      <div class="rank-title">🚁 CORPO DE PILOTOS</div>
+      <div class="rank-desc">
+        • Veterano / Sênior: Gestão de Voo<br>
+        • Oficial / Estagiário: Instrução<br>
+        • Aspirante: Probatório
+      </div>
+    </div>
+    
+    <div class="rank-card">
+      <div class="rank-title">🔫 CORPO DE OPERADORES</div>
+      <div class="rank-desc">
+        • Veterano / Sênior: Assalto Aerotático<br>
+        • Oficial / Tripulante: Engajamento<br>
+        • Aspirante: Avaliação Técnica
+      </div>
+    </div>
+  </div>
+</div>
