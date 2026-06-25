@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <style>
         body { background: #0b0e14; color: #fff; font-family: sans-serif; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .grid { display: flex; gap: 20px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
-        .node { background: #1a252f; border: 1px solid #34495e; padding: 10px; border-radius: 8px; margin: 5px; text-align: center; width: 220px; }
-        .quadro { background: #1a252f; border: 1px solid #34495e; padding: 15px; border-radius: 8px; width: 300px; }
-        .rank-item { padding: 5px; border-bottom: 1px solid #2c3e50; font-size: 0.85em; }
+        .node { background: #1a252f; border: 1px solid #34495e; padding: 10px; border-radius: 8px; margin: 5px; text-align: center; width: 250px; }
+        .grid { display: flex; gap: 20px; justify-content: center; margin-top: 20px; flex-wrap: wrap; width: 100%; }
+        .quadro { background: #1a252f; border: 1px solid #34495e; padding: 15px; border-radius: 8px; width: 350px; }
+        .rank-item { padding: 6px; border-bottom: 1px solid #2c3e50; font-size: 0.9em; }
         h3 { color: #f1c40f; text-align: center; border-bottom: 2px solid #f1c40f; padding-bottom: 5px; }
     </style>
 </head>
 <body>
     <h1>CADEIA DE COMANDO PMHL-GSA</h1>
     
-    <div id="topo-hierarquia"></div>
+    <div id="comando-topo"></div>
 
     <div class="grid">
         <div class="quadro"><h3>PILOTOS</h3><div id="lista-pilotos"></div></div>
@@ -30,16 +30,14 @@
                 const [id, nome, badge, patente] = row.split(',');
                 if(!nome) return;
                 const p = patente.trim();
-
-                // Identifica se é comando alto ou operacional
+                
+                // Mapeamento fixo e estrito
                 if (['Alto Comando', 'Comando', 'Sub-Comando'].includes(p)) {
-                    document.getElementById('topo-hierarquia').innerHTML += `<div class="node"><strong>[ ${p.toUpperCase()} ]</strong><br>${nome}</div>`;
+                    document.getElementById('comando-topo').innerHTML += `<div class="node"><strong>[ ${p.toUpperCase()} ]</strong><br>${nome}</div>`;
                 } 
-                // Identifica Pilotos
                 else if (p.toLowerCase().includes('piloto')) {
                     document.getElementById('lista-pilotos').innerHTML += `<div class="rank-item">${p} - ${nome}</div>`;
                 } 
-                // Identifica Operadores
                 else {
                     document.getElementById('lista-operadores').innerHTML += `<div class="rank-item">${p} - ${nome}</div>`;
                 }
