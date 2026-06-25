@@ -3,30 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        :root { --primary: #2c3e50; --gold: #f1c40f; }
         body { background: #0b0e14; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
         .node { background: #1a252f; border: 1px solid #34495e; padding: 15px; border-radius: 8px; margin: 10px; text-align: center; width: 250px; }
-        .grid { display: flex; gap: 20px; justify-content: center; }
-        .rank-list { list-style: none; padding: 0; }
-        .rank-item { padding: 8px; border-bottom: 1px solid #2c3e50; }
-        .gold { color: var(--gold); font-weight: bold; }
+        .grid { display: flex; gap: 40px; justify-content: center; margin-top: 20px; }
+        .quadro { background: #1a252f; border: 1px solid #34495e; padding: 20px; border-radius: 8px; width: 300px; }
+        .rank-item { padding: 8px; border-bottom: 1px solid #2c3e50; color: #cbd5e0; }
+        h3 { color: #f1c40f; text-align: center; border-bottom: 2px solid #f1c40f; padding-bottom: 10px; }
     </style>
 </head>
 <body>
     <h1>CADEIA DE COMANDO PMHL-GSA</h1>
     
-    <div class="node"><strong>[ ALTO COMANDO ]</strong><br>Instância Máxima</div>
+    <div class="node"><strong>[ ALTO COMANDO ]</strong></div>
     <div style="font-size: 20px;">⬇️</div>
-    <div class="node"><strong>[ COMANDO ]</strong><br>Decisões</div>
-    
+    <div class="node"><strong>[ COMANDO ]</strong></div>
+
     <div class="grid">
-        <div class="node">
-            <h3 class="gold">PILOTOS</h3>
-            <ul class="rank-list" id="pilotos"></ul>
+        <div class="quadro">
+            <h3>PILOTOS</h3>
+            <div id="lista-pilotos"></div>
         </div>
-        <div class="node">
-            <h3 class="gold">OPERADORES</h3>
-            <ul class="rank-list" id="operadores"></ul>
+        <div class="quadro">
+            <h3>OPERADORES</h3>
+            <div id="lista-operadores"></div>
         </div>
     </div>
 
@@ -36,11 +35,17 @@
         fetch(url).then(res => res.text()).then(data => {
             const rows = data.split('\n').slice(1);
             rows.forEach(row => {
-                const [nome, id, status, cargo] = row.split(',');
+                const [id, nome, badge, patente, unidade] = row.split(',');
                 if(!nome) return;
-                const li = `<li class="rank-item">${nome} (ID: ${id})</li>`;
-                if(cargo.trim() === 'piloto') document.getElementById('pilotos').innerHTML += li;
-                else document.getElementById('operadores').innerHTML += li;
+                
+                const html = `<div class="rank-item">${patente} - ${nome}</div>`;
+                
+                // Distribuição baseada na coluna "Patente"
+                if(patente.toLowerCase().includes('piloto')) {
+                    document.getElementById('lista-pilotos').innerHTML += html;
+                } else {
+                    document.getElementById('lista-operadores').innerHTML += html;
+                }
             });
         });
     </script>
